@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -43,14 +44,12 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = password1EditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
-                if (password.compareTo(password2) == 1){
+                if (password.compareTo(password2) == 0){
                     String name = nameEditText.getText().toString();
                     String uniMail = emailEditText.getText().toString();
                     String address = addressEditText.getText().toString();
                     String phone = phoneEditText.getText().toString();
                     addUser(name, uniMail, address, phone, password);
-                    Toast.makeText(getApplicationContext(), "Sign up successful!",
-                            Toast.LENGTH_LONG).show();
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Passwords don't match",
@@ -64,6 +63,34 @@ public class SignUpActivity extends AppCompatActivity {
         String url = "https://solo-web-service.herokuapp.com/users/add";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
+
+            if(TextUtils.isEmpty(name)) {
+                //email is empty
+                Toast.makeText(this, "Please enter name", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            if(TextUtils.isEmpty(uniMail)) {
+                //password is empty
+                Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            if(TextUtils.isEmpty(address)) {
+                //email is empty
+                Toast.makeText(this, "Please enter address", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            if(TextUtils.isEmpty(phoneNumber)) {
+                //password is empty
+                Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON, "{\"name\":\"" + name + "\", " +
@@ -84,6 +111,8 @@ public class SignUpActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Toast.makeText(getApplicationContext(), "Sign up successful!",
+                                    Toast.LENGTH_LONG).show();
                         }
                     });
                     Log.v("Tókst", "Villa!");
@@ -95,6 +124,7 @@ public class SignUpActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+
 
                         }
                     });
