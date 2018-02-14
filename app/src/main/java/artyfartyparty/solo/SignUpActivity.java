@@ -107,7 +107,7 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
         }
     }
-        
+
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
