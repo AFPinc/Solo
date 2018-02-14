@@ -28,37 +28,49 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        EditText nameEditText = (EditText)findViewById(R.id.nameEditText);
-        EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
-        EditText addressEditText = (EditText)findViewById(R.id.addressEditText);
-        EditText phoneEditText = (EditText)findViewById(R.id.phoneEditText);
-        EditText password1EditText = (EditText)findViewById(R.id.password1EditText);
-        EditText password2EditText = (EditText)findViewById(R.id.password2EditText);
+        final EditText nameEditText = (EditText)findViewById(R.id.nameEditText);
+        final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
+        final EditText addressEditText = (EditText)findViewById(R.id.addressEditText);
+        final EditText phoneEditText = (EditText)findViewById(R.id.phoneEditText);
+        final EditText password1EditText = (EditText)findViewById(R.id.password1EditText);
+        final EditText password2EditText = (EditText)findViewById(R.id.password2EditText);
         Button signUpButton = (Button)findViewById(R.id.signUpButton);
+
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                addUser();
+                String password = password1EditText.getText().toString();
+                String password2 = password2EditText.getText().toString();
 
-                Toast.makeText(getApplicationContext(), "Congrats!",
-                        Toast.LENGTH_LONG).show();
+                if (password.compareTo(password2) == 1){
+                    String name = nameEditText.getText().toString();
+                    String uniMail = emailEditText.getText().toString();
+                    String address = addressEditText.getText().toString();
+                    String phone = phoneEditText.getText().toString();
+                    addUser(name, uniMail, address, phone, password);
+                    Toast.makeText(getApplicationContext(), "Sign up successful!",
+                            Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "Passwords don't match",
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
-        getUser();
     }
 
-    private void addUser() {
+    private void addUser(String name, String uniMail, String address, String phoneNumber, String password) {
         String url = "https://solo-web-service.herokuapp.com/users/add";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, "{\"name\":\"Kjáni\", " +
-                    "\"uniMail\":\"kjk69\", " +
-                    "\"address\":\"Jónsgata 55\", " +
-                    "\"phoneNumber\":\"9876543\"," +
-                    "\"password\": \"egerbestur\"}");
+            RequestBody body = RequestBody.create(JSON, "{\"name\":\"" + name + "\", " +
+                    "\"uniMail\":\"" + uniMail + "\", " +
+                    "\"address\":\"" + address + "\", " +
+                    "\"phoneNumber\":\"" + phoneNumber + "\"," +
+                    "\"password\": \"" + password + "\"}");
 
             Request request = new Request.Builder()
                     .url(url)
@@ -95,49 +107,8 @@ public class SignUpActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
         }
     }
-    private void getUser() {
-        String url = "https://solo-web-service.herokuapp.com/users/sth301";
-        if(isNetworkAvailable()) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
-
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                    //alertUserAboutError();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                    try {
-                        String jsonData = response.body().string();
-                        Log.v("DRASL1", jsonData);
-                    } catch (IOException e) {
-                        Log.e("DRASL2", "Exception caught: ", e);
-                    }
-                }
-            });
-        }
-        else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
-        }
-    }
-
+        
     private boolean isNetworkAvailable() {
-        String bla = Context.CONNECTIVITY_SERVICE;
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
