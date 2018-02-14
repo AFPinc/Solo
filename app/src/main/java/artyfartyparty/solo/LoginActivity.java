@@ -13,8 +13,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
+import artyfartyparty.solo.Model.User;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -29,16 +33,18 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
-        EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
-        EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
+        final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
+        final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Congrats!",
-                        Toast.LENGTH_LONG).show();
+                String username = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                validateUserPassword(username, password);
+                Log.v("Logintest", "Byrja");
             }
         });
 
@@ -50,13 +56,15 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    private void getUser() {
-        String url = "https://solo-web-service.herokuapp.com/users/sth301";
+    private void validateUserPassword(String username, final String password) {
+        String url = "https://solo-web-service.herokuapp.com/users/" + username;
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(url)
                     .build();
+
+            final Context context = this;
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
@@ -67,22 +75,35 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                         }
                     });
+                    Log.v("Logintest", "Failure");
                     //alertUserAboutError();
                 }
 
                 @Override
-                public void onResponse(Call call, Response response) throws IOException {
+                public void onResponse(Call call, final Response response) throws IOException {
+                    String msg = "";
+                    String jsonData = response.body().string();
+                    User user = null;
+                    try {
+                        user = parseUserData(jsonData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String pw = user.getPassword();
+                    if (user == null || password.compareTo(pw) != 0)
+                    {
+                        msg = "Login failed";
+                    }
+                    else {
+                        msg ="Login successful";
+                    }
+                    final String finalMsg = msg;
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Toast.makeText(context, finalMsg, Toast.LENGTH_LONG).show();
                         }
                     });
-                    try {
-                        String jsonData = response.body().string();
-                        Log.v("DRASL1", jsonData);
-                    } catch (IOException e) {
-                        Log.e("DRASL2", "Exception caught: ", e);
-                    }
                 }
             });
         }
@@ -97,5 +118,20 @@ public class LoginActivity extends AppCompatActivity {
         boolean isAvailable = false;
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
+    }
+
+    private User parseUserData(String jsonData) throws JSONException {
+        JSONObject json = new JSONObject(jsonData);
+        User user = new User();
+        String idString = json.getString("id");
+        int id = Integer.parseInt(idString);
+        user.setId(id);
+        user.setName(json.getString("name"));
+        user.setAddress(json.getString("address"));
+        user.setPassword(json.getString("password"));
+        user.setPhoneNumber(Integer.parseInt(json.getString("phoneNumber")));
+        user.setUniMail(json.getString("uniMail"));
+
+        return user;
     }
 }
