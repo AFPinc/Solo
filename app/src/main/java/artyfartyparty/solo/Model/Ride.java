@@ -54,6 +54,7 @@ public class Ride {
         this.dateTo = dateTo;
     }
 
+
     public Long getId() {
         return id;
     }
