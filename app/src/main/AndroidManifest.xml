@@ -22,7 +22,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".AddTripActivity"></activity>
     </application>
 
 </manifest>
