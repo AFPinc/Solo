@@ -1,4 +1,4 @@
-package artyfartyparty.solo;
+package artyfartyparty.solo.Controller;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;

@@ -1,4 +1,4 @@
-package artyfartyparty.solo;
+package artyfartyparty.solo.Controller;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import artyfartyparty.solo.Model.User;
+import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;

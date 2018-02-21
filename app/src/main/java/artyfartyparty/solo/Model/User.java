@@ -2,6 +2,8 @@ package artyfartyparty.solo.Model;
 
 /**
  * Created by Sigurlaug on 14/02/2018.
+ *
+ * Class that maintains the data of users
  */
 
 public class User {
@@ -12,8 +14,7 @@ public class User {
     private int phoneNumber;
     private String password;
 
-    public User() {
-    }
+    public User() {}
 
     public String getName() {
         return name;
