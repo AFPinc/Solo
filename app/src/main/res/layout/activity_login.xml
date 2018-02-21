@@ -50,7 +50,13 @@
             android:id="@+id/logInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="log in" />
+            android:text="Button" />
+
+        <Button
+            android:id="@+id/addTripButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Trip" />
 
         <TextView
             android:id="@+id/register1TextView"
