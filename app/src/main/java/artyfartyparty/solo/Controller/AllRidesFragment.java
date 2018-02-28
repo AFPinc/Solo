@@ -57,7 +57,7 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
     }
 
     private void updateUI() {
-        String url = "https://solo-web-service.herokuapp.com/rides/all";
+        String url = "https://solo-web-service.herokuapp.com/ride/all";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
