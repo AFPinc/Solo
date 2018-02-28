@@ -1,6 +1,7 @@
 package artyfartyparty.solo.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -56,6 +57,9 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Passwords don't match",
                             Toast.LENGTH_LONG).show();
                 }
+
+                Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(startIntent);
             }
         });
     }

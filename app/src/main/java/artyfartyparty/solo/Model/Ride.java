@@ -5,7 +5,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by melkorkamj1 on 21/02/2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
  *
  * Class that maintains the data of rides
  */
