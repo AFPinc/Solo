@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 validateUserPassword(username, password);
                 Log.v("Logintest", "Byrja");
+                Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                startActivity(startIntent);
             }
         });
 
