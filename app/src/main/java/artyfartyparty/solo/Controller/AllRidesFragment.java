@@ -35,7 +35,7 @@ import okhttp3.Response;
  * Class that controlls all rides
  */
 
-public class AllRidesActivity extends Fragment{
+public class AllRidesFragment extends Fragment{
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
 

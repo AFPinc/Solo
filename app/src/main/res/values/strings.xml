@@ -6,4 +6,5 @@
         <item>Hlíðar</item>
         <item>HÍ</item>
     </string-array>
+    <string name="date_picker_title">Date of ride:</string>
 </resources>
