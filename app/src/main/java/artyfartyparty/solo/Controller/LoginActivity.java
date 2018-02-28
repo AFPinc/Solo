@@ -37,6 +37,15 @@ import okhttp3.Response;
 
 import static artyfartyparty.solo.R.layout.activity_login;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Class that controls login activities
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override

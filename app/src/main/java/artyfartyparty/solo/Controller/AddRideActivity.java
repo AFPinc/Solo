@@ -1,22 +1,50 @@
 package artyfartyparty.solo.Controller;
 
+<<<<<<< HEAD
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.util.Log;
+=======
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+>>>>>>> 1c3a9d32c49bf991683d6b40b32602d10ff9f22c
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Date;
 
 import artyfartyparty.solo.R;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 import static android.R.layout.simple_list_item_1;
 
 /**
- * Created by valas on 21.2.2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Class for adding rides
  */
 
 public class AddRideActivity extends android.support.v4.app.Fragment {
@@ -73,4 +101,91 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
         return view;
     }
 
+    private void addRide(String locationFrom, String locationTo, String dateFrom, String dateTo) {
+        String url = "https://solo-web-service.herokuapp.com/ride/add";
+        if (isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            if (TextUtils.isEmpty(locationFrom)) {
+                //locationFrom is empty
+                Toast.makeText(getActivity(),"Please enter starting location", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            if (TextUtils.isEmpty(locationTo)) {
+                //locationTo is empty
+                Toast.makeText(getActivity(), "Please enter final destination", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            if (TextUtils.isEmpty(dateFrom)) {
+                //dateFrom is empty
+                Toast.makeText(getActivity(), "Please enter time of departure", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            if (TextUtils.isEmpty(dateTo)) {
+                //dateTo is empty
+                Toast.makeText(getActivity(), "Please enter time of arrival", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            RequestBody body = RequestBody.create(JSON,
+                    "{\"locationFrom\":\"" + locationFrom + "\", " +
+                            "\"locationTo\":\"" + locationTo + "\", " +
+                            "\"dateFrom\":\"" + dateFrom + "\", " +
+                            "\"dateTo\": \"" + dateTo + "\"}");
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity().getApplicationContext(), "Ride added!",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    Log.v("Tókst", "Villa!");
+                    //alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                        }
+                    });
+                    Log.v("Tókst", response.body().string());
+                }
+            });
+            Toast.makeText(getActivity(), "Ride added!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
+        return isAvailable;
+    }
 }
