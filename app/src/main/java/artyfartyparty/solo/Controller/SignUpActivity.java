@@ -24,6 +24,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Class that controlls signing up (new account)
+ */
+
 public class SignUpActivity extends AppCompatActivity {
 
     @Override
