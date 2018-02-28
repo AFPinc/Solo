@@ -36,7 +36,7 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Class that controlls all rides
+ * Class that controls all rides
  */
 
 public class AllRidesFragment extends Fragment{
