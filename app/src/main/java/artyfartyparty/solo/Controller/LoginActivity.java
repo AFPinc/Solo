@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
+        Button addTripButton = (Button)findViewById(R.id.addTripButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        addTripButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent = new Intent(getApplicationContext(), AddTripActivity.class);
                 startActivity(startIntent);
             }
         });
