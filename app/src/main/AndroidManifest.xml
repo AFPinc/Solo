@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Controller.SignUpActivity"></activity>
+        <activity android:name=".Controller.AllRidesActivity"></activity>
+        <activity android:name=".Controller.AddRideActivity"></activity>
     </application>
 
 </manifest>
