@@ -1,6 +1,7 @@
 package artyfartyparty.solo.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -22,6 +23,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Class that controlls signing up (new account)
+ */
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -56,6 +66,9 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Passwords don't match",
                             Toast.LENGTH_LONG).show();
                 }
+
+                Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(startIntent);
             }
         });
     }

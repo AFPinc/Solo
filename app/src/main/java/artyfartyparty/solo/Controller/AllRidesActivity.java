@@ -30,6 +30,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Class that controlls all rides
+ */
+
 public class AllRidesActivity extends Fragment{
     private RecyclerView mRideRecyclerView;
     //private RideAdapter mAdapter;
