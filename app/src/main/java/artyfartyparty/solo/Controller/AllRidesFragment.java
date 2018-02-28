@@ -33,10 +33,10 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Class that controlls all rides
+ * Fragment for all rides
  */
 
-public class AllRidesFragment extends Fragment{
+public class AllRidesFragment extends android.support.v4.app.Fragment{
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
 
