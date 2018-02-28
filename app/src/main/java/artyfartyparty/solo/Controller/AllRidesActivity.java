@@ -40,11 +40,11 @@ public class AllRidesActivity extends Fragment{
         mRideRecyclerView = (RecyclerView) view.findViewById(R.id.ride_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        //updateUI();
+        updateUI();
         return view;
     }
 
-    /*private void updateUI() {
+    private void updateUI() {
         String url = "https://solo-web-service.herokuapp.com/rides/all";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -52,19 +52,17 @@ public class AllRidesActivity extends Fragment{
                     .url(url)
                     .build();
 
-            //final Context context = this;
+            final Context context = getActivity();
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                         }
                     });
-                    //Log.v("Logintest", "Failure");
-                    //alertUserAboutError();
                 }
 
                 @Override
@@ -74,7 +72,7 @@ public class AllRidesActivity extends Fragment{
                     User user = null;
 
                     final String finalMsg = msg;
-                    runOnUiThread(new Runnable() {
+                    getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             Toast.makeText(context, finalMsg, Toast.LENGTH_LONG).show();
@@ -85,17 +83,17 @@ public class AllRidesActivity extends Fragment{
             });
         }
         else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
         }
-    }*/
+    }
 
-    /*private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
-    }*/
+    }
 
     private Ride parseRideData(String jsonData) throws JSONException {
         JSONObject json = new JSONObject(jsonData);
