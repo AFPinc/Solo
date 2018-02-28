@@ -26,18 +26,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static artyfartyparty.solo.R.layout.activity_login;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(activity_login);
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
         final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
+        Button addTripButton = (Button)findViewById(R.id.addTripButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +56,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        addTripButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent = new Intent(getApplicationContext(), AddTripActivity.class);
                 startActivity(startIntent);
             }
         });
