@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                     String jsonData = response.body().string();
                     User user = null;
                     try {
-                        user = parseUserData(jsonData);
+                        user = Parser.parseUserData(jsonData);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -150,20 +150,5 @@ public class LoginActivity extends AppCompatActivity {
         boolean isAvailable = false;
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
-    }
-
-    private User parseUserData(String jsonData) throws JSONException {
-        JSONObject json = new JSONObject(jsonData);
-        User user = new User();
-        String idString = json.getString("id");
-        int id = Integer.parseInt(idString);
-        user.setId(id);
-        user.setName(json.getString("name"));
-        user.setAddress(json.getString("address"));
-        user.setPassword(json.getString("password"));
-        user.setPhoneNumber(Integer.parseInt(json.getString("phoneNumber")));
-        user.setUniMail(json.getString("uniMail"));
-
-        return user;
     }
 }
