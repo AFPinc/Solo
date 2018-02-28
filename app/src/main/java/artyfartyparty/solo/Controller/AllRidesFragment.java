@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -44,7 +45,7 @@ public class AllRidesFragment extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_allrides, container, false);
 
-        mRideRecyclerView = (RecyclerView) view.findViewById(R.id.ride_recycler_view);
+        mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         updateUI();
@@ -58,8 +59,6 @@ public class AllRidesFragment extends Fragment{
             Request request = new Request.Builder()
                     .url(url)
                     .build();
-
-            final Context context = getActivity();
 
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
@@ -106,6 +105,10 @@ public class AllRidesFragment extends Fragment{
         return isAvailable;
     }
 
+    private TextView mRideFrom;
+    private TextView mRideTo;
+    private TextView mRideDate;
+
     private class RideHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
         private Ride mRide;
@@ -114,13 +117,16 @@ public class AllRidesFragment extends Fragment{
             super(inflater.inflate(R.layout.list_item_ride, parent, false));
             itemView.setOnClickListener(this);
 
-            //mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
-            //mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
+            mRideFrom = itemView.findViewById(R.id.ride_from);
+            mRideTo = itemView.findViewById(R.id.ride_to);
+            mRideDate = itemView.findViewById(R.id.ride_date);
+
         }
         public void bind (Ride ride) {
             mRide = ride;
-            //mTitleTextView.setText(mCrime.getTitle());
-            //mDateTextView.setText(mCrime.getDate().toString());
+            mRideFrom.setText(mRide.getLocationFrom().getName());
+            mRideTo.setText(mRide.getLocationTo().getName());
+            mRideDate.setText(mRide.getDateFrom().toString());
         }
 
         @Override
