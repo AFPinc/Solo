@@ -134,6 +134,7 @@ public class AllRidesActivity extends Fragment{
         long id = Integer.parseInt(idString);
         location.setId(id);
         location.setName(json.getString("name"));
+        return location;
     }
 
 }
