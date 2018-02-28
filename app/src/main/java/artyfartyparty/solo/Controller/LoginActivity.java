@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
-        Button addTripButton = (Button)findViewById(R.id.addTripButton);
+        Button addRideButton = (Button)findViewById(R.id.addRideButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 validateUserPassword(username, password);
                 Log.v("Logintest", "Byrja");
-                Intent startIntent = new Intent(getApplicationContext(), AllRidesFragment.class);
-                startActivity(startIntent);
             }
         });
 
@@ -80,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        addTripButton.setOnClickListener(new View.OnClickListener() {
+        addRideButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), AddRideActivity.class);
@@ -121,21 +119,24 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    final String finalMsg = msg;
                     String pw = user.getPassword();
                     if (user == null || password.compareTo(pw) != 0)
                     {
-                        msg = "Login failed";
+                        // msg = "Login failed";
+                        Toast.makeText(context, finalMsg, Toast.LENGTH_LONG).show();
                     }
                     else {
-                        msg ="Login successful";
+                        // msg ="Login successful";
+                        Log.v("helo", "hæyæhæh");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                                startActivity(startIntent);
+                            }
+                        });
                     }
-                    final String finalMsg = msg;
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, finalMsg, Toast.LENGTH_LONG).show();
-                        }
-                    });
                 }
             });
         }

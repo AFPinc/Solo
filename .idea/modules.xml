@@ -3,11 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Solo.iml" filepath="$PROJECT_DIR$/Solo.iml" />
-      <module fileurl="file://C:\Users\Lenovo\Documents\GitHub\Solo\Solo.iml" filepath="C:\Users\Lenovo\Documents\GitHub\Solo\Solo.iml" />
       <module fileurl="file://C:\Users\valas\OneDrive\Documents\skolinn\vor_2018\Solo\Solo.iml" filepath="C:\Users\valas\OneDrive\Documents\skolinn\vor_2018\Solo\Solo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\valas\OneDrive\Documents\skolinn\vor_2018\Solo\app\app.iml" filepath="C:\Users\valas\OneDrive\Documents\skolinn\vor_2018\Solo\app\app.iml" />
-      <module fileurl="file://C:\Users\Lenovo\Documents\GitHub\Solo\app\app.iml" filepath="C:\Users\Lenovo\Documents\GitHub\Solo\app\app.iml" />
     </modules>
   </component>
 </project>

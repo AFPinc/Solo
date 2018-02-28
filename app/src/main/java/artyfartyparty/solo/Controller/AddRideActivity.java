@@ -1,5 +1,6 @@
 package artyfartyparty.solo.Controller;
 
+<<<<<<< HEAD
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -11,6 +12,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+=======
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+>>>>>>> 1c3a9d32c49bf991683d6b40b32602d10ff9f22c
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +57,7 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_addtrip, container, false);
+        View view = inflater.inflate(R.layout.activity_addride, container, false);
 
 
 
