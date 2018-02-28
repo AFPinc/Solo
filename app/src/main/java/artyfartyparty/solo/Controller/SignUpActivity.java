@@ -30,7 +30,7 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Class that controlls signing up (new account)
+ * Class that controls signing up (new account)
  */
 
 public class SignUpActivity extends AppCompatActivity {
