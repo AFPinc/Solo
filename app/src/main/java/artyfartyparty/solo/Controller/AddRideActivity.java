@@ -39,7 +39,7 @@ import static android.R.layout.simple_list_item_1;
  * Sigurlaug
  * Valgerður
  *
- * Class for letting user add rides
+ * Class for adding rides
  */
 
 public class AddRideActivity extends android.support.v4.app.Fragment {
