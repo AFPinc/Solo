@@ -53,10 +53,10 @@
             android:text="log in" />
 
         <Button
-            android:id="@+id/addTripButton"
+            android:id="@+id/addRideButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Trip" />
+            android:text="Add Ride" />
 
         <TextView
             android:id="@+id/register1TextView"
