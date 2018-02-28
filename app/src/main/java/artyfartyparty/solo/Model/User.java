@@ -17,6 +17,15 @@ public class User {
     private int phoneNumber;
     private String password;
 
+    public User(long id, String name, String uniMail, String address, int phoneNumber, String password) {
+        this.id = id;
+        this.name = name;
+        this.uniMail = uniMail;
+        Address = address;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
     public User() {}
 
     public String getName() {
@@ -67,4 +76,5 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }
