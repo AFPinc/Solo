@@ -1,21 +1,12 @@
 package artyfartyparty.solo.Controller;
 
-<<<<<<< HEAD
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
-=======
-import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
->>>>>>> 1c3a9d32c49bf991683d6b40b32602d10ff9f22c
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,14 +28,10 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.R.layout.simple_list_item_1;
+import static artyfartyparty.solo.R.layout.activity_login;
 
 /**
- * Ása Júlía
- * Melkorka Mjöll
- * Sigurlaug
- * Valgerður
- *
- * Class for adding rides
+ * Created by valas on 21.2.2018.
  */
 
 public class AddRideActivity extends android.support.v4.app.Fragment {
@@ -58,8 +45,6 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_addride, container, false);
-
-
 
         Spinner fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
         Spinner toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
@@ -101,35 +86,35 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
         return view;
     }
 
-    private void addRide(String locationFrom, String locationTo, String dateFrom, String dateTo) {
+    private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo) {
         String url = "https://solo-web-service.herokuapp.com/ride/add";
-        if (isNetworkAvailable()) {
+        if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            if (TextUtils.isEmpty(locationFrom)) {
-                //locationFrom is empty
-                Toast.makeText(getActivity(),"Please enter starting location", Toast.LENGTH_SHORT).show();
+            if(TextUtils.isEmpty(locationFrom)) {
+                //email is empty
+                Toast.makeText(getActivity(), "Please enter starting point", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if (TextUtils.isEmpty(locationTo)) {
-                //locationTo is empty
-                Toast.makeText(getActivity(), "Please enter final destination", Toast.LENGTH_SHORT).show();
+            if(TextUtils.isEmpty(locationTo)) {
+                //email is empty
+                Toast.makeText(getActivity(), "Please enter destination", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if (TextUtils.isEmpty(dateFrom)) {
-                //dateFrom is empty
-                Toast.makeText(getActivity(), "Please enter time of departure", Toast.LENGTH_SHORT).show();
+            if(TextUtils.isEmpty(timeFrom)) {
+                //email is empty
+                Toast.makeText(getActivity(), "Please enter leaving time", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if (TextUtils.isEmpty(dateTo)) {
-                //dateTo is empty
-                Toast.makeText(getActivity(), "Please enter time of arrival", Toast.LENGTH_SHORT).show();
+            if(TextUtils.isEmpty(timeTo)) {
+                //email is empty
+                Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
@@ -137,9 +122,9 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(JSON,
                     "{\"locationFrom\":\"" + locationFrom + "\", " +
-                            "\"locationTo\":\"" + locationTo + "\", " +
-                            "\"dateFrom\":\"" + dateFrom + "\", " +
-                            "\"dateTo\": \"" + dateTo + "\"}");
+                    "\"locationTo\":\"" + locationTo + "\", " +
+                    "\"timeFrom\":\"" + timeFrom + "\", " +
+                    "\"timeTo\": \"" + timeFrom + "\"}");
 
             Request request = new Request.Builder()
                     .url(url)
@@ -153,7 +138,7 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity().getApplicationContext(), "Ride added!",
+                            Toast.makeText(getActivity().getApplicationContext(), "Sign up successful!",
                                     Toast.LENGTH_LONG).show();
                         }
                     });
@@ -173,12 +158,11 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
                     Log.v("Tókst", response.body().string());
                 }
             });
-            Toast.makeText(getActivity(), "Ride added!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "Added user", Toast.LENGTH_LONG).show();
         }
         else {
             Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
         }
-
     }
 
     private boolean isNetworkAvailable() {
@@ -188,4 +172,5 @@ public class AddRideActivity extends android.support.v4.app.Fragment {
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
     }
+
 }
