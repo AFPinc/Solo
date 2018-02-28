@@ -12,17 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
-import artyfartyparty.solo.Model.Location;
 import artyfartyparty.solo.Model.Ride;
-import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,7 +37,7 @@ import okhttp3.Response;
 
 public class AllRidesActivity extends Fragment{
     private RecyclerView mRideRecyclerView;
-    //private RideAdapter mAdapter;
+    private RideAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,15 +74,19 @@ public class AllRidesActivity extends Fragment{
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
-                    String msg = "";
                     String jsonData = response.body().string();
-                    User user = null;
-
-                    final String finalMsg = msg;
+                    ArrayList<Ride> rides = new ArrayList<Ride>();
+                    try {
+                        rides = Parser.parseRideData(jsonData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final ArrayList<Ride> finalRides = rides;
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, finalMsg, Toast.LENGTH_LONG).show();
+                            mAdapter = new RideAdapter(finalRides);
+                            mRideRecyclerView.setAdapter(mAdapter);
                         }
                     });
 
@@ -106,52 +106,50 @@ public class AllRidesActivity extends Fragment{
         return isAvailable;
     }
 
-    private Ride[] parseRideData(String jsonData) throws JSONException {
-        ArrayList<Ride> rides = new ArrayList();
-        JSONArray jsonArray = new JSONArray(jsonData);
-        for (int i = 0; i < jsonArray.length(); i++){
+    private class RideHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
+        private Ride mRide;
 
-            JSONObject json = jsonArray.getJSONObject(i);
+        public RideHolder (LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_ride, parent, false));
+            itemView.setOnClickListener(this);
 
-            Ride ride = new Ride();
-            String idString = json.getString("id");
-            long id = Integer.parseInt(idString);
-            long dateFrom = Integer.parseInt(json.getString("dateFrom"));
-            long dateTo = Integer.parseInt(json.getString("dateTo"));
-
-            ride.setId(id);
-            ride.setUser(parseUserData(json.getString("user")));
-            ride.setLocationFrom(parseLocationData(json.getString("locationFrom")));
-            ride.setLocationTo(parseLocationData(json.getString("locationTo")));
-            ride.setDateFrom(new Date(dateFrom));
-            ride.setDateTo(new Date(dateTo));
-
-            rides.add(ride);
+            //mTitleTextView = (TextView) itemView.findViewById(R.id.crime_title);
+            //mDateTextView = (TextView) itemView.findViewById(R.id.crime_date);
         }
-        return (Ride[]) rides.toArray();
-    }
+        public void bind (Ride ride) {
+            mRide = ride;
+            //mTitleTextView.setText(mCrime.getTitle());
+            //mDateTextView.setText(mCrime.getDate().toString());
+        }
 
-    private User parseUserData(String jsonData) throws JSONException {
-        JSONObject json = new JSONObject(jsonData);
-        User user = new User();
-        String idString = json.getString("id");
-        int id = Integer.parseInt(idString);
-        user.setId(id);
-        user.setName(json.getString("name"));
-        user.setAddress(json.getString("address"));
-        user.setPassword(json.getString("password"));
-        user.setPhoneNumber(Integer.parseInt(json.getString("phoneNumber")));
-        user.setUniMail(json.getString("uniMail"));
-        return user;
-    }
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(getActivity(),
+                    mRide.getLocationFrom() + " - " + mRide.getLocationTo() +" clicked!",Toast.LENGTH_SHORT)
+                    .show();
+        }
 
-    private Location parseLocationData(String jsonData) throws JSONException{
-        JSONObject json = new JSONObject(jsonData);
-        Location location = new Location();
-        String idString = json.getString("id");
-        long id = Integer.parseInt(idString);
-        location.setId(id);
-        location.setName(json.getString("name"));
-        return location;
+    }
+    private class RideAdapter extends RecyclerView.Adapter<RideHolder> {
+        private List<Ride> mRides;
+        public RideAdapter(List<Ride> rides) {
+            mRides = rides;
+        }
+        @Override
+        public RideHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new RideHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder (RideHolder holder, int position) {
+            Ride crime = mRides.get(position);
+            holder.bind(crime);
+        }
+        @Override
+        public int getItemCount() {
+            return mRides.size();
+        }
     }
 }
