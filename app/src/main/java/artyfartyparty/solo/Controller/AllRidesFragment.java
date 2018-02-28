@@ -33,6 +33,11 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
+<<<<<<< HEAD
+ * Class that controls all rides
+=======
+ * Fragment for all rides
+>>>>>>> 1c3a9d32c49bf991683d6b40b32602d10ff9f22c
  */
 
 public class AllRidesFragment extends android.support.v4.app.Fragment{
