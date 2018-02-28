@@ -26,6 +26,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Class that controlls logging in
+ */
+
 import static artyfartyparty.solo.R.layout.activity_login;
 
 public class LoginActivity extends AppCompatActivity {
@@ -49,6 +58,8 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
                 validateUserPassword(username, password);
                 Log.v("Logintest", "Byrja");
+                Intent startIntent = new Intent(getApplicationContext(), AllRidesFragment.class);
+                startActivity(startIntent);
             }
         });
 
@@ -63,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         addTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), AddTripActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), AddRideActivity.class);
                 startActivity(startIntent);
             }
         });

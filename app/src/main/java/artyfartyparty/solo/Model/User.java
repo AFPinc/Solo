@@ -1,7 +1,10 @@
 package artyfartyparty.solo.Model;
 
 /**
- * Created by Sigurlaug on 14/02/2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
  *
  * Class that maintains the data of users
  */

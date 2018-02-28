@@ -23,7 +23,7 @@ import static android.R.layout.simple_list_item_1;
  * Created by valas on 21.2.2018.
  */
 
-public class AddTripActivity extends android.support.v4.app.Fragment {
+public class AddRideActivity extends android.support.v4.app.Fragment {
 
     private static final String DIALOG_DATE = "DialogDate";
 
@@ -31,7 +31,7 @@ public class AddTripActivity extends android.support.v4.app.Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_addtrip, container, false);
 
@@ -50,7 +50,7 @@ public class AddTripActivity extends android.support.v4.app.Fragment {
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment
                         .newInstance(new Date());
-                dialog.setTargetFragment(AddTripActivity.this, REQUEST_DATE);
+                dialog.setTargetFragment(AddRideActivity.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
         });
