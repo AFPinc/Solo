@@ -12,11 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.ArrayList;
 
 import artyfartyparty.solo.Model.Location;
 import artyfartyparty.solo.Model.Ride;
@@ -104,20 +106,29 @@ public class AllRidesActivity extends Fragment{
         return isAvailable;
     }
 
-    private Ride parseRideData(String jsonData) throws JSONException {
-        JSONObject json = new JSONObject(jsonData);
-        Ride ride = new Ride();
-        String idString = json.getString("id");
-        long id = Integer.parseInt(idString);
-        long dateFrom = Integer.parseInt(json.getString("dateFrom"));
-        long dateTo = Integer.parseInt(json.getString("dateTo"));
-        ride.setId(id);
-        ride.setUser(parseUserData(json.getString("user")));
-        ride.setLocationFrom(parseLocationData(json.getString("locationFrom")));
-        ride.setLocationTo(parseLocationData(json.getString("locationTo")));
-        ride.setDateFrom(new Date(dateFrom));
-        ride.setDateTo(new Date(dateTo));
-        return ride;
+    private Ride[] parseRideData(String jsonData) throws JSONException {
+        ArrayList<Ride> rides = new ArrayList();
+        JSONArray jsonArray = new JSONArray(jsonData);
+        for (int i = 0; i < jsonArray.length(); i++){
+
+            JSONObject json = jsonArray.getJSONObject(i);
+
+            Ride ride = new Ride();
+            String idString = json.getString("id");
+            long id = Integer.parseInt(idString);
+            long dateFrom = Integer.parseInt(json.getString("dateFrom"));
+            long dateTo = Integer.parseInt(json.getString("dateTo"));
+
+            ride.setId(id);
+            ride.setUser(parseUserData(json.getString("user")));
+            ride.setLocationFrom(parseLocationData(json.getString("locationFrom")));
+            ride.setLocationTo(parseLocationData(json.getString("locationTo")));
+            ride.setDateFrom(new Date(dateFrom));
+            ride.setDateTo(new Date(dateTo));
+
+            rides.add(ride);
+        }
+        return (Ride[]) rides.toArray();
     }
 
     private User parseUserData(String jsonData) throws JSONException {
