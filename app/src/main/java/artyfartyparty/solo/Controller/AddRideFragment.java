@@ -136,20 +136,34 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-            String locationF = "{ \"id\":\"1\" , \"name\":\"" + locationFrom + "\"}";
-            String locationT = "{\"id\":\"2\" , \"name\":\"" + locationTo + "\"}";
+            String locationF = "{\"name\":\"" + locationFrom + "\"}";
+            String locationT = "{\"name\":\"" + locationTo + "\"}";
             String u = "{\"id\":\"" + user.getId() + "\", " +
                     "\"name\":\"" + user.getName() + "\", " +
                     "\"uniMail\":\"" + user.getUniMail() + "\", " +
                     "\"address\":\"" + user.getAddress() + "\", " +
                     "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
                     "\"password\":\"" + user.getPassword() + "\"}";
-            RequestBody body = RequestBody.create(JSON,
-                    "{\"locationFrom\":" + locationF + ", " +
-                            "\"locationTo\":" + locationT + ", " +
-                            "\"timeFrom\":\"" + timeFrom + "\", " +
-                            "\"timeTo\":\"" + timeFrom + "\", " +
-                            "\" user\":" + u + "}");
+            String bla = "{\"locationFrom\":" + locationF + ", " +
+                    "\"locationTo\":" + locationT + ", " +
+                    "\"timeFrom\":\"" + timeFrom + "\", " +
+                    "\"timeTo\":\"" + timeFrom + "\", " +
+                    "\" user\":" + u + "}";
+
+            String json = "{\"locationFrom\":{\"id\":\"4\", " +
+                                             "\"name\": \"Árbær\"}, " +
+                           "\"locationTo\":{\"id\":\"3\", " +
+                                           "\"name\":\"Háskóli Íslands\"}, " +
+                           "\"timeFrom\":" + new Date().toString() + ", " +
+                           "\"timeTo\":" + new Date().toString() + ", " +
+                           "\"user\":{\"id\":\"1\", " +
+                                     "\"name\":\"Sigurlaug\"}, " +
+                                     "\"uniMail\":\"sth301\", " +
+                                     "\"address\":\"Þingás 20\", " +
+                                     "\"phoneNumber\":\"6983135\", " +
+                                     "\"password\":\"s\"}";
+            RequestBody body = RequestBody.create(JSON,json
+                    );
 
             Request request = new Request.Builder()
                     .url(url)
