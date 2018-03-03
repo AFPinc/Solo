@@ -16,10 +16,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import artyfartyparty.solo.Model.Location;
+import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
@@ -41,6 +45,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+    private Spinner fromSpinner;
+    private Spinner toSpinner;
+    private Spinner stopoverSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +55,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_addride, container, false);
 
-        final Spinner fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
-        final Spinner toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
-        Spinner stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
+        fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
+        toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
+        stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         //Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
@@ -76,22 +83,70 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        ArrayAdapter<String> fromAdapter = new ArrayAdapter<String>(getActivity(),
-                simple_list_item_1, getResources().getStringArray(R.array.names));
-        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fromSpinner.setAdapter(fromAdapter);
-
-        ArrayAdapter<String> toAdapter = new ArrayAdapter<String>(getActivity(),
-                simple_list_item_1, getResources().getStringArray(R.array.names));
-        toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        toSpinner.setAdapter(toAdapter);
-
-        ArrayAdapter<String> stopoverAdapter = new ArrayAdapter<String>(getActivity(),
-                simple_list_item_1, getResources().getStringArray(R.array.names));
-        stopoverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stopoverSpinner.setAdapter(stopoverAdapter);
+        setUpSpinners();
 
         return view;
+    }
+
+    private void setUpSpinners(){
+        String url = "https://solo-web-service.herokuapp.com/location/all";
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    Log.v("Tókst", "Villa!");
+                    //alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String jsonData = response.body().string();
+                    Location[] locations = new Location[0];
+                    try {
+                        locations = Parser.parseLocationDataArray(jsonData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final Location[] finalLocation = locations;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayAdapter fromAdapter = new ArrayAdapter(getActivity(),
+                                    android.R.layout.simple_spinner_item, finalLocation);
+                            fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            fromSpinner.setAdapter(fromAdapter);
+
+                            ArrayAdapter toAdapter = new ArrayAdapter(getActivity(),
+                                    android.R.layout.simple_spinner_item, finalLocation);
+                            toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            toSpinner.setAdapter(toAdapter);
+
+                            ArrayAdapter stopoverAdapter = new ArrayAdapter(getActivity(),
+                                    android.R.layout.simple_spinner_item, finalLocation);
+                            stopoverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            stopoverSpinner.setAdapter(stopoverAdapter);
+
+                        }
+                    });
+                    Log.v("Tókst", "hæ");
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo, User user) {

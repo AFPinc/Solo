@@ -68,4 +68,14 @@ public final class Parser {
         return location;
     }
 
+    public static Location[] parseLocationDataArray(String jsonData) throws JSONException {
+        JSONArray jsonArray = new JSONArray(jsonData);
+        Location[] locations = new Location[jsonArray.length()];
+        for (int i = 0; i < jsonArray.length(); i++) {
+            Location loc = parseLocationData(jsonArray.getJSONObject(i).toString());
+            locations[i] = loc;
+        }
+        return locations;
+    }
+
 }
