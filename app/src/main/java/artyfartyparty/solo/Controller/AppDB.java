@@ -6,10 +6,17 @@ import android.arch.persistence.room.RoomDatabase;
 import artyfartyparty.solo.Model.User;
 
 /**
- * Created by Ása Júlía on 4.3.2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Abstract class that sets up the database and references a specific model class.
+ * Here we are referencing User.
+ * Gets the collection class for User, which is UserData.
  */
 
 @Database(entities = {User.class}, version = 1, exportSchema = false)
-public abstract class AppDatabase extends RoomDatabase {
-    public abstract UserDao userDao();
+public abstract class AppDB extends RoomDatabase {
+    public abstract UserData userData();
 }

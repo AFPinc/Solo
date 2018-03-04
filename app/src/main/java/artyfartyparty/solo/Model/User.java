@@ -1,5 +1,12 @@
 package artyfartyparty.solo.Model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+
 /**
  * Ása Júlía
  * Melkorka Mjöll
@@ -9,24 +16,40 @@ package artyfartyparty.solo.Model;
  * Class that maintains the data of users
  */
 
+@Entity(tableName="users")
 public class User {
+
+    @Ignore
     private long id;
+    @ColumnInfo(name="name")
     private String name;
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name="uniMail")
     private String uniMail;
-    private String Address;
+    @ColumnInfo(name="address")
+    private String address;
+    @ColumnInfo(name="phoneNumber")
     private int phoneNumber;
+    @ColumnInfo(name="password")
     private String password;
 
     public User(long id, String name, String uniMail, String address, int phoneNumber, String password) {
         this.id = id;
         this.name = name;
         this.uniMail = uniMail;
-        Address = address;
+        this.address = address;
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
 
     public User() {}
+
+    public long getId() { return id; }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -34,15 +57,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public long getId() {
-
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUniMail() {
@@ -53,13 +67,9 @@ public class User {
         this.uniMail = uniMail;
     }
 
-    public String getAddress() {
-        return Address;
-    }
+    public String getAddress() { return address; }
 
-    public void setAddress(String address) {
-        Address = address;
-    }
+    public void setAddress(String address) { this.address = address; }
 
     public int getPhoneNumber() {
         return phoneNumber;

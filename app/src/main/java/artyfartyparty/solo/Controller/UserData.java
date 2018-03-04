@@ -1,5 +1,6 @@
 package artyfartyparty.solo.Controller;
 
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -16,18 +17,15 @@ import artyfartyparty.solo.Model.User;
  * Valgerður
  *
  * Class that collects data from the model class User.
- * DAO=Data access object
  *
  * Gets all users, one user, deletes, adds, updates users.
  *
  */
 
-public interface UserDao {
+@Dao
+public interface UserData {
     @Query("SELECT * FROM users")
-    List<User> getUsers();
-
-    @Query("SELECT * FROM users WHERE Id = id")
-    User getUser ();
+    List<User> getUser();
 
     @Insert
     void insertAll(User... users);
@@ -38,9 +36,9 @@ public interface UserDao {
     @Update
     void updateUsers(User... users);
 
-    @Insert
+    /*@Insert
     void addUser(User user);
 
     @Update
-    void updateUser(User user);
+    void updateUser(User user);*/
 }
