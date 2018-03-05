@@ -1,6 +1,6 @@
 package artyfartyparty.solo.Controller;
 
-import android.app.Fragment;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import artyfartyparty.solo.Model.Ride;
+import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -33,16 +34,26 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
-<<<<<<< HEAD
  * Class that controls all rides
-=======
  * Fragment for all rides
->>>>>>> 1c3a9d32c49bf991683d6b40b32602d10ff9f22c
  */
 
 public class AllRidesFragment extends android.support.v4.app.Fragment{
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
+
+    private static User addUser(final AppDB db, User user) {
+        db.userData().insertAll(user);
+        return user;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        AppDB db = Room.databaseBuilder(getApplicationContext(),
+                AppDB.class, "user").build();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,6 +123,10 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
     private TextView mRideFrom;
     private TextView mRideTo;
     private TextView mRideDate;
+
+    public Context getApplicationContext() {
+        return getActivity().getApplication().getApplicationContext();
+    }
 
     private class RideHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{

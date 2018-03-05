@@ -2,7 +2,6 @@ package artyfartyparty.solo.Model;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -16,21 +15,25 @@ import android.support.annotation.NonNull;
  * Class that maintains the data of users
  */
 
-@Entity(tableName="users")
+@Entity(tableName="user")
 public class User {
 
-    @Ignore
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private long id;
+
     @ColumnInfo(name="name")
     private String name;
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name="uniMail")
+
+    @ColumnInfo(name="unimail")
     private String uniMail;
+
     @ColumnInfo(name="address")
     private String address;
-    @ColumnInfo(name="phoneNumber")
+
+    @ColumnInfo(name="phonenumber")
     private int phoneNumber;
+
     @ColumnInfo(name="password")
     private String password;
 
@@ -47,44 +50,26 @@ public class User {
 
     public long getId() { return id; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public String getUniMail() {
-        return uniMail;
-    }
+    public String getUniMail() { return uniMail; }
 
-    public void setUniMail(String uniMail) {
-        this.uniMail = uniMail;
-    }
+    public void setUniMail(String uniMail) { this.uniMail = uniMail; }
 
     public String getAddress() { return address; }
 
     public void setAddress(String address) { this.address = address; }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
+    public int getPhoneNumber() { return phoneNumber; }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public void setPhoneNumber(int phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public String getPassword() {
-        return password;
-    }
+    public String getPassword() { return password; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    public void setPassword(String password) { this.password = password; }
 
 }
