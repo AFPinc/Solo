@@ -1,7 +1,9 @@
 package artyfartyparty.solo.Controller;
 
 import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.content.Context;
 
 import artyfartyparty.solo.Model.User;
 
@@ -18,5 +20,22 @@ import artyfartyparty.solo.Model.User;
 
 @Database(entities = {User.class}, version = 1, exportSchema = false)
 public abstract class AppDB extends RoomDatabase {
+
+    private static AppDB INSTANCE;
+
     public abstract UserData userData();
+
+    public static AppDB getAppDB (Context context) {
+        if (INSTANCE == null) {
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                    AppDB.class, "user")
+                    .allowMainThreadQueries()
+                    .build();
+        }
+        return INSTANCE;
+    }
+
+    public static void destroyInstance(){
+        INSTANCE = null;
+    }
 }

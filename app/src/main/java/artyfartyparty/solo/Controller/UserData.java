@@ -24,21 +24,24 @@ import artyfartyparty.solo.Model.User;
 
 @Dao
 public interface UserData {
-    @Query("SELECT * FROM users")
-    List<User> getUser();
+    @Query("SELECT * FROM user")
+    List<User> getAll();
+
+    /*@Query("SELECT * FROM user where unimail LIKE :uniMail AND password LIKE password")
+    User findByEmail (String uniMail, String password);*/
 
     @Insert
-    void insertAll(User... users);
+    void insertAll(User... user);
 
     @Delete
     void delete(User user);
 
-    @Update
-    void updateUsers(User... users);
+    /*@Update
+    void updateUsers(User... users);*/
 
-    /*@Insert
+    @Insert
     void addUser(User user);
 
-    @Update
+    /*@Update
     void updateUser(User user);*/
 }

@@ -16,14 +16,14 @@ import android.util.Log;
  */
 
 public class UserDataDB {
-    private static UserDataDB userDataDB;
-    private final UserData userData;
+    private static UserDataDB sUserDataDB;
+    private final UserData mUserData;
 
     public static UserDataDB get(Context context) {
-        if (userDataDB == null) {
-            userDataDB = new UserDataDB(context);
+        if (sUserDataDB == null) {
+            sUserDataDB = new UserDataDB(context);
         }
-        return userDataDB;
+        return sUserDataDB;
     }
 
     private UserDataDB(Context context) {
@@ -33,7 +33,9 @@ public class UserDataDB {
                 .build();
 
         Log.i("UserDataDB", "database built");
-        userData = db.userData();
+        mUserData = db.userData();
     }
-    public UserData getUserData() { return userData; }
+    public UserData getUserData() {
+        return mUserData;
+    }
 }
