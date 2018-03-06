@@ -25,13 +25,13 @@ public class User {
     @ColumnInfo(name="name")
     private String name;
 
-    @ColumnInfo(name="unimail")
+    @ColumnInfo(name="uniMail")
     private String uniMail;
 
     @ColumnInfo(name="address")
     private String address;
 
-    @ColumnInfo(name="phonenumber")
+    @ColumnInfo(name="phoneNumber")
     private int phoneNumber;
 
     @ColumnInfo(name="password")

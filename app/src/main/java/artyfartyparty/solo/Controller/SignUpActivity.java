@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -55,17 +56,24 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = password1EditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
+                User u=null;
+
                 if (password.compareTo(password2) == 0){
                     String name = nameEditText.getText().toString();
                     String uniMail = emailEditText.getText().toString();
                     String address = addressEditText.getText().toString();
                     String phone = phoneEditText.getText().toString();
                     addUser(name, uniMail, address, phone, password);
+                    u = new User(3, name, uniMail, address, 999, password);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Passwords don't match",
                             Toast.LENGTH_LONG).show();
                 }
+
+                UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
+
+                userData.addUser(u);
 
                 Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(startIntent);

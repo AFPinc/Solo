@@ -41,18 +41,21 @@ import okhttp3.Response;
 public class AllRidesFragment extends android.support.v4.app.Fragment{
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
+    private User mUser;
 
-    private static User addUser(final AppDB db, User user) {
+    /*private static User addUser(final AppDB db, User user) {
         db.userData().insertAll(user);
         return user;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppDB db = Room.databaseBuilder(getApplicationContext(),
-                AppDB.class, "user").build();
+
+
+        /*UserData userData = UserDataDB.get(getActivity()).getUserData();
+        mUser = userData.getAll(id);*/
     }
 
     @Override
