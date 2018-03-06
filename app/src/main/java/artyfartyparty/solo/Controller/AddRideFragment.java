@@ -40,7 +40,12 @@ import static android.R.layout.simple_list_item_1;
 import static artyfartyparty.solo.Controller.DatePickerFragment.*;
 
 /**
- * Created by valas on 21.2.2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment that controls adding a ride
  */
 
 public class AddRideFragment extends android.support.v4.app.Fragment {
@@ -68,10 +73,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
         updateFromDate();
-        fromAtButton.setOnClickListener(new View.OnClickListener() {
-        //Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
 
-        /*fromAtButton.setOnClickListener(new View.OnClickListener() {
+        fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
@@ -79,9 +83,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
-        });*/
+        });
 
-        //Button toAtButton = (Button)view.findViewById(R.id.toAtButton);
+        Button toAtButton = (Button)view.findViewById(R.id.toAtButton);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +195,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         toAtButton.setText(new Date().toString());
     }
 
-    private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo) {
     private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo, User user) {
         String url = "https://solo-web-service.herokuapp.com/ride/add";
         if(isNetworkAvailable()) {
