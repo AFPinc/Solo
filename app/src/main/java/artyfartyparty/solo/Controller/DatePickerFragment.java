@@ -17,6 +17,15 @@ import java.util.GregorianCalendar;
 
 import artyfartyparty.solo.R;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment that controls the date
+ */
+
 public class DatePickerFragment extends DialogFragment {
 
     public static final String EXTRA_DATE =
