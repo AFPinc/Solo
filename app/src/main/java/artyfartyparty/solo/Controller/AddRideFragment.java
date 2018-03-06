@@ -15,11 +15,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
+import artyfartyparty.solo.Model.Location;
+import artyfartyparty.solo.Model.Ride;
+import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -41,6 +48,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+    private Spinner fromSpinner;
+    private Spinner toSpinner;
+    private Spinner stopoverSpinner;
 
     private Button fromAtButton;
     private Button toAtButton;
@@ -51,20 +61,33 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_addride, container, false);
 
-        Spinner fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
-        Spinner toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
-        Spinner stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
+        fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
+        toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
+        stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
         updateFromDate();
         fromAtButton.setOnClickListener(new View.OnClickListener() {
+        //Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+
+        /*fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
+            }
+        });*/
+
+        //Button toAtButton = (Button)view.findViewById(R.id.toAtButton);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
+                addRide(fromSpinner.getSelectedItem().toString(), toSpinner.getSelectedItem().toString(), new Date().toString(), new Date().toString(), user);
             }
         });
 
@@ -79,25 +102,70 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 dialog.show(manager, DIALOG_DATE);
             }
         });
-
-
-
-        ArrayAdapter<String> fromAdapter = new ArrayAdapter<String>(getActivity(),
-                simple_list_item_1, getResources().getStringArray(R.array.names));
-        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fromSpinner.setAdapter(fromAdapter);
-
-        ArrayAdapter<String> toAdapter = new ArrayAdapter<String>(getActivity(),
-                simple_list_item_1, getResources().getStringArray(R.array.names));
-        toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        toSpinner.setAdapter(toAdapter);
-
-        ArrayAdapter<String> stopoverAdapter = new ArrayAdapter<String>(getActivity(),
-                simple_list_item_1, getResources().getStringArray(R.array.names));
-        stopoverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        stopoverSpinner.setAdapter(stopoverAdapter);
+        setUpSpinners();
 
         return view;
+    }
+
+    private void setUpSpinners(){
+        String url = "https://solo-web-service.herokuapp.com/location/all";
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    Log.v("Tókst", "Villa!");
+                    //alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String jsonData = response.body().string();
+                    Location[] locations = new Location[0];
+                    try {
+                        locations = Parser.parseLocationDataArray(jsonData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final Location[] finalLocation = locations;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayAdapter fromAdapter = new ArrayAdapter(getActivity(),
+                                    android.R.layout.simple_spinner_item, finalLocation);
+                            fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            fromSpinner.setAdapter(fromAdapter);
+
+                            ArrayAdapter toAdapter = new ArrayAdapter(getActivity(),
+                                    android.R.layout.simple_spinner_item, finalLocation);
+                            toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            toSpinner.setAdapter(toAdapter);
+
+                            ArrayAdapter stopoverAdapter = new ArrayAdapter(getActivity(),
+                                    android.R.layout.simple_spinner_item, finalLocation);
+                            stopoverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            stopoverSpinner.setAdapter(stopoverAdapter);
+
+                        }
+                    });
+                    Log.v("Tókst", "hæ");
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -124,6 +192,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     }
 
     private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo) {
+    private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo, User user) {
         String url = "https://solo-web-service.herokuapp.com/ride/add";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -156,12 +225,43 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 return;
             }
 
+            if(TextUtils.isEmpty(user.getName())) {
+                //email is empty
+                Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
+                //stopping the function execution further
+                return;
+            }
+
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON,
-                    "{\"locationFrom\":\"" + locationFrom + "\", " +
-                    "\"locationTo\":\"" + locationTo + "\", " +
+
+            String locationF = "{\"name\":\"" + locationFrom + "\"}";
+            String locationT = "{\"name\":\"" + locationTo + "\"}";
+            String u = "{\"id\":\"" + user.getId() + "\", " +
+                    "\"name\":\"" + user.getName() + "\", " +
+                    "\"uniMail\":\"" + user.getUniMail() + "\", " +
+                    "\"address\":\"" + user.getAddress() + "\", " +
+                    "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
+                    "\"password\":\"" + user.getPassword() + "\"}";
+            String bla = "{\"locationFrom\":" + locationF + ", " +
+                    "\"locationTo\":" + locationT + ", " +
                     "\"timeFrom\":\"" + timeFrom + "\", " +
-                    "\"timeTo\": \"" + timeFrom + "\"}");
+                    "\"timeTo\":\"" + timeFrom + "\", " +
+                    "\" user\":" + u + "}";
+
+            String json = "{\"locationFrom\":{\"id\":\"4\", " +
+                                             "\"name\": \"Árbær\"}, " +
+                           "\"locationTo\":{\"id\":\"3\", " +
+                                           "\"name\":\"Háskóli Íslands\"}, " +
+                           "\"timeFrom\":" + new Date().toString() + ", " +
+                           "\"timeTo\":" + new Date().toString() + ", " +
+                           "\"user\":{\"id\":\"1\", " +
+                                     "\"name\":\"Sigurlaug\"}, " +
+                                     "\"uniMail\":\"sth301\", " +
+                                     "\"address\":\"Þingás 20\", " +
+                                     "\"phoneNumber\":\"6983135\", " +
+                                     "\"password\":\"s\"}";
+            RequestBody body = RequestBody.create(JSON,json
+                    );
 
             Request request = new Request.Builder()
                     .url(url)
@@ -175,8 +275,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getActivity().getApplicationContext(), "Sign up successful!",
-                                    Toast.LENGTH_LONG).show();
                         }
                     });
                     Log.v("Tókst", "Villa!");
@@ -189,13 +287,11 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                         @Override
                         public void run() {
 
-
                         }
                     });
                     Log.v("Tókst", response.body().string());
                 }
             });
-            Toast.makeText(getActivity(), "Added user", Toast.LENGTH_LONG).show();
         }
         else {
             Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();

@@ -1,5 +1,11 @@
 package artyfartyparty.solo.Model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+
 /**
  * Ása Júlía
  * Melkorka Mjöll
@@ -9,62 +15,61 @@ package artyfartyparty.solo.Model;
  * Class that maintains the data of users
  */
 
+@Entity(tableName="user")
 public class User {
+
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private long id;
+
+    @ColumnInfo(name="name")
     private String name;
+
+    @ColumnInfo(name="unimail")
     private String uniMail;
-    private String Address;
+
+    @ColumnInfo(name="address")
+    private String address;
+
+    @ColumnInfo(name="phonenumber")
     private int phoneNumber;
+
+    @ColumnInfo(name="password")
     private String password;
+
+    public User(long id, String name, String uniMail, String address, int phoneNumber, String password) {
+        this.id = id;
+        this.name = name;
+        this.uniMail = uniMail;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
 
     public User() {}
 
-    public String getName() {
-        return name;
-    }
+    public long getId() { return id; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setId(long id) { this.id = id; }
 
-    public long getId() {
+    public String getName() { return name; }
 
-        return id;
-    }
+    public void setName(String name) { this.name = name; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public String getUniMail() { return uniMail; }
 
-    public String getUniMail() {
-        return uniMail;
-    }
+    public void setUniMail(String uniMail) { this.uniMail = uniMail; }
 
-    public void setUniMail(String uniMail) {
-        this.uniMail = uniMail;
-    }
+    public String getAddress() { return address; }
 
-    public String getAddress() {
-        return Address;
-    }
+    public void setAddress(String address) { this.address = address; }
 
-    public void setAddress(String address) {
-        Address = address;
-    }
+    public int getPhoneNumber() { return phoneNumber; }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
+    public void setPhoneNumber(int phoneNumber) { this.phoneNumber = phoneNumber; }
 
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public String getPassword() { return password; }
 
-    public String getPassword() {
-        return password;
-    }
+    public void setPassword(String password) { this.password = password; }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
