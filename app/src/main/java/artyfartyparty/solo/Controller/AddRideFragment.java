@@ -1,6 +1,8 @@
 package artyfartyparty.solo.Controller;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import static android.R.layout.simple_list_item_1;
+import static artyfartyparty.solo.Controller.DatePickerFragment.*;
 
 /**
  * Created by valas on 21.2.2018.
@@ -38,6 +41,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private static final String DIALOG_DATE = "DialogDate";
 
     private static final int REQUEST_DATE = 0;
+
+    private Button fromAtButton;
+    private Button toAtButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,20 +56,29 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Spinner stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
-        Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
-
+        fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        updateFromDate();
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment
-                        .newInstance(new Date());
+                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
         });
 
-        Button toAtButton = (Button)view.findViewById(R.id.toAtButton);
+        toAtButton = (Button)view.findViewById(R.id.toAtButton);
+           updateToDate();
+        toAtButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+                dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
+                dialog.show(manager, DIALOG_DATE);
+            }
+        });
 
 
 
@@ -83,6 +98,29 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         stopoverSpinner.setAdapter(stopoverAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        if (requestCode == REQUEST_DATE) {
+            Date date = (Date) data
+                    .getSerializableExtra( EXTRA_DATE);
+            new Date();
+            updateFromDate();
+            updateToDate();
+        }
+    }
+
+    private void updateFromDate() {
+        fromAtButton.setText(new Date().toString());
+    }
+
+    private void updateToDate() {
+        toAtButton.setText(new Date().toString());
     }
 
     private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo) {
