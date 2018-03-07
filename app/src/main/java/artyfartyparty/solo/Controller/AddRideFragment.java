@@ -57,14 +57,18 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Spinner toSpinner;
     private Spinner stopoverSpinner;
 
+    private Ride ride;
     private Button fromAtButton;
     private Button toAtButton;
+    private boolean fromClicked;
+    private boolean toClicked;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_addride, container, false);
+        View view = inflater.inflate( R.layout.activity_addride, container, false);
 
         fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
         toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
@@ -72,13 +76,18 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        ride = new Ride();
+        ride.setDateTo( new Date() );
+        ride.setDateFrom( new Date() );
         updateFromDate();
-
+        fromClicked = false;
+        toClicked = false;
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fromClicked = true;
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+                DatePickerFragment dialog = DatePickerFragment.newInstance(ride.getDateFrom());
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
@@ -88,7 +97,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
-                addRide(fromSpinner.getSelectedItem().toString(), toSpinner.getSelectedItem().toString(), new Date().toString(), new Date().toString(), user);
+                addRide(fromSpinner.getSelectedItem().toString(), toSpinner.getSelectedItem().toString(), ride.getDateFrom().toString(), ride.getDateTo().toString(), user);
             }
         });
 
@@ -97,8 +106,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toClicked = true;
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+                DatePickerFragment dialog = DatePickerFragment.newInstance(ride.getDateTo());
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
@@ -178,18 +188,27 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data
                     .getSerializableExtra( EXTRA_DATE);
-            new Date();
+            if (fromClicked) {
+                ride.setDateFrom( date );
+            }
+            if (toClicked) {
+                ride.setDateTo( date );
+            }
             updateFromDate();
             updateToDate();
         }
+        fromClicked = false;
+        toClicked = false;
     }
 
     private void updateFromDate() {
-        fromAtButton.setText(new Date().toString());
+
+        fromAtButton.setText(ride.getDateFrom().toString());
     }
 
     private void updateToDate() {
-        toAtButton.setText(new Date().toString());
+
+        toAtButton.setText(ride.getDateTo().toString());
     }
 
     private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo, User user) {
