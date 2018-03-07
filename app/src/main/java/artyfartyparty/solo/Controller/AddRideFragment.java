@@ -73,7 +73,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
         updateFromDate();
-        Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
 
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,8 +84,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        Button toAtButton = (Button)view.findViewById(R.id.toAtButton);
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +93,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         });
 
         toAtButton = (Button)view.findViewById(R.id.toAtButton);
-           updateToDate();
+        updateToDate();
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
