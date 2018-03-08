@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = password1EditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
-                User u=null;
+                User user = null;
 
                 if (password.compareTo(password2) == 0){
                     String name = nameEditText.getText().toString();
@@ -64,7 +64,8 @@ public class SignUpActivity extends AppCompatActivity {
                     String address = addressEditText.getText().toString();
                     String phone = phoneEditText.getText().toString();
                     addUser(name, uniMail, address, phone, password);
-                    u = new User(3, name, uniMail, address, 999, password);
+
+                    user = new User(3, name, uniMail, address, 999, password);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Passwords don't match",
@@ -73,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
 
-                userData.addUser(u);
+                userData.addUser(user);
 
                 Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(startIntent);
