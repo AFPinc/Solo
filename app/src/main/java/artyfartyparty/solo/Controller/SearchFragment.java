@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import artyfartyparty.solo.Model.Location;
 import artyfartyparty.solo.Model.Ride;
@@ -46,15 +47,14 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         searchFromSpinner = (Spinner) view.findViewById(R.id.searchFromSpinner);
         searchToSpinner = (Spinner) view.findViewById(R.id.searchToSpinner);
         Button searchButton = (Button)view.findViewById(R.id.searchButton);
-        /*
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
-                // Get rides
+                search();
             }
         });
-*/
+
         setUpSpinners();
         return view;
     }
@@ -111,6 +111,53 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         }
         else {
             Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void search() {
+        Location locationFrom = (Location) searchFromSpinner.getSelectedItem();
+        Location locationTo = (Location) searchToSpinner.getSelectedItem();
+        String url = "https://solo-web-service.herokuapp.com/ride/search/"+ locationFrom.getId()+ "/" + locationTo.getId();
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+                    final String jsonData = response.body().string();
+                    ArrayList<Ride> rides = new ArrayList<Ride>();
+                    try {
+                        Log.v("Hæ", jsonData);
+                        rides = Parser.parseRideData(jsonData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final ArrayList<Ride> finalRides = rides;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.v("search", jsonData);
+                        }
+                    });
+
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
         }
     }
 
