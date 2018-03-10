@@ -29,8 +29,8 @@ public final class Parser {
             Ride ride = new Ride();
             String idString = json.getString("id");
             long id = Integer.parseInt(idString);
-            long dateFrom = Integer.parseInt(json.getString("dateFrom"));
-            long dateTo = Integer.parseInt(json.getString("dateTo"));
+            long dateFrom = Long.parseLong(json.getString("fromDate"));
+            long dateTo = Long.parseLong(json.getString("toDate"));
 
             ride.setId(id);
             ride.setUser(parseUserData(json.getString("user")));

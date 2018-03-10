@@ -57,14 +57,18 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Spinner toSpinner;
     private Spinner stopoverSpinner;
 
+    private Ride ride;
     private Button fromAtButton;
     private Button toAtButton;
+    private boolean fromClicked;
+    private boolean toClicked;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_addride, container, false);
+        View view = inflater.inflate( R.layout.activity_addride, container, false);
 
         fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
         toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
@@ -72,36 +76,39 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        ride = new Ride();
+        ride.setDateTo( new Date() );
+        ride.setDateFrom( new Date() );
         updateFromDate();
-        Button fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
-
+        fromClicked = false;
+        toClicked = false;
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fromClicked = true;
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+                DatePickerFragment dialog = DatePickerFragment.newInstance(ride.getDateFrom());
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
         });
 
-        Button toAtButton = (Button)view.findViewById(R.id.toAtButton);
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
-                addRide(fromSpinner.getSelectedItem().toString(), toSpinner.getSelectedItem().toString(), new Date().toString(), new Date().toString(), user);
+                addRide(user);
             }
         });
 
         toAtButton = (Button)view.findViewById(R.id.toAtButton);
-           updateToDate();
+        updateToDate();
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toClicked = true;
                 FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(new Date());
+                DatePickerFragment dialog = DatePickerFragment.newInstance(ride.getDateTo());
                 dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
                 dialog.show(manager, DIALOG_DATE);
             }
@@ -181,47 +188,61 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data
                     .getSerializableExtra( EXTRA_DATE);
-            new Date();
+            if (fromClicked) {
+                ride.setDateFrom( date );
+            }
+            if (toClicked) {
+                ride.setDateTo( date );
+            }
             updateFromDate();
             updateToDate();
         }
+        fromClicked = false;
+        toClicked = false;
     }
 
     private void updateFromDate() {
-        fromAtButton.setText(new Date().toString());
+
+        fromAtButton.setText(ride.getDateFrom().toString());
     }
 
     private void updateToDate() {
-        toAtButton.setText(new Date().toString());
+
+        toAtButton.setText(ride.getDateTo().toString());
     }
 
-    private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo, User user) {
+    private void addRide (User user) {
         String url = "https://solo-web-service.herokuapp.com/ride/add";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            if(TextUtils.isEmpty(locationFrom)) {
+            Location locationFrom = (Location) fromSpinner.getSelectedItem();
+            Location locationTo = (Location) toSpinner.getSelectedItem();
+            Date fromDate = ride.getDateFrom();
+            Date toDate = ride.getDateTo();
+
+            if(TextUtils.isEmpty(locationFrom.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter starting point", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if(TextUtils.isEmpty(locationTo)) {
+            if(TextUtils.isEmpty(locationTo.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter destination", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if(TextUtils.isEmpty(timeFrom)) {
+            if(TextUtils.isEmpty(fromDate.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter leaving time", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if(TextUtils.isEmpty(timeTo)) {
+            if(TextUtils.isEmpty(toDate.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
@@ -230,41 +251,45 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
             if(TextUtils.isEmpty(user.getName())) {
                 //email is empty
-                Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please sign in as a user", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-            String locationF = "{\"name\":\"" + locationFrom + "\"}";
-            String locationT = "{\"name\":\"" + locationTo + "\"}";
+            String locationF = "{\"id\":\"" + locationFrom.getId() + "\", \"name\":\"" + locationFrom.getName() + "\"}";
+            String locationT = "{\"id\":\"" + locationTo.getId() + "\", \"name\":\"" + locationTo.getName() + "\"}";
             String u = "{\"id\":\"" + user.getId() + "\", " +
                     "\"name\":\"" + user.getName() + "\", " +
                     "\"uniMail\":\"" + user.getUniMail() + "\", " +
                     "\"address\":\"" + user.getAddress() + "\", " +
                     "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
                     "\"password\":\"" + user.getPassword() + "\"}";
-            String bla = "{\"locationFrom\":" + locationF + ", " +
+            String json = "{\"locationFrom\":" + locationF + ", " +
                     "\"locationTo\":" + locationT + ", " +
-                    "\"timeFrom\":\"" + timeFrom + "\", " +
-                    "\"timeTo\":\"" + timeFrom + "\", " +
-                    "\" user\":" + u + "}";
+                    "\"fromDate\":\"" + fromDate.getTime() + "\", " +
+                    "\"toDate\":\"" + toDate.getTime() + "\", " +
+                    "\"user\":{\"id\":\"7\", " +
+                              "\"name\":\"Sigurlaug\"}, " +
+                              "\"uniMail\":\"sth301\", " +
+                              "\"address\":\"Þingás 20\", " +
+                              "\"phoneNumber\":\"6983135\", " +
+                              "\"password\":\"s\"}";
 
-            String json = "{\"locationFrom\":{\"id\":\"4\", " +
+            String bla = "{\"locationFrom\":{\"id\":\"4\", " +
                                              "\"name\": \"Árbær\"}, " +
                            "\"locationTo\":{\"id\":\"3\", " +
                                            "\"name\":\"Háskóli Íslands\"}, " +
-                           "\"timeFrom\":" + new Date().toString() + ", " +
-                           "\"timeTo\":" + new Date().toString() + ", " +
-                           "\"user\":{\"id\":\"1\", " +
+                           "\"timeFrom\":" + new Date().getTime() + ", " +
+                           "\"timeTo\":" + new Date().getTime() + ", " +
+                           "\"user\":{\"id\":\"8\", " +
                                      "\"name\":\"Sigurlaug\"}, " +
                                      "\"uniMail\":\"sth301\", " +
                                      "\"address\":\"Þingás 20\", " +
                                      "\"phoneNumber\":\"6983135\", " +
                                      "\"password\":\"s\"}";
-            RequestBody body = RequestBody.create(JSON,json
-                    );
+            RequestBody body = RequestBody.create(JSON,json);
 
             Request request = new Request.Builder()
                     .url(url)

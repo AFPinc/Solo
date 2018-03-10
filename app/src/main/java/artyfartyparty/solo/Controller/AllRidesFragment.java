@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,17 +42,10 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
 
-    private static User addUser(final AppDB db, User user) {
-        db.userData().insertAll(user);
-        return user;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppDB db = Room.databaseBuilder(getApplicationContext(),
-                AppDB.class, "user").build();
     }
 
     @Override
@@ -90,6 +84,7 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
                     String jsonData = response.body().string();
                     ArrayList<Ride> rides = new ArrayList<Ride>();
                     try {
+                        Log.v("Hæ", jsonData);
                         rides = Parser.parseRideData(jsonData);
                     } catch (JSONException e) {
                         e.printStackTrace();

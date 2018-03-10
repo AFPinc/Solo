@@ -78,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
         Button addRideButton = (Button)findViewById(R.id.addRideButton);
+        Button searchButton = (Button) findViewById(R.id.searchButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +102,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), AddRideActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(startIntent);
             }
         });
@@ -140,11 +149,15 @@ public class LoginActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     final String finalMsg = msg;
-                    String pw = user.getPassword();
-                    if (user == null || password.compareTo(pw) != 0)
+                    if (user == null || password.compareTo(user.getPassword()) != 0)
                     {
                         // msg = "Login failed";
-                        Toast.makeText(context, finalMsg, Toast.LENGTH_LONG).show();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
+                            }
+                        });
                     }
                     else {
                         // msg ="Login successful";

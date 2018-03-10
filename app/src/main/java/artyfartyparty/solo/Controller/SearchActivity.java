@@ -1,13 +1,14 @@
 package artyfartyparty.solo.Controller;
 
+import android.support.v4.app.Fragment;
+
 /**
- * Ása Júlía
- * Melkorka Mjöll
- * Sigurlaug
- * Valgerður
- *
- * Class that controls searching
+ * Created by valas on 3/10/2018.
  */
 
-public class SearchActivity {
+public class SearchActivity extends SingleFragmentActivity {
+    @Override
+    protected Fragment createFragment() {
+        return new SearchFragment();
+    }
 }
