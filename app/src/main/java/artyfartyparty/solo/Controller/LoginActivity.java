@@ -4,9 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -47,10 +52,25 @@ import static artyfartyparty.solo.R.layout.activity_login;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        // Compatibility checking
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            toolbar.setElevation(10.f);
+        }
+
         super.onCreate(savedInstanceState);
-        setContentView(activity_login);
+        setContentView(R.layout.activity_login);
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
@@ -85,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
     private void validateUserPassword(String username, final String password) {
         String url = "https://solo-web-service.herokuapp.com/users/" + username;
         if(isNetworkAvailable()) {

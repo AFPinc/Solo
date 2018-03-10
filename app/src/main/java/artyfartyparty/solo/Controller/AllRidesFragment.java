@@ -34,7 +34,6 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Class that controls all rides
  * Fragment for all rides
  */
 
