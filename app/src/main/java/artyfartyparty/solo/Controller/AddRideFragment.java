@@ -97,7 +97,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
-                addRide(fromSpinner.getSelectedItem().toString(), toSpinner.getSelectedItem().toString(), ride.getDateFrom().toString(), ride.getDateTo().toString(), user);
+                addRide(user);
             }
         });
 
@@ -211,33 +211,38 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         toAtButton.setText(ride.getDateTo().toString());
     }
 
-    private void addRide (String locationFrom, String locationTo, String timeFrom, String timeTo, User user) {
+    private void addRide (User user) {
         String url = "https://solo-web-service.herokuapp.com/ride/add";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            if(TextUtils.isEmpty(locationFrom)) {
+            Location locationFrom = (Location) fromSpinner.getSelectedItem();
+            Location locationTo = (Location) toSpinner.getSelectedItem();
+            Date fromDate = ride.getDateFrom();
+            Date toDate = ride.getDateTo();
+
+            if(TextUtils.isEmpty(locationFrom.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter starting point", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if(TextUtils.isEmpty(locationTo)) {
+            if(TextUtils.isEmpty(locationTo.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter destination", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if(TextUtils.isEmpty(timeFrom)) {
+            if(TextUtils.isEmpty(fromDate.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter leaving time", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
-            if(TextUtils.isEmpty(timeTo)) {
+            if(TextUtils.isEmpty(toDate.toString())) {
                 //email is empty
                 Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
@@ -246,41 +251,45 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
             if(TextUtils.isEmpty(user.getName())) {
                 //email is empty
-                Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please sign in as a user", Toast.LENGTH_SHORT).show();
                 //stopping the function execution further
                 return;
             }
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-            String locationF = "{\"name\":\"" + locationFrom + "\"}";
-            String locationT = "{\"name\":\"" + locationTo + "\"}";
+            String locationF = "{\"id\":\"" + locationFrom.getId() + "\", \"name\":\"" + locationFrom.getName() + "\"}";
+            String locationT = "{\"id\":\"" + locationTo.getId() + "\", \"name\":\"" + locationTo.getName() + "\"}";
             String u = "{\"id\":\"" + user.getId() + "\", " +
                     "\"name\":\"" + user.getName() + "\", " +
                     "\"uniMail\":\"" + user.getUniMail() + "\", " +
                     "\"address\":\"" + user.getAddress() + "\", " +
                     "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
                     "\"password\":\"" + user.getPassword() + "\"}";
-            String bla = "{\"locationFrom\":" + locationF + ", " +
+            String json = "{\"locationFrom\":" + locationF + ", " +
                     "\"locationTo\":" + locationT + ", " +
-                    "\"timeFrom\":\"" + timeFrom + "\", " +
-                    "\"timeTo\":\"" + timeFrom + "\", " +
-                    "\" user\":" + u + "}";
+                    "\"fromDate\":\"" + fromDate.getTime() + "\", " +
+                    "\"toDate\":\"" + toDate.getTime() + "\", " +
+                    "\"user\":{\"id\":\"7\", " +
+                              "\"name\":\"Sigurlaug\"}, " +
+                              "\"uniMail\":\"sth301\", " +
+                              "\"address\":\"Þingás 20\", " +
+                              "\"phoneNumber\":\"6983135\", " +
+                              "\"password\":\"s\"}";
 
-            String json = "{\"locationFrom\":{\"id\":\"4\", " +
+            String bla = "{\"locationFrom\":{\"id\":\"4\", " +
                                              "\"name\": \"Árbær\"}, " +
                            "\"locationTo\":{\"id\":\"3\", " +
                                            "\"name\":\"Háskóli Íslands\"}, " +
-                           "\"timeFrom\":" + new Date().toString() + ", " +
-                           "\"timeTo\":" + new Date().toString() + ", " +
-                           "\"user\":{\"id\":\"1\", " +
+                           "\"timeFrom\":" + new Date().getTime() + ", " +
+                           "\"timeTo\":" + new Date().getTime() + ", " +
+                           "\"user\":{\"id\":\"8\", " +
                                      "\"name\":\"Sigurlaug\"}, " +
                                      "\"uniMail\":\"sth301\", " +
                                      "\"address\":\"Þingás 20\", " +
                                      "\"phoneNumber\":\"6983135\", " +
                                      "\"password\":\"s\"}";
-            RequestBody body = RequestBody.create(JSON,json
-                    );
+            RequestBody body = RequestBody.create(JSON,json);
 
             Request request = new Request.Builder()
                     .url(url)
