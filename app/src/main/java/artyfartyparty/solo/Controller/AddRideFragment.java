@@ -45,7 +45,7 @@ import static artyfartyparty.solo.Controller.DatePickerFragment.*;
  * Sigurlaug
  * Valgerður
  *
- * Fragment for adding a ride
+ * Fragment that controls adding a ride
  */
 
 public class AddRideFragment extends android.support.v4.app.Fragment {
