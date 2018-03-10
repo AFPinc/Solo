@@ -1,10 +1,13 @@
 package artyfartyparty.solo.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -138,21 +141,11 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
                     final String jsonData = response.body().string();
-                    ArrayList<Ride> rides = new ArrayList<Ride>();
-                    try {
-                        Log.v("Hæ", jsonData);
-                        rides = Parser.parseRideData(jsonData);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    final ArrayList<Ride> finalRides = rides;
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.v("search", jsonData);
-                        }
-                    });
-
+                    Bundle bundle = new Bundle();
+                    bundle.putString( "data", jsonData);
+                    SearchResultsFragment fragment = new SearchResultsFragment();
+                    fragment.setArguments( bundle );
+                    getFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).addToBackStack( null ).commit();
                 }
             });
         }
