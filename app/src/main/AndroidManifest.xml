@@ -14,42 +14,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.AppCompat.Light">
-        <activity
-            android:name=".Controller.LoginActivity"
-            android:label="Login"
-            android:parentActivityName=".Controller.LoginActivity">
+        <activity android:name=".Controller.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Controller.SignUpActivity"
-            android:label="Sign Up"
-            android:parentActivityName=".Controller.LoginActivity">
-            <!-- Parents activity meta-data to support -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controller.LoginActivity" />
-        </activity>
-        <activity
-            android:name=".Controller.AllRidesActivity">
-            android:label="All Rides"
-            android:parentActivityName=".Controller.LoginActivity">
-            <!-- Parents activity meta-data to support -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controller.LoginActivity" />
-        </activity>
-        <activity
-            android:name=".Controller.AddRideActivity">
-            android:label="Add Ride"
-            android:parentActivityName=".Controller.LoginActivity">
-            <!-- Parents activity meta-data to support -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Controller.LoginActivity" />
-        </activity>
+        <activity android:name=".Controller.SignUpActivity"></activity>
+        <activity android:name=".Controller.AllRidesActivity"></activity>
+        <activity android:name=".Controller.AddRideActivity"></activity>
+        <activity android:name=".Controller.SearchActivity"></activity>
     </application>
 
 </manifest>

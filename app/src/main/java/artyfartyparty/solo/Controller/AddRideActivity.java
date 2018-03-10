@@ -3,12 +3,7 @@ package artyfartyparty.solo.Controller;
 import android.support.v4.app.Fragment;
 
 /**
- * Ása Júlía
- * Melkorka Mjöll
- * Sigurlaug
- * Valgerður
- *
- * Activity that controls adding a ride
+ * Created by valas on 2/28/2018.
  */
 
 public class AddRideActivity extends SingleFragmentActivity {
