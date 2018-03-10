@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
         Button addRideButton = (Button)findViewById(R.id.addRideButton);
+        Button searchButton = (Button) findViewById(R.id.searchButton);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +82,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), AddRideActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(startIntent);
             }
         });
