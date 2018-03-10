@@ -24,6 +24,7 @@
         <activity android:name=".Controller.SignUpActivity"></activity>
         <activity android:name=".Controller.AllRidesActivity"></activity>
         <activity android:name=".Controller.AddRideActivity"></activity>
+        <activity android:name=".Controller.SearchActivity"></activity>
     </application>
 
 </manifest>
