@@ -270,7 +270,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                     "\"locationTo\":" + locationT + ", " +
                     "\"fromDate\":\"" + fromDate.getTime() + "\", " +
                     "\"toDate\":\"" + toDate.getTime() + "\", " +
-                    "\"user\":{\"id\":\"7\", " +
+                    "\"user\":{\"id\":\"1\", " +
                               "\"name\":\"Sigurlaug\"}, " +
                               "\"uniMail\":\"sth301\", " +
                               "\"address\":\"Þingás 20\", " +

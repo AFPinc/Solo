@@ -6,6 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#52be80"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="300dp"
@@ -52,12 +59,6 @@
             android:layout_height="wrap_content"
             android:text="log in" />
 
-        <Button
-            android:id="@+id/addRideButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Ride" />
-
         <TextView
             android:id="@+id/register1TextView"
             android:layout_width="match_parent"
@@ -73,14 +74,5 @@
             android:textSize="9sp" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Search"
-        tools:layout_editor_absoluteX="42dp"
-        tools:layout_editor_absoluteY="439dp"
-        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
