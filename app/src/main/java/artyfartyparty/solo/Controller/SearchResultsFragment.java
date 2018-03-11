@@ -21,7 +21,12 @@ import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.R;
 
 /**
- * Created by valas on 3/10/2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment for search results
  */
 
 public class SearchResultsFragment extends Fragment {
