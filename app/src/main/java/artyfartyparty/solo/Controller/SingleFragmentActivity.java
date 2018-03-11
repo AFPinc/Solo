@@ -7,6 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 
 import artyfartyparty.solo.R;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * SingleFragmentActivity
+ */
+
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     protected abstract Fragment createFragment();

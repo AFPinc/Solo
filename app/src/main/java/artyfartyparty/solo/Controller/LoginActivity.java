@@ -34,7 +34,7 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Class that controlls logging in
+ * Acvtivity that controlls logging in
  */
 
 import static artyfartyparty.solo.R.layout.activity_login;

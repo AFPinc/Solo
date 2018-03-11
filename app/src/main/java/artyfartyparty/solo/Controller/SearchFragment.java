@@ -33,7 +33,12 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by valas on 3/10/2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment for searching a ride
  */
 
 public class SearchFragment extends android.support.v4.app.Fragment {

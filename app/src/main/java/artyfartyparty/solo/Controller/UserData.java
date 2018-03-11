@@ -18,7 +18,7 @@ import artyfartyparty.solo.Model.User;
  *
  * Class that collects data from the model class User.
  *
- * Gets all users, one user, deletes, adds, updates users.
+ * Gets all users, one user, deletes user, adds user, updates users.
  *
  */
 
