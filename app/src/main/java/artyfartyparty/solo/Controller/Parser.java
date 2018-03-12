@@ -12,7 +12,12 @@ import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.Model.User;
 
 /**
- * Created by Sigurlaug on 28/02/2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Parser class
  */
 
 public final class Parser {

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/add_ride"
+        android:title="@string/add_ride"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/search"
+        android:title="@string/search"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/settings"
+        android:title="@string/settings"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        />
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        />
+</menu>

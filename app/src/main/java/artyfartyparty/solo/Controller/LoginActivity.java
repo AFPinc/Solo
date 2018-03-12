@@ -6,7 +6,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +34,7 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Class that controlls logging in
+ * Acvtivity that controlls logging in
  */
 
 import static artyfartyparty.solo.R.layout.activity_login;
@@ -46,19 +49,22 @@ import static artyfartyparty.solo.R.layout.activity_login;
  */
 
 public class LoginActivity extends AppCompatActivity {
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_login);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Search");
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
         final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
         Button registerButton = (Button)findViewById(R.id.registerButton);
-        Button addRideButton = (Button)findViewById(R.id.addRideButton);
-        Button searchButton = (Button) findViewById(R.id.searchButton);
+
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,22 +84,37 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        addRideButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), AddRideActivity.class);
-                startActivity(startIntent);
-            }
-        });
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(startIntent);
-            }
-        });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg=" ";
+        switch (item.getItemId()) {
+            case R.id.add_ride:
+                startActivity(new Intent(getApplicationContext(), AddRideActivity.class));
+                msg = "Add Ride";
+                break;
+            case R.id.search:
+                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                msg = "Search";
+                break;
+            case R.id.settings:
+                msg = "Settings";
+                break;
+            case R.id.about:
+                msg = "About";
+                break;
+        }
+        Toast.makeText(this, msg+ " Checked", Toast.LENGTH_LONG).show(); // kemur skilaboð í hvert skipti sem eh af þessum items er klikkað á
+        return super.onOptionsItemSelected(item);
+    }
+
     private void validateUserPassword(String username, final String password) {
         String url = "https://solo-web-service.herokuapp.com/users/" + username;
         if(isNetworkAvailable()) {
