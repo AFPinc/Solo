@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
  * Sigurlaug
  * Valgerður
  *
- * Activity that controls adding a ride
+ * Class that controls adding a ride
  */
 
 public class AddRideActivity extends SingleFragmentActivity {
