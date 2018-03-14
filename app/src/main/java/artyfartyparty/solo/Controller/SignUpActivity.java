@@ -13,7 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+
 import java.io.IOException;
+import java.util.List;
 
 import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
@@ -64,17 +67,12 @@ public class SignUpActivity extends AppCompatActivity {
                     String address = addressEditText.getText().toString();
                     String phone = phoneEditText.getText().toString();
                     addUser(name, uniMail, address, phone, password);
-
-                    user = new User(3, name, uniMail, address, 999, password);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Passwords don't match",
                             Toast.LENGTH_LONG).show();
                 }
 
-                UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
-
-                userData.addUser(user);
 
                 Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(startIntent);
@@ -144,6 +142,16 @@ public class SignUpActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
+                    User user = null;
+                    try {
+                        user = Parser.parseUserData(response.body().string());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
+                    userData.addUser(user);
+                    List<User> users = userData.getAll();
+                    Log.v("users", "" + users.size());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -151,7 +159,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                         }
                     });
-                    Log.v("Tókst", response.body().string());
                 }
             });
             Toast.makeText(this, "Added user", Toast.LENGTH_LONG).show();
