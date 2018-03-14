@@ -1,8 +1,13 @@
 package artyfartyparty.solo.Controller;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import artyfartyparty.solo.Controller.AllRidesFragment;
 import artyfartyparty.solo.Controller.SingleFragmentActivity;
+import artyfartyparty.solo.R;
 
 /**
  * Ása Júlía
