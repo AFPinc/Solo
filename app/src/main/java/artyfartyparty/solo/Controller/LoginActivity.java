@@ -152,6 +152,11 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                         // msg ="Login successful";
                         Log.v("helo", "hæyæhæh");
+                        UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
+                        User tmp = userData.findOne(user.getId());
+                        if(tmp == null)
+                            userData.addUser(user);
+
                         final User u = user;
                         runOnUiThread(new Runnable() {
                             @Override

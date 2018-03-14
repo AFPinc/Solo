@@ -47,7 +47,8 @@ import okhttp3.Response;
 public class AllRidesFragment extends android.support.v4.app.Fragment{
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
-    Toolbar toolbar;
+    private Toolbar toolbar;
+    private long userId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,12 +76,7 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
         mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        long userId = getArguments().getLong("userId", -1);
-
-        UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
-        Log.v("uid", "" + userId);
-        User u = userData.findOne(userId);
-        Log.v("Hæææ", u.getName());
+        userId = getArguments().getLong("userId", -1);
 
         updateUI();
         return view;
@@ -95,13 +91,17 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String msg=" ";
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.add_ride:
-                startActivity(new Intent(getApplicationContext(), AddRideActivity.class));
+                intent = new Intent(getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 msg = "Add Ride";
                 break;
             case R.id.search:
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
                 msg = "Search";
                 break;
             case R.id.settings:
