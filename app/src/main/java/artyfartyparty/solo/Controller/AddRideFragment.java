@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -116,6 +117,28 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         setUpSpinners();
 
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg=" ";
+        switch (item.getItemId()) {
+            case R.id.add_ride:
+                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                msg = "Add Ride";
+                break;
+            case R.id.search:
+                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                msg = "Search";
+                break;
+            case R.id.settings:
+                msg = "Settings";
+                break;
+            case R.id.about:
+                msg = "About";
+                break;
+        }
+        return true;
     }
 
     private void setUpSpinners(){

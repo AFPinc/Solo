@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,6 +47,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
     private Spinner searchFromSpinner;
     private Spinner searchToSpinner;
+    Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +68,28 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         setUpSpinners();
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg=" ";
+        switch (item.getItemId()) {
+            case R.id.add_ride:
+                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                msg = "Add Ride";
+                break;
+            case R.id.search:
+                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                msg = "Search";
+                break;
+            case R.id.settings:
+                msg = "Settings";
+                break;
+            case R.id.about:
+                msg = "About";
+                break;
+        }
+        return true;
     }
 
     private void setUpSpinners(){
