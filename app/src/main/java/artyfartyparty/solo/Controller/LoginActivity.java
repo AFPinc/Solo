@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Search");
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
