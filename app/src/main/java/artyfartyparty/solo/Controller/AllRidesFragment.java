@@ -65,13 +65,13 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        /*toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menu) {
                 onOptionsItemSelected(menu);
                 return true;
             }
-        });
+        });*/
 
         mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
