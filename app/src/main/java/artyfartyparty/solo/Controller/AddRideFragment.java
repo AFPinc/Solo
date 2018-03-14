@@ -63,6 +63,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Button toAtButton;
     private boolean fromClicked;
     private boolean toClicked;
+    private long userId;
 
 
     @Override
@@ -83,6 +84,13 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         updateFromDate();
         fromClicked = false;
         toClicked = false;
+
+        userId = getArguments().getLong("userId", -1);
+        Log.v("uid", "" + userId);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+        Log.v("UserID", "" + user.getId());
+
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +105,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
                 addRide(user);
             }
         });
@@ -293,12 +300,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                     "\"locationTo\":" + locationT + ", " +
                     "\"fromDate\":\"" + fromDate.getTime() + "\", " +
                     "\"toDate\":\"" + toDate.getTime() + "\", " +
-                    "\"user\":{\"id\":\"1\", " +
-                              "\"name\":\"Sigurlaug\"}, " +
-                              "\"uniMail\":\"sth301\", " +
-                              "\"address\":\"Þingás 20\", " +
-                              "\"phoneNumber\":\"6983135\", " +
-                              "\"password\":\"s\"}";
+                    "\"user\":" + u + "}";
 
             String bla = "{\"locationFrom\":{\"id\":\"4\", " +
                                              "\"name\": \"Árbær\"}, " +
