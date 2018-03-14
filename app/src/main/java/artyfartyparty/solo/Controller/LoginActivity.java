@@ -162,10 +162,12 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                         // msg ="Login successful";
                         Log.v("helo", "hæyæhæh");
+                        final User u = user;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                                startIntent.putExtra("userId", u.getId());
                                 startActivity(startIntent);
                             }
                         });
