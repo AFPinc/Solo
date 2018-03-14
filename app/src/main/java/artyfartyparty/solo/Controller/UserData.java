@@ -27,6 +27,9 @@ public interface UserData {
     @Query("SELECT * FROM user")
     List<User> getAll();
 
+    @Query("SELECT * FROM user WHERE id =:id")
+    User findOne(long id);
+
     @Insert
     void insertAll(User... user);
 

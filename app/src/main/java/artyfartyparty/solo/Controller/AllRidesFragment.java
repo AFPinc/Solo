@@ -56,6 +56,13 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
         mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        long userId = getArguments().getLong("userId", -1);
+
+        UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
+        Log.v("uid", "" + userId);
+        User u = userData.findOne(userId);
+        Log.v("Hæææ", u.getName());
+
         updateUI();
         return view;
     }
