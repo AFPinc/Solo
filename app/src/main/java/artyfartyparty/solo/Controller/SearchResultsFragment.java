@@ -33,6 +33,7 @@ public class SearchResultsFragment extends Fragment {
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
