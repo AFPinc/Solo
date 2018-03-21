@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
         final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
-        Button registerButton = (Button)findViewById(R.id.registerButton);
+        TextView registerLink = (TextView)findViewById(R.id.registerLink);
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -66,13 +67,14 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(startIntent);
             }
         });
+
 
     }
 
