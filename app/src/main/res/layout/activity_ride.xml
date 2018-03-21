@@ -15,7 +15,7 @@
 
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="350dp"
+        android:layout_height="400dp"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="92dp"
@@ -70,6 +70,15 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="Address" />
+
+
+        <Button
+            android:id="@+id/request_ride_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:baselineAligned="false"
+            android:text="Request a ride" />
     </LinearLayout>
 
 
