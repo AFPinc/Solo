@@ -16,13 +16,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
 import artyfartyparty.solo.Model.Location;
@@ -37,8 +35,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static android.R.layout.simple_list_item_1;
-import static artyfartyparty.solo.Controller.DatePickerFragment.*;
+import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
 
 /**
  * Ása Júlía
@@ -106,6 +103,13 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 addRide(user);
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId", userId);
+                AllRidesFragment fragment = new AllRidesFragment();
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction()
+                                    .replace( R.id.fragment_container, fragment )
+                                    .addToBackStack( null ).commit();
             }
         });
 
