@@ -142,11 +142,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
                 msg = "Search";
                 break;
-            case R.id.settings:
-                msg = "Settings";
-                break;
-            case R.id.about:
-                msg = "About";
+            case R.id.profile:
+                msg = "Profile";
                 break;
         }
         return true;

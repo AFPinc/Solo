@@ -94,11 +94,8 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), SearchActivity.class));
                 msg = "Search";
                 break;
-            case R.id.settings:
-                msg = "Settings";
-                break;
-            case R.id.about:
-                msg = "About";
+            case R.id.profile:
+                msg = "Profile";
                 break;
         }
         Toast.makeText(this, msg+ " Checked", Toast.LENGTH_LONG).show(); // kemur skilaboð í hvert skipti sem eh af þessum items er klikkað á
