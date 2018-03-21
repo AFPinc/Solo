@@ -100,11 +100,8 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
                 startActivity(intent);
                 msg = "Search";
                 break;
-            case R.id.settings:
-                msg = "Settings";
-                break;
-            case R.id.about:
-                msg = "About";
+            case R.id.profile:
+                msg = "Profile";
                 break;
         }
         return super.onOptionsItemSelected(item);
