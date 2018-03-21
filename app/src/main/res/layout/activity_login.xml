@@ -6,13 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#52be80"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="300dp"
@@ -25,7 +18,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.916">
 
         <TextView
             android:id="@+id/emailTextView"
@@ -33,12 +27,29 @@
             android:layout_height="wrap_content"
             android:text="HÍ email" />
 
-        <EditText
-            android:id="@+id/emailEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="190dp"
+            tools:layout_editor_absoluteY="256dp">
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/hi.is"
+                android:layout_width="144dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@hi.is"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/passwordTextView"
@@ -68,10 +79,10 @@
         <Button
             android:id="@+id/registerButton"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:elevation="0dp"
-            android:text="Register Now!"
-            android:textSize="9sp" />
+            android:text="Register Now"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
