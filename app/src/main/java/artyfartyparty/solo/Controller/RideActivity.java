@@ -7,25 +7,28 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.Date;
 
+import artyfartyparty.solo.Model.Location;
 import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -44,6 +47,9 @@ public class RideActivity extends AppCompatActivity {
     TextView email;
     TextView address;
 
+    User user;
+    Ride ride;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,10 +67,94 @@ public class RideActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         address = findViewById(R.id.address);
 
-        long userId = getIntent().getLongExtra("userId", -1);
-        long rideId = getIntent().getLongExtra("rideId", -1);
+        Button requestRideButton = findViewById(R.id.request_ride_button);
+
+        final long userId = getIntent().getLongExtra("userId", -1);
+        final long rideId = getIntent().getLongExtra("rideId", -1);
 
         setRideAndUserInfo(userId, rideId);
+
+        UserData userData = UserDataDB.get(getApplication().getApplicationContext()).getUserData();
+        user = userData.findOne(userId);
+
+        requestRideButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                registerRide();
+            }
+        });
+    }
+
+    private void registerRide () {
+        String url = "https://solo-web-service.herokuapp.com/request/add";
+        if (isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+            String locationF = "{\"id\":\"" + ride.getLocationFrom().getId() + "\", \"name\":\"" + ride.getLocationFrom().getName() + "\"}";
+            String locationT = "{\"id\":\"" + ride.getLocationTo().getId() + "\", \"name\":\"" + ride.getLocationTo().getName() + "\"}";
+            String rideUser = "{\"id\":\"" + ride.getUser().getId() + "\", " +
+                    "\"name\":\"" + ride.getUser().getName() + "\", " +
+                    "\"uniMail\":\"" + ride.getUser().getUniMail() + "\", " +
+                    "\"address\":\"" + ride.getUser().getAddress() + "\", " +
+                    "\"phoneNumber\":\"" + ride.getUser().getPhoneNumber() + "\", " +
+                    "\"password\":\"" + ride.getUser().getPassword() + "\"}";
+            String requestUser = "{\"id\":\"" + user.getId() + "\", " +
+                    "\"name\":\"" + user.getName() + "\", " +
+                    "\"uniMail\":\"" + user.getUniMail() + "\", " +
+                    "\"address\":\"" + user.getAddress() + "\", " +
+                    "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
+                    "\"password\":\"" + user.getPassword() + "\"}";
+            String requestRide = "{\"id\":\"" + ride.getId() + "\", " +
+                    "\"locationFrom\":" + locationF + ", " +
+                    "\"locationTo\":" + locationT + ", " +
+                    "\"fromDate\":\"" + ride.getDateFrom().getTime() + "\", " +
+                    "\"toDate\":\"" + ride.getDateTo().getTime() + "\", " +
+                    "\"user\":" + rideUser + "}";
+
+            String req = "{\"ride\":" + requestRide + ", " +
+                    "\"user\":" + requestUser + "}";
+
+            Log.v("json", req);
+            RequestBody body = RequestBody.create(JSON, req);
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
+
+            final Context context = this;
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    Log.v("Tókst", "Villa!");
+                    //alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Your request has been sent", Toast.LENGTH_LONG).show();
+                            Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                            startIntent.putExtra("userId", user.getId());
+                            startActivity(startIntent);
+                        }
+                    });
+                    Log.v("Tókst", response.body().string());
+                }
+            });
+        } else {
+            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setRideAndUserInfo(long userId, long rideId) {
@@ -94,13 +184,12 @@ public class RideActivity extends AppCompatActivity {
                 public void onResponse(Call call, final Response response) throws IOException {
                     String msg = "";
                     String jsonData = response.body().string();
-                    Ride r = null;
+                    ride = null;
                     try {
-                        r = Parser.parseSingleRideData(jsonData);
+                        ride = Parser.parseSingleRideData(jsonData);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    final Ride ride = r;
                     if (ride == null)
                     {
                         // msg = "Login failed";
@@ -115,7 +204,6 @@ public class RideActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.v("hæ", "" + ride.getUser().getPhoneNumber());
                                 locationFrom.setText(ride.getLocationFrom().getName());
                                 locationTo.setText(ride.getLocationTo().getName());
                                 timeFrom.setText(ride.getDateFrom().toString());
