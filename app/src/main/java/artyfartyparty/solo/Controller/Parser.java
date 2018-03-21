@@ -30,23 +30,27 @@ public final class Parser {
         for (int i = 0; i < jsonArray.length(); i++){
 
             JSONObject json = jsonArray.getJSONObject(i);
-
-            Ride ride = new Ride();
-            String idString = json.getString("id");
-            long id = Integer.parseInt(idString);
-            long dateFrom = Long.parseLong(json.getString("fromDate"));
-            long dateTo = Long.parseLong(json.getString("toDate"));
-
-            ride.setId(id);
-            ride.setUser(parseUserData(json.getString("user")));
-            ride.setLocationFrom(parseLocationData(json.getString("locationFrom")));
-            ride.setLocationTo(parseLocationData(json.getString("locationTo")));
-            ride.setDateFrom(new Date(dateFrom));
-            ride.setDateTo(new Date(dateTo));
-
+            Ride ride = parseSingleRideData(json.toString());
             rides.add(ride);
         }
         return rides;
+    }
+
+    public static Ride parseSingleRideData(String jsonData) throws JSONException {
+        JSONObject json = new JSONObject(jsonData);
+        Ride ride = new Ride();
+        String idString = json.getString("id");
+        long id = Integer.parseInt(idString);
+        long dateFrom = Long.parseLong(json.getString("fromDate"));
+        long dateTo = Long.parseLong(json.getString("toDate"));
+
+        ride.setId(id);
+        ride.setUser(parseUserData(json.getString("user")));
+        ride.setLocationFrom(parseLocationData(json.getString("locationFrom")));
+        ride.setLocationTo(parseLocationData(json.getString("locationTo")));
+        ride.setDateFrom(new Date(dateFrom));
+        ride.setDateTo(new Date(dateTo));
+        return ride;
     }
 
     public static User parseUserData(String jsonData) throws JSONException {

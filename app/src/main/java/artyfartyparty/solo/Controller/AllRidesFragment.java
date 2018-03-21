@@ -191,9 +191,10 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(),
-                    mRide.getLocationFrom() + " - " + mRide.getLocationTo() +" clicked!",Toast.LENGTH_SHORT)
-                    .show();
+            Intent startIntent = new Intent(getApplicationContext(), RideActivity.class);
+            startIntent.putExtra("userId", userId);
+            startIntent.putExtra("rideId", mRide.getId());
+            startActivity(startIntent);
         }
 
     }
