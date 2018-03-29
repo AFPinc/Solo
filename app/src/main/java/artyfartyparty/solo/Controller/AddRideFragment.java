@@ -10,19 +10,18 @@ import android.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.joda.time.LocalDateTime;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 
 import artyfartyparty.solo.Model.Location;
@@ -37,8 +36,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static android.R.layout.simple_list_item_1;
-import static artyfartyparty.solo.Controller.DatePickerFragment.*;
+import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
 
 /**
  * Ása Júlía
@@ -68,6 +66,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Button toAtButton;
     private boolean fromClicked;
     private boolean toClicked;
+    private long userId;
 
 
     @Override
@@ -112,11 +111,25 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         fromClicked = false;
         toClicked = false;
 
+        userId = getArguments().getLong("userId", -1);
+        Log.v("uid", "" + userId);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+        Log.v("UserID", "" + user.getId());
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User(1, "Sigurlaug", "sth301@hi.is", "Thingas 20", 6983135, "sigurlaug");
                 addRide(user);
+                String url = "https://solo-web-service.herokuapp.com/ride/all";
+                Bundle bundle = new Bundle();
+                bundle.putLong("userId", userId);
+                bundle.putString("url", url);
+                ShowRidesFragment fragment = new ShowRidesFragment();
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction()
+                                    .replace( R.id.fragment_container, fragment )
+                                    .addToBackStack( null ).commit();
             }
         });
 
@@ -148,7 +161,25 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime);
+        outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg=" ";
+        switch (item.getItemId()) {
+            case R.id.add_ride:
+                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                msg = "Add Ride";
+                break;
+            case R.id.search:
+                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                msg = "Search";
+                break;
+            case R.id.profile:
+                msg = "Profile";
+                break;
+        }
+        return true;
     }
 
     private void setUpSpinners(){
@@ -281,12 +312,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                     "\"locationTo\":" + locationT + ", " +
                     "\"fromDate\":\"" + fromDate.getTime() + "\", " +
                     "\"toDate\":\"" + toDate.getTime() + "\", " +
-                    "\"user\":{\"id\":\"1\", " +
-                              "\"name\":\"Sigurlaug\"}, " +
-                              "\"uniMail\":\"sth301\", " +
-                              "\"address\":\"Þingás 20\", " +
-                              "\"phoneNumber\":\"6983135\", " +
-                              "\"password\":\"s\"}";
+                    "\"user\":" + u + "}";
 
             String bla = "{\"locationFrom\":{\"id\":\"4\", " +
                                              "\"name\": \"Árbær\"}, " +

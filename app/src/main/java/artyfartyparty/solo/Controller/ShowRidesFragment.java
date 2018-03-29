@@ -1,14 +1,20 @@
 package artyfartyparty.solo.Controller;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -21,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import artyfartyparty.solo.Model.Ride;
-import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -29,39 +34,72 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Ása Júlía
- * Melkorka Mjöll
- * Sigurlaug
- * Valgerður
- *
- * Fragment for all rides
- */
-
-public class AllRidesFragment extends android.support.v4.app.Fragment{
+public class ShowRidesFragment extends Fragment {
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
+    private Toolbar toolbar;
+    private long userId;
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.activity_allrides, container, false);
+
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        updateUI();
+        userId = getArguments().getLong("userId", -1);
+        url = getArguments().getString("url");
+
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg=" ";
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.add_ride:
+                intent = new Intent(getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                msg = "Add Ride";
+                break;
+            case R.id.search:
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
+                msg = "Search";
+                break;
+            case R.id.profile:
+                msg = "Profile";
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void updateUI() {
-        String url = "https://solo-web-service.herokuapp.com/ride/all";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -144,9 +182,10 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(getActivity(),
-                    mRide.getLocationFrom() + " - " + mRide.getLocationTo() +" clicked!",Toast.LENGTH_SHORT)
-                    .show();
+            Intent startIntent = new Intent(getApplicationContext(), RideActivity.class);
+            startIntent.putExtra("userId", userId);
+            startIntent.putExtra("rideId", mRide.getId());
+            startActivity(startIntent);
         }
 
     }

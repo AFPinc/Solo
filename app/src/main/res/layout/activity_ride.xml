@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#52be80"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar" />
+
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="92dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/location_from"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Location From" />
+
+        <TextView
+            android:id="@+id/location_to"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Location To" />
+
+        <TextView
+            android:id="@+id/time_from"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Time From" />
+
+        <TextView
+            android:id="@+id/time_to"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Time To" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Username" />
+
+        <TextView
+            android:id="@+id/phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="PhoneNumber" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Email" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Address" />
+
+
+        <Button
+            android:id="@+id/request_ride_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:baselineAligned="false"
+            android:text="Request a ride" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

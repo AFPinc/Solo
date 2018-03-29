@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -45,6 +47,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
     private Spinner searchFromSpinner;
     private Spinner searchToSpinner;
+    Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +68,29 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         setUpSpinners();
         return view;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String msg=" ";
+        switch (item.getItemId()) {
+            case R.id.app_logo:
+                startActivity(new Intent(getActivity().getApplicationContext(), AllRidesActivity.class));
+                msg = "Logo";
+                break;
+            case R.id.add_ride:
+                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                msg = "Add Ride";
+                break;
+            case R.id.search:
+                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                msg = "Search";
+                break;
+            case R.id.profile:
+                msg = "Profile";
+                break;
+        }
+        return true;
     }
 
     private void setUpSpinners(){
@@ -126,37 +152,12 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         Location locationFrom = (Location) searchFromSpinner.getSelectedItem();
         Location locationTo = (Location) searchToSpinner.getSelectedItem();
         String url = "https://solo-web-service.herokuapp.com/ride/search/"+ locationFrom.getId()+ "/" + locationTo.getId();
-        if(isNetworkAvailable()) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
 
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                }
-
-                @Override
-                public void onResponse(Call call, final Response response) throws IOException {
-                    final String jsonData = response.body().string();
-                    Bundle bundle = new Bundle();
-                    bundle.putString( "data", jsonData);
-                    SearchResultsFragment fragment = new SearchResultsFragment();
-                    fragment.setArguments( bundle );
-                    getFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).addToBackStack( null ).commit();
-                }
-            });
-        }
-        else {
-            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
-        }
+        Bundle bundle = new Bundle();
+        bundle.putString( "url", url);
+        ShowRidesFragment fragment = new ShowRidesFragment();
+        fragment.setArguments( bundle );
+        getFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).addToBackStack( null ).commit();
     }
 
     private boolean isNetworkAvailable() {

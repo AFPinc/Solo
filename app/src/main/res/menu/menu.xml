@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/app_logo"
+        android:icon="@drawable/ic_directions_car_black_24dp"
+        android:title="Logo"
+        android:orderInCategory="100"
+        android:gravity="center_vertical|start"
+        app:showAsAction="always"
+        />
     <item android:id="@+id/add_ride"
-        android:title="@string/add_ride"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Add"
         android:orderInCategory="100"
         app:showAsAction="always"
         />
     <item android:id="@+id/search"
-        android:title="@string/search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
         android:orderInCategory="100"
         app:showAsAction="always"
         />
-    <item android:id="@+id/settings"
-        android:title="@string/settings"
+    <item android:id="@+id/profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profile"
         android:orderInCategory="100"
-        app:showAsAction="never"
-        />
-    <item android:id="@+id/about"
-        android:title="@string/about"
-        android:orderInCategory="100"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         />
 </menu>
