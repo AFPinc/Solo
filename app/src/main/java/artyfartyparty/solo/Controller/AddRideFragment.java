@@ -103,9 +103,11 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 addRide(user);
+                String url = "https://solo-web-service.herokuapp.com/ride/all";
                 Bundle bundle = new Bundle();
                 bundle.putLong("userId", userId);
-                AllRidesFragment fragment = new AllRidesFragment();
+                bundle.putString("url", url);
+                ShowRidesFragment fragment = new ShowRidesFragment();
                 fragment.setArguments(bundle);
                 getFragmentManager().beginTransaction()
                                     .replace( R.id.fragment_container, fragment )

@@ -148,37 +148,12 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         Location locationFrom = (Location) searchFromSpinner.getSelectedItem();
         Location locationTo = (Location) searchToSpinner.getSelectedItem();
         String url = "https://solo-web-service.herokuapp.com/ride/search/"+ locationFrom.getId()+ "/" + locationTo.getId();
-        if(isNetworkAvailable()) {
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(url)
-                    .build();
 
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                }
-
-                @Override
-                public void onResponse(Call call, final Response response) throws IOException {
-                    final String jsonData = response.body().string();
-                    Bundle bundle = new Bundle();
-                    bundle.putString( "data", jsonData);
-                    SearchResultsFragment fragment = new SearchResultsFragment();
-                    fragment.setArguments( bundle );
-                    getFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).addToBackStack( null ).commit();
-                }
-            });
-        }
-        else {
-            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
-        }
+        Bundle bundle = new Bundle();
+        bundle.putString( "url", url);
+        ShowRidesFragment fragment = new ShowRidesFragment();
+        fragment.setArguments( bundle );
+        getFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).addToBackStack( null ).commit();
     }
 
     private boolean isNetworkAvailable() {
