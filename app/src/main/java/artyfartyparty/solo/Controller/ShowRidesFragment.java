@@ -1,11 +1,11 @@
 package artyfartyparty.solo.Controller;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import artyfartyparty.solo.Model.Ride;
-import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -35,20 +34,12 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-/**
- * Ása Júlía
- * Melkorka Mjöll
- * Sigurlaug
- * Valgerður
- *
- * Fragment for all rides
- */
-
-public class AllRidesFragment extends android.support.v4.app.Fragment{
+public class ShowRidesFragment extends Fragment {
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
     private Toolbar toolbar;
     private long userId;
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +65,7 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         userId = getArguments().getLong("userId", -1);
+        url = getArguments().getString("url");
 
         return view;
     }
@@ -108,7 +100,6 @@ public class AllRidesFragment extends android.support.v4.app.Fragment{
     }
 
     private void updateUI() {
-        String url = "https://solo-web-service.herokuapp.com/ride/all";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
