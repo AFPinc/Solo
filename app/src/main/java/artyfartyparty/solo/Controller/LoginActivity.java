@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
         final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
         Button loginButton = (Button)findViewById(R.id.logInButton);
-        Button registerButton = (Button)findViewById(R.id.registerButton);
+        TextView registerLink = (TextView)findViewById(R.id.registerLink);
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
+        registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent startIntent = new Intent(getApplicationContext(), SignUpActivity.class);
@@ -74,35 +75,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
-        switch (item.getItemId()) {
-            case R.id.add_ride:
-                startActivity(new Intent(getApplicationContext(), AddRideActivity.class));
-                msg = "Add Ride";
-                break;
-            case R.id.search:
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-                msg = "Search";
-                break;
-            case R.id.settings:
-                msg = "Settings";
-                break;
-            case R.id.about:
-                msg = "About";
-                break;
-        }
-        Toast.makeText(this, msg+ " Checked", Toast.LENGTH_LONG).show(); // kemur skilaboð í hvert skipti sem eh af þessum items er klikkað á
-        return super.onOptionsItemSelected(item);
     }
 
     private void validateUserPassword(String username, final String password) {
@@ -152,10 +131,17 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                         // msg ="Login successful";
                         Log.v("helo", "hæyæhæh");
+                        UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
+                        User tmp = userData.findOne(user.getId());
+                        if(tmp == null)
+                            userData.addUser(user);
+
+                        final User u = user;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                                startIntent.putExtra("userId", u.getId());
                                 startActivity(startIntent);
                             }
                         });

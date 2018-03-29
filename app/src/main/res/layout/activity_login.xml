@@ -4,19 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v7.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#52be80"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
+    android:layout_height="match_parent"
+    android:background="#52be80">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="300dp"
-        android:layout_height="276dp"
+        android:layout_height="201dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -33,12 +27,29 @@
             android:layout_height="wrap_content"
             android:text="HÍ email" />
 
-        <EditText
-            android:id="@+id/emailEditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress" />
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="190dp"
+            tools:layout_editor_absoluteY="256dp">
+
+            <EditText
+                android:id="@+id/emailEditText"
+                android:layout_width="149dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/hi.is"
+                android:layout_width="7dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@hi.is"
+                android:textSize="18sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/passwordTextView"
@@ -59,20 +70,42 @@
             android:layout_height="wrap_content"
             android:text="log in" />
 
-        <TextView
-            android:id="@+id/register1TextView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Don't have an account?" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/registerButton"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:elevation="0dp"
-            android:text="Register Now!"
-            android:textSize="9sp" />
+            <TextView
+                android:id="@+id/register1TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Don't have an account?" />
+
+            <TextView
+                android:id="@+id/registerLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=" Register Now" />
+        </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Solo"
+        android:textSize="25sp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
