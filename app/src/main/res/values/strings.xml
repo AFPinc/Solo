@@ -1,8 +1,7 @@
 <resources>
-    <string name="app_name">Solo</string>
     <string name="add_ride">Add Ride</string>
     <string name="search">Search</string>
-    <string name="settings">Settings</string>
-    <string name="about">About</string>
+    <string name="profile">Profile</string>
     <string name="date_picker_title">Date of ride:</string>
+    <string name="app_name">Solo</string>
 </resources>
