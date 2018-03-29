@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -67,6 +70,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private boolean fromClicked;
     private boolean toClicked;
     private long userId;
+    Toolbar toolbar;
 
 
     @Override
@@ -78,6 +82,9 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             mLocalDateTime = (LocalDateTime)savedInstanceState.getSerializable(STATE_LOCAL_DATE_TIME);
         }
         View view = inflater.inflate( R.layout.activity_addride, container, false);
+
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
         toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
@@ -166,20 +173,29 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String msg=" ";
+        Intent intent;
         switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                startActivity(intent);
+                msg = "Home";
+                break;
             case R.id.add_ride:
-                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 msg = "Add Ride";
                 break;
             case R.id.search:
-                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
                 msg = "Search";
                 break;
             case R.id.profile:
                 msg = "Profile";
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpSpinners(){

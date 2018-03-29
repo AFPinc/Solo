@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +56,8 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.activity_search, container, false);
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         searchFromSpinner = (Spinner) view.findViewById(R.id.searchFromSpinner);
         searchToSpinner = (Spinner) view.findViewById(R.id.searchToSpinner);
@@ -71,26 +75,36 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String msg=" ";
+        Intent intent;
         switch (item.getItemId()) {
-            case R.id.app_logo:
-                startActivity(new Intent(getActivity().getApplicationContext(), AllRidesActivity.class));
-                msg = "Logo";
+            case R.id.logo_home:
+                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                startActivity(intent);
+                msg = "Home";
                 break;
             case R.id.add_ride:
-                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                startActivity(intent);
                 msg = "Add Ride";
                 break;
             case R.id.search:
-                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
                 msg = "Search";
                 break;
             case R.id.profile:
                 msg = "Profile";
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpSpinners(){

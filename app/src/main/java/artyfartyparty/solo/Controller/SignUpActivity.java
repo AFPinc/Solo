@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
@@ -79,25 +80,6 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
-        switch (item.getItemId()) {
-            case R.id.add_ride:
-                startActivity(new Intent(getApplicationContext(), AddRideActivity.class));
-                msg = "Add Ride";
-                break;
-            case R.id.search:
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-                msg = "Search";
-                break;
-            case R.id.profile:
-                msg = "Profile";
-                break;
-        }
-        return true;
     }
 
     private void addUser(String name, String uniMail, String address, String phoneNumber, String password) {
