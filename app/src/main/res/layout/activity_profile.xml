@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar3"
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="artyfartyparty.solo.Controller.ProfileEmptyFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#52be80"
-        android:minHeight="?attr/actionBarSize" />
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/empty_fragment" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="251dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="56dp">
+    <Button
+        android:id="@+id/myRidesButton"
+        android:layout_width="194dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/profileFragment"
+        android:text="My Rides" />
 
-    </LinearLayout>
+    <Button
+        android:id="@+id/myRequestsButton"
+        android:layout_width="194dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/profileFragment"
+        android:text="My Requests" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="261dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteY="306dp"></LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
