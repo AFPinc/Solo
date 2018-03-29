@@ -4,4 +4,8 @@
     <string name="profile">Profile</string>
     <string name="date_picker_title">Date of ride:</string>
     <string name="app_name">Solo</string>
+    <string name="time_picker_title">Time of ride:</string>
+    <string name="button_choosedatetime">Choose Date/Time</string>
+    <string name="choose_date_or_time">Choose Date or Time:</string>
+
 </resources>
