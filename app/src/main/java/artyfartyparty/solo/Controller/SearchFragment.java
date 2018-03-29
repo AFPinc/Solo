@@ -74,6 +74,10 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         String msg=" ";
         switch (item.getItemId()) {
+            case R.id.app_logo:
+                startActivity(new Intent(getActivity().getApplicationContext(), AllRidesActivity.class));
+                msg = "Logo";
+                break;
             case R.id.add_ride:
                 startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
                 msg = "Add Ride";
