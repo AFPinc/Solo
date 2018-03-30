@@ -117,14 +117,14 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 // If there is already a Date displayed, use that.
-                Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
+                Date dateToUse = (mLocalDateTime == null) ? new Date() : mLocalDateTime;
                 DatePickerFragment datePickerFragment =
                         FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
                                 new DatePickerFragment.ResultHandler() {
                                     @Override
                                     public void setDate(Date result) {
-                                        mLocalDateTime = new LocalDateTime(result.getTime());
-                                        ride.setDateTo( mLocalDateTime.toDate() );
+                                        mLocalDateTime = new Date(result.getTime());
+                                        ride.setDateTo( mLocalDateTime );
                                         updateToDate();
                                     }
                                 });
