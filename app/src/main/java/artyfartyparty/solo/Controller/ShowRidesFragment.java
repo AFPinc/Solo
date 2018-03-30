@@ -81,6 +81,11 @@ public class ShowRidesFragment extends Fragment {
         String msg=" ";
         Intent intent;
         switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                startActivity(intent);
+                msg = "Home";
+                break;
             case R.id.add_ride:
                 intent = new Intent(getApplicationContext(), AddRideActivity.class);
                 intent.putExtra("userId", userId);
