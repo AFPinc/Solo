@@ -90,6 +90,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        fromAtButton.setText( "choose time and date" );
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +105,27 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                                         mLocalDateTime = new Date(result.getTime());
                                         ride.setDateFrom( mLocalDateTime );
                                         updateFromDate();
+                                    }
+                                });
+                datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
+            }
+        });
+        toAtButton = (Button)view.findViewById(R.id.toAtButton);
+        toAtButton.setText( "choose time and date" );
+        toAtButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                // If there is already a Date displayed, use that.
+                Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
+                DatePickerFragment datePickerFragment =
+                        FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
+                                new DatePickerFragment.ResultHandler() {
+                                    @Override
+                                    public void setDate(Date result) {
+                                        mLocalDateTime = new LocalDateTime(result.getTime());
+                                        ride.setDateTo( mLocalDateTime.toDate() );
+                                        updateToDate();
                                     }
                                 });
                 datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
@@ -137,28 +159,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                                     .addToBackStack( null ).commit();
             }
         });
-
-        toAtButton = (Button)view.findViewById(R.id.toAtButton);
-        toAtButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
-                // If there is already a Date displayed, use that.
-                Date dateToUse = (mLocalDateTime == null) ? new Date() : mLocalDateTime;
-                DatePickerFragment datePickerFragment =
-                        FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
-                                new DatePickerFragment.ResultHandler() {
-                                    @Override
-                                    public void setDate(Date result) {
-                                        mLocalDateTime = new Date(result.getTime());
-                                        ride.setDateTo( mLocalDateTime );
-                                        updateToDate();
-                                    }
-                                });
-                datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
-            }
-        });
-
         setUpSpinners();
 
         return view;
