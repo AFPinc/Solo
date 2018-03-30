@@ -52,6 +52,12 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:name=".Controller.MyProfileActivity">
+            <intent-filter>
+                <action android:name=".Controller.ProfileActivity"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".Controller.MyRideActivity">
             <intent-filter>
                 <action android:name=".Controller.MyRideActivity"/>

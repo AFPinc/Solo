@@ -16,7 +16,7 @@ import artyfartyparty.solo.R;
  * Created by Ása Júlía on 29.3.2018.
  */
 
-public class ProfileFragment extends FragmentActivity {
+public class MyProfileFragment extends FragmentActivity {
 
     private Button myRidesButton;
     private Button myRequestsButton;
@@ -40,11 +40,11 @@ public class ProfileFragment extends FragmentActivity {
         profileDetailsUser.setArguments(bundle1);
         fragmentTransaction.add(R.id.profileFragment, profileDetailsUser);
 
-        ProfileDetailsMyRides profileDetailsMyRides = new ProfileDetailsMyRides();
-        profileDetailsMyRides.setArguments(bundle1);
-        fragmentTransaction.add(R.id.profileDetailsFragment, profileDetailsMyRides);
+        MyRideFragment myRideFragment = new MyRideFragment();
+        myRideFragment.setArguments(bundle1);
+        fragmentTransaction.add(R.id.profileDetailsFragment, myRideFragment);
 
-        ProfileDetailsMyRequests profileDetailsMyRequests = new ProfileDetailsMyRequests();
+        MyRequestsFragment profileDetailsMyRequests = new MyRequestsFragment();
         profileDetailsMyRequests.setArguments(bundle1);
         fragmentTransaction.add(R.id.profileDetailsFragment, profileDetailsMyRequests);
 
@@ -65,12 +65,12 @@ public class ProfileFragment extends FragmentActivity {
             if (v == myRidesButton){
                 myRidesButton.setTextColor(Color.RED);
                 myRequestsButton.setTextColor(Color.BLACK);
-                newFragment= new ProfileDetailsMyRides();
+                newFragment= new MyRideFragment();
             }
             else if (v == myRequestsButton) {
                 myRidesButton.setTextColor(Color.BLACK);
                 myRequestsButton.setTextColor(Color.RED);
-                newFragment = new ProfileDetailsMyRequests();
+                newFragment = new MyRequestsFragment();
             }
             else{
                 newFragment = new EmptyFragment();
