@@ -5,7 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.app.FragmentManager;
@@ -23,6 +25,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import artyfartyparty.solo.Model.Location;
@@ -37,8 +41,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
-
 /**
  * Ása Júlía
  * Melkorka Mjöll
@@ -50,14 +52,14 @@ import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
 
 public class AddRideFragment extends android.support.v4.app.Fragment {
 
-    private static final String TAG = AddRideFragment.class.getSimpleName();
+    // private static final String TAG = AddRideFragment.class.getSimpleName();
 
     // State key
     private static final String STATE_LOCAL_DATE_TIME = "state.local.date.time";
 
     private Date mLocalDateTime = new Date();
 
-    private static final int REQUEST_DATE = 0;
+   // private static final int REQUEST_DATE = 0;
     private Spinner fromSpinner;
     private Spinner toSpinner;
     private Spinner stopoverSpinner;
@@ -65,8 +67,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Ride ride;
     private Button fromAtButton;
     private Button toAtButton;
-    private boolean fromClicked;
-    private boolean toClicked;
+   // private boolean fromClicked;
+   // private boolean toClicked;
     private long userId;
     Toolbar toolbar;
 
@@ -117,14 +119,14 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
                 // If there is already a Date displayed, use that.
-                Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
+                Date dateToUse = (mLocalDateTime == null) ? new Date() : mLocalDateTime;
                 DatePickerFragment datePickerFragment =
                         FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
                                 new DatePickerFragment.ResultHandler() {
                                     @Override
                                     public void setDate(Date result) {
-                                        mLocalDateTime = new LocalDateTime(result.getTime());
-                                        ride.setDateTo( mLocalDateTime.toDate() );
+                                        mLocalDateTime = new Date(result.getTime());
+                                        ride.setDateTo( mLocalDateTime );
                                         updateToDate();
                                     }
                                 });
@@ -135,8 +137,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         ride.setDateTo( new Date() );
         ride.setDateFrom( new Date() );
         updateFromDate();
-        fromClicked = false;
-        toClicked = false;
+      //  fromClicked = false;
+      //  toClicked = false;
 
         userId = getArguments().getLong("userId", -1);
         Log.v("uid", "" + userId);
@@ -257,14 +259,20 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateFromDate() {
 
-        fromAtButton.setText(ride.getDateFrom().toString());
+        fromAtButton.setText(ride.getDateFrom().toInstant()  // Convert `java.util.Date` to `Instant`.
+                .atOffset( ZoneOffset.UTC )  // Transform `Instant` to `OffsetDateTime`.
+                .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));// Generate a String.
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void updateToDate() {
 
-        toAtButton.setText(ride.getDateTo().toString());
+        toAtButton.setText(ride.getDateTo().toInstant()  // Convert `java.util.Date` to `Instant`.
+                .atOffset( ZoneOffset.UTC )  // Transform `Instant` to `OffsetDateTime`.
+                .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
     }
 
     private void addRide (User user) {
