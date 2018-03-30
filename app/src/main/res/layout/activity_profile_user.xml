@@ -3,12 +3,40 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:text="User"
-        android:textSize="20dp"
-        android:id="@+id/user_name"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="158dp"
+        android:text="name"
+        android:textSize="20sp" />
 
+    <TextView
+        android:id="@+id/userUniMail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userName"
+        android:layout_centerHorizontal="true"
+        android:text="uniMail"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/userAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/userUniMail"
+        android:layout_alignStart="@+id/userUniMail"
+        android:layout_below="@+id/userUniMail"
+        android:text="address"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/userPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/userAddress"
+        android:layout_centerHorizontal="true"
+        android:text="phoneNumber"
+        android:textSize="20sp" />
 </RelativeLayout>
