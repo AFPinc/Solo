@@ -34,9 +34,12 @@ import okhttp3.Response;
 public class MyRideFragment extends Fragment{
     private RecyclerView mRequestRecyclerView;
     private RequestAdapter mAdapter;
+    private AcceptedRequestAdapter mAcceptedAdapter;
     private TextView LocationFrom;
     private TextView LocationTo;
     private Button CancelButton;
+    private Button CurrReqButton;
+    private Button AcceptedReqButton;
     private long rideId;
     private Ride ride;
 
@@ -49,6 +52,8 @@ public class MyRideFragment extends Fragment{
         LocationFrom = view.findViewById(R.id.my_ride_location_from);
         LocationTo = view.findViewById(R.id.my_ride_location_to);
         CancelButton = view.findViewById(R.id.button_cancel);
+        CurrReqButton = view.findViewById(R.id.button_current_requests);
+        AcceptedReqButton = view.findViewById(R.id.button_accepted_requests);
 
         mRequestRecyclerView = view.findViewById(R.id.request_recycler_view);
         mRequestRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -59,6 +64,18 @@ public class MyRideFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 CancelRide();
+            }
+        });
+        CurrReqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getRequests();
+            }
+        });
+        AcceptedReqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAcceptedRequests();
             }
         });
         updateId();
@@ -206,6 +223,54 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                             mAdapter = new RequestAdapter(finalRequests);
                             mRequestRecyclerView.setAdapter(mAdapter);
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void getAcceptedRequests() {
+        String url = "https://solo-web-service.herokuapp.com/request/byRideAccepted/" + rideId;
+
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    Log.v("Tókst", "Villa!");
+                    //alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String jsonData = response.body().string();
+                    List<artyfartyparty.solo.Model.Request> requests = new ArrayList<>();
+                    try {
+                        requests = Parser.parsRequestData(jsonData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final List<artyfartyparty.solo.Model.Request> finalRequests = requests;
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAcceptedAdapter = new AcceptedRequestAdapter(finalRequests);
+                            mRequestRecyclerView.setAdapter(mAcceptedAdapter);
                         }
                     });
                 }
@@ -422,6 +487,56 @@ public class MyRideFragment extends Fragment{
         @Override
         public int getItemCount() {
             return mRequests.size();
+        }
+    }
+
+    private TextView mAcceptedRequestUserName;
+    private TextView mAcceptedRequestUserAddress;
+    private TextView mAcceptedRequestUserPhone;
+
+    private class AcceptedRequestHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener{
+        private artyfartyparty.solo.Model.Request mRequest;
+
+        public AcceptedRequestHolder (LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_accepted_request, parent, false));
+            itemView.setOnClickListener(this);
+
+            mAcceptedRequestUserName = itemView.findViewById(R.id.accepted_request_username);
+            mAcceptedRequestUserAddress = itemView.findViewById(R.id.accepted_request_user_address);
+            mAcceptedRequestUserPhone = itemView.findViewById(R.id.accepted_request_user_phone);
+        }
+        public void bind (artyfartyparty.solo.Model.Request request) {
+            mRequest = request;
+            mRequestUserName.setText(mRequest.getUser().getName());
+            mRequestUserAddress.setText(mRequest.getUser().getAddress());
+            mRequestUserPhone.setText("" +  mRequest.getUser().getPhoneNumber());
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+    private class AcceptedRequestAdapter extends RecyclerView.Adapter<AcceptedRequestHolder> {
+        private List<artyfartyparty.solo.Model.Request> mAcceptedRequests;
+        public AcceptedRequestAdapter(List<artyfartyparty.solo.Model.Request> requests) {
+            mAcceptedRequests = requests;
+        }
+        @Override
+        public AcceptedRequestHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            return new AcceptedRequestHolder(layoutInflater, parent);
+        }
+
+        @Override
+        public void onBindViewHolder (AcceptedRequestHolder holder, int position) {
+            artyfartyparty.solo.Model.Request req = mAcceptedRequests.get(position);
+            holder.bind(req);
+        }
+        @Override
+        public int getItemCount() {
+            return mAcceptedRequests.size();
         }
     }
 }
