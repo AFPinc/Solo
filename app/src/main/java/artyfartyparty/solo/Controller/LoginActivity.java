@@ -41,14 +41,10 @@ import static artyfartyparty.solo.R.layout.activity_login;
  */
 
 public class LoginActivity extends AppCompatActivity {
-    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(activity_login);
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
         final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);

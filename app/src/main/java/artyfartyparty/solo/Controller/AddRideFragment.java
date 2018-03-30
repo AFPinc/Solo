@@ -12,6 +12,8 @@ import android.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -170,28 +172,31 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
         Intent intent;
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Home";
                 break;
             case R.id.add_ride:
                 intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Add Ride";
                 break;
             case R.id.search:
                 intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Search";
                 break;
             case R.id.profile:
-                msg = "Profile";
                 break;
         }
         return super.onOptionsItemSelected(item);
