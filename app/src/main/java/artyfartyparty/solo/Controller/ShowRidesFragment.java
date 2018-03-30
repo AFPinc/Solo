@@ -46,7 +46,6 @@ public class ShowRidesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean b = AppCompatActivity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setHasOptionsMenu(true);
     }
 
@@ -99,11 +98,8 @@ public class ShowRidesFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.profile:
-
                 intent = new Intent(getApplicationContext(), MyProfileActivity.class);
                 startActivity(intent);
-                msg = "Profile";
-
                 break;
         }
         return super.onOptionsItemSelected(item);
