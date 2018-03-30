@@ -73,6 +73,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     Toolbar toolbar;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
