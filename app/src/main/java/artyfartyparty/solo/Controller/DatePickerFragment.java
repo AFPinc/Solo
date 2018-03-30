@@ -20,7 +20,6 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import java.io.Serializable;
-import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -131,8 +130,6 @@ public class DatePickerFragment extends AbstractDialogFragment {
                                         getTargetRequestCode(),
                                         Activity.RESULT_OK,
                                         intent);
-                                Log.d(TAG, METHOD + "Sending result back to the caller...:" +
-                                        new LocalDateTime(mDate.getTime()).toString("MM/dd/yyyy hh:mm a"));
                             } else {
                                 mResultHandler.setDate(mDate);
                             }

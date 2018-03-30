@@ -7,7 +7,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +16,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.Date;
 
-import artyfartyparty.solo.Model.Location;
 import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
@@ -65,7 +62,7 @@ public class RideActivity extends AppCompatActivity {
         username = findViewById(R.id.user_name);
         phoneNumber = findViewById(R.id.phone_number);
         email = findViewById(R.id.email);
-        address = findViewById(R.id.address);
+        address = findViewById(R.id.userAddress);
 
         Button requestRideButton = findViewById(R.id.request_ride_button);
 
