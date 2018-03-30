@@ -1,14 +1,20 @@
 package artyfartyparty.solo.Controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,13 +48,14 @@ public class MyRideFragment extends Fragment{
     private Button AcceptedReqButton;
     private long rideId;
     private Ride ride;
+    private Toolbar toolbar;
+    private long userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.activty_my_ride, container, false);
-
         LocationFrom = view.findViewById(R.id.my_ride_location_from);
         LocationTo = view.findViewById(R.id.my_ride_location_to);
         CancelButton = view.findViewById(R.id.button_cancel);
@@ -81,7 +88,48 @@ public class MyRideFragment extends Fragment{
         updateId();
         getRequests();
 
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        userId = getArguments().getLong("userId", -1);
+
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.add_ride:
+                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.search:
+                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.profile:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateId() {

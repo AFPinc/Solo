@@ -17,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
 
 import org.json.JSONException;
 
@@ -44,6 +46,7 @@ public class ShowRidesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean b = AppCompatActivity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setHasOptionsMenu(true);
     }
 
@@ -96,9 +99,6 @@ public class ShowRidesFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.profile:
-                intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
