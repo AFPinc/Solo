@@ -98,6 +98,8 @@ public class ShowRidesFragment extends Fragment {
                 msg = "Search";
                 break;
             case R.id.profile:
+                intent = new Intent(getApplicationContext(), MyProfileActivity.class);
+                startActivity(intent);
                 msg = "Profile";
                 break;
         }

@@ -1,51 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="vertical" >
 
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="artyfartyparty.solo.Controller.EmptyFragment"
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        tools:layout="@layout/activity_fragment"
-         />
-
-    <Button
-        android:id="@+id/myRidesButton"
-        android:layout_width="194dp"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/profileFragment"
-        android:text="My Rides" />
-
-    <Button
-        android:id="@+id/myRequestsButton"
-        android:layout_width="194dp"
-        android:layout_height="50dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/profileFragment"
-        android:text="My Requests" />
-
-    <fragment
-        android:id="@+id/profileDetailsFragment"
-        android:name="artyfartyparty.solo.Controller.EmptyFragment"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/myRidesButton"
-        tools:layout="@layout/activity_fragment" />
+        android:background="#52be80"
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/toolbar" />
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:orientation="vertical"
+        android:gravity="top"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="name" />
+
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="email" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="address" />
+
+        <TextView
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="phone" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@android:color/darker_gray"
+        android:padding="1dp"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:baselineAligned="false"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/myRidesButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="my rides" />
+
+        <Button
+            android:id="@+id/myRequestsButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="my requests" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/request_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_height="0dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        />
+
+
+</LinearLayout>
