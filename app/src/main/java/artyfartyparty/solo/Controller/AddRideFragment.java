@@ -38,8 +38,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
-
 /**
  * Ása Júlía
  * Melkorka Mjöll
@@ -51,14 +49,14 @@ import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
 
 public class AddRideFragment extends android.support.v4.app.Fragment {
 
-    private static final String TAG = AddRideFragment.class.getSimpleName();
+    // private static final String TAG = AddRideFragment.class.getSimpleName();
 
     // State key
     private static final String STATE_LOCAL_DATE_TIME = "state.local.date.time";
 
     private LocalDateTime mLocalDateTime = new LocalDateTime();
 
-    private static final int REQUEST_DATE = 0;
+   // private static final int REQUEST_DATE = 0;
     private Spinner fromSpinner;
     private Spinner toSpinner;
     private Spinner stopoverSpinner;
@@ -66,8 +64,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Ride ride;
     private Button fromAtButton;
     private Button toAtButton;
-    private boolean fromClicked;
-    private boolean toClicked;
+   // private boolean fromClicked;
+   // private boolean toClicked;
     private long userId;
     Toolbar toolbar;
 
@@ -136,8 +134,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         ride.setDateTo( new Date() );
         ride.setDateFrom( new Date() );
         updateFromDate();
-        fromClicked = false;
-        toClicked = false;
+      //  fromClicked = false;
+      //  toClicked = false;
 
         userId = getArguments().getLong("userId", -1);
         Log.v("uid", "" + userId);

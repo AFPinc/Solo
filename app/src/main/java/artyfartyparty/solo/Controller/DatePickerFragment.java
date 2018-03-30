@@ -42,7 +42,7 @@ import artyfartyparty.solo.R;
 
 public class DatePickerFragment extends AbstractDialogFragment {
 
-    public static final String EXTRA_DATE = "artyfartyparty.solo.Controller.date";
+    //public static final String EXTRA_DATE = "artyfartyparty.solo.Controller.date";
 
     public static final String DIALOG_TAG = DatePickerFragment.class.getName();
 
@@ -51,7 +51,7 @@ public class DatePickerFragment extends AbstractDialogFragment {
     public static final String DATE = "Date";
     public static final String BOTH = "BOTH";
 
-    private static final String ARG_DATE = "date";
+    //private static final String ARG_DATE = "date";
 
     private static final String TAG = DatePickerFragment.class.getSimpleName();
 
