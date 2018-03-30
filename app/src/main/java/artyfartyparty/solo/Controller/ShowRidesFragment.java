@@ -37,7 +37,7 @@ import okhttp3.Response;
 public class ShowRidesFragment extends Fragment {
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
-    private Toolbar toolbar;
+    Toolbar toolbar;
     private long userId;
     private String url;
 
@@ -58,7 +58,7 @@ public class ShowRidesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_allrides, container, false);
 
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
@@ -78,27 +78,27 @@ public class ShowRidesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
         Intent intent;
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Home";
                 break;
             case R.id.add_ride:
                 intent = new Intent(getApplicationContext(), AddRideActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Add Ride";
                 break;
             case R.id.search:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Search";
                 break;
             case R.id.profile:
-                msg = "Profile";
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
