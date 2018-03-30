@@ -17,8 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
 
 import org.json.JSONException;
 
@@ -37,13 +39,14 @@ import okhttp3.Response;
 public class ShowRidesFragment extends Fragment {
     private RecyclerView mRideRecyclerView;
     private RideAdapter mAdapter;
-    private Toolbar toolbar;
+    Toolbar toolbar;
     private long userId;
     private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        boolean b = AppCompatActivity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setHasOptionsMenu(true);
     }
 
@@ -58,7 +61,7 @@ public class ShowRidesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_allrides, container, false);
 
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         mRideRecyclerView = view.findViewById(R.id.ride_recycler_view);
@@ -78,29 +81,29 @@ public class ShowRidesFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
         Intent intent;
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Home";
                 break;
             case R.id.add_ride:
                 intent = new Intent(getApplicationContext(), AddRideActivity.class);
                 intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Add Ride";
                 break;
             case R.id.search:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Search";
                 break;
             case R.id.profile:
+
                 intent = new Intent(getApplicationContext(), MyProfileActivity.class);
                 startActivity(intent);
                 msg = "Profile";
+
                 break;
         }
         return super.onOptionsItemSelected(item);

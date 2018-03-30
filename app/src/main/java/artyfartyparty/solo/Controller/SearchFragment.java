@@ -50,13 +50,14 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     private Spinner searchFromSpinner;
     private Spinner searchToSpinner;
     Toolbar toolbar;
+    private long userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.activity_search, container, false);
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         searchFromSpinner = (Spinner) view.findViewById(R.id.searchFromSpinner);
@@ -70,8 +71,16 @@ public class SearchFragment extends android.support.v4.app.Fragment {
             }
         });
 
+        userId = getArguments().getLong("userId", -1);
+
         setUpSpinners();
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -82,26 +91,24 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
         Intent intent;
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Home";
                 break;
             case R.id.add_ride:
                 intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Add Ride";
                 break;
             case R.id.search:
                 intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-                msg = "Search";
                 break;
             case R.id.profile:
-                msg = "Profile";
                 break;
         }
         return super.onOptionsItemSelected(item);
