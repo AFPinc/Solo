@@ -2,6 +2,7 @@ package artyfartyparty.solo.Controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -556,9 +557,9 @@ public class MyRideFragment extends Fragment{
         }
         public void bind (artyfartyparty.solo.Model.Request request) {
             mRequest = request;
-            mRequestUserName.setText(mRequest.getUser().getName());
-            mRequestUserAddress.setText(mRequest.getUser().getAddress());
-            mRequestUserPhone.setText("" +  mRequest.getUser().getPhoneNumber());
+            mAcceptedRequestUserName.setText(mRequest.getUser().getName());
+            mAcceptedRequestUserAddress.setText(mRequest.getUser().getAddress());
+            mAcceptedRequestUserPhone.setText("" +  mRequest.getUser().getPhoneNumber());
         }
 
         @Override
