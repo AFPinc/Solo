@@ -7,6 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.app.FragmentManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.joda.time.LocalDateTime;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -48,7 +52,12 @@ import static artyfartyparty.solo.Controller.DatePickerFragment.EXTRA_DATE;
 
 public class AddRideFragment extends android.support.v4.app.Fragment {
 
-    private static final String DIALOG_DATE = "DialogDate";
+    private static final String TAG = AddRideFragment.class.getSimpleName();
+
+    // State key
+    private static final String STATE_LOCAL_DATE_TIME = "state.local.date.time";
+
+    private LocalDateTime mLocalDateTime = new LocalDateTime();
 
     private static final int REQUEST_DATE = 0;
     private Spinner fromSpinner;
@@ -61,13 +70,21 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private boolean fromClicked;
     private boolean toClicked;
     private long userId;
+    Toolbar toolbar;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Bundle exists if we are being recreated
+        if (savedInstanceState != null) {
+            mLocalDateTime = (LocalDateTime)savedInstanceState.getSerializable(STATE_LOCAL_DATE_TIME);
+        }
         View view = inflater.inflate( R.layout.activity_addride, container, false);
+
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
         toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
@@ -75,6 +92,25 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        fromAtButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                // If there is already a Date displayed, use that.
+                Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
+                DatePickerFragment datePickerFragment =
+                        FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
+                                new DatePickerFragment.ResultHandler() {
+                                    @Override
+                                    public void setDate(Date result) {
+                                        mLocalDateTime = new LocalDateTime(result.getTime());
+                                        ride.setDateFrom( mLocalDateTime.toDate() );
+                                        updateFromDate();
+                                    }
+                                });
+                datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
+            }
+        });
         ride = new Ride();
         ride.setDateTo( new Date() );
         ride.setDateFrom( new Date() );
@@ -87,17 +123,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
         final User user = userData.findOne(userId);
         Log.v("UserID", "" + user.getId());
-
-        fromAtButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fromClicked = true;
-                FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(ride.getDateFrom());
-                dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
-                dialog.show(manager, DIALOG_DATE);
-            }
-        });
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,39 +141,61 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         });
 
         toAtButton = (Button)view.findViewById(R.id.toAtButton);
-        updateToDate();
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toClicked = true;
-                FragmentManager manager = getFragmentManager();
-                DatePickerFragment dialog = DatePickerFragment.newInstance(ride.getDateTo());
-                dialog.setTargetFragment(AddRideFragment.this, REQUEST_DATE);
-                dialog.show(manager, DIALOG_DATE);
+                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                // If there is already a Date displayed, use that.
+                Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
+                DatePickerFragment datePickerFragment =
+                        FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
+                                new DatePickerFragment.ResultHandler() {
+                                    @Override
+                                    public void setDate(Date result) {
+                                        mLocalDateTime = new LocalDateTime(result.getTime());
+                                        ride.setDateTo( mLocalDateTime.toDate() );
+                                        updateToDate();
+                                    }
+                                });
+                datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
             }
         });
+
         setUpSpinners();
 
         return view;
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         String msg=" ";
+        Intent intent;
         switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                startActivity(intent);
+                msg = "Home";
+                break;
             case R.id.add_ride:
-                startActivity(new Intent(getActivity().getApplicationContext(), AddRideActivity.class));
+                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 msg = "Add Ride";
                 break;
             case R.id.search:
-                startActivity(new Intent(getActivity().getApplicationContext(), SearchActivity.class));
+                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                startActivity(intent);
                 msg = "Search";
                 break;
             case R.id.profile:
                 msg = "Profile";
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpSpinners(){
@@ -210,28 +257,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         else {
             Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-
-        if (requestCode == REQUEST_DATE) {
-            Date date = (Date) data
-                    .getSerializableExtra( EXTRA_DATE);
-            if (fromClicked) {
-                ride.setDateFrom( date );
-            }
-            if (toClicked) {
-                ride.setDateTo( date );
-            }
-            updateFromDate();
-            updateToDate();
-        }
-        fromClicked = false;
-        toClicked = false;
     }
 
     private void updateFromDate() {

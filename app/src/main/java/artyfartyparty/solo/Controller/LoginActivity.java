@@ -84,26 +84,6 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String msg=" ";
-        switch (item.getItemId()) {
-            case R.id.add_ride:
-                startActivity(new Intent(getApplicationContext(), AddRideActivity.class));
-                msg = "Add Ride";
-                break;
-            case R.id.search:
-                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-                msg = "Search";
-                break;
-            case R.id.profile:
-                msg = "Profile";
-                break;
-        }
-        Toast.makeText(this, msg+ " Checked", Toast.LENGTH_LONG).show(); // kemur skilaboð í hvert skipti sem eh af þessum items er klikkað á
-        return super.onOptionsItemSelected(item);
-    }
-
     private void validateUserPassword(String username, final String password) {
         String url = "https://solo-web-service.herokuapp.com/users/" + username;
         if(isNetworkAvailable()) {
