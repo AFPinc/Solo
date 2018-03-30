@@ -174,6 +174,12 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
