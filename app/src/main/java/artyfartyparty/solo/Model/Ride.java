@@ -20,6 +20,7 @@ public class Ride {
     private Location locationTo;        // Arrival location
     private Date dateFrom;              // Departure timing
     private Date dateTo;                // Arrival timing
+    private boolean deleted;
 
     private Set<Stopover> stopovers = new HashSet<Stopover>();
 
@@ -57,6 +58,9 @@ public class Ride {
         this.dateTo = dateTo;
     }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public Long getId() {
         return id;
@@ -82,4 +86,7 @@ public class Ride {
         return dateTo;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
 }

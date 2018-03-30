@@ -6,8 +6,10 @@ import org.json.JSONObject;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.List;
 
 import artyfartyparty.solo.Model.Location;
+import artyfartyparty.solo.Model.Request;
 import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.Model.User;
 
@@ -50,6 +52,7 @@ public final class Parser {
         ride.setLocationTo(parseLocationData(json.getString("locationTo")));
         ride.setDateFrom(new Date(dateFrom));
         ride.setDateTo(new Date(dateTo));
+        ride.setDeleted(Boolean.parseBoolean(json.getString("deleted")));
         return ride;
     }
 
@@ -75,6 +78,22 @@ public final class Parser {
         location.setId(id);
         location.setName(json.getString("name"));
         return location;
+    }
+
+    public static List<Request> parsRequestData(String jsonData) throws JSONException {
+        JSONArray jsonArray = new JSONArray(jsonData);
+        List<Request> requests = new ArrayList<>();
+        for (int i = 0; i< jsonArray.length(); i++){
+            JSONObject json = jsonArray.getJSONObject(i);
+            Request req = new Request();
+            req.setId(Integer.parseInt(json.getString("id")));
+            req.setUser(parseUserData(json.getString("user")));
+            req.setRide(parseSingleRideData(json.getString("ride")));
+            req.setAccepted(Boolean.parseBoolean(json.getString("accepted")));
+            req.setRejected(Boolean.parseBoolean(json.getString("rejected")));
+            requests.add(req);
+        }
+        return requests;
     }
 
     public static Location[] parseLocationDataArray(String jsonData) throws JSONException {
