@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import org.joda.time.LocalDateTime;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -54,7 +53,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     // State key
     private static final String STATE_LOCAL_DATE_TIME = "state.local.date.time";
 
-    private LocalDateTime mLocalDateTime = new LocalDateTime();
+    private Date mLocalDateTime = new Date();
 
    // private static final int REQUEST_DATE = 0;
     private Spinner fromSpinner;
@@ -76,7 +75,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
         // Bundle exists if we are being recreated
         if (savedInstanceState != null) {
-            mLocalDateTime = (LocalDateTime)savedInstanceState.getSerializable(STATE_LOCAL_DATE_TIME);
+            mLocalDateTime = (Date) savedInstanceState.getSerializable(STATE_LOCAL_DATE_TIME);
         }
         View view = inflater.inflate( R.layout.activity_addride, container, false);
 
@@ -95,14 +94,14 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             public void onClick(View v) {
                 android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
                 // If there is already a Date displayed, use that.
-                Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
+                Date dateToUse = (mLocalDateTime == null) ? new Date() : mLocalDateTime;
                 DatePickerFragment datePickerFragment =
                         FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
                                 new DatePickerFragment.ResultHandler() {
                                     @Override
                                     public void setDate(Date result) {
-                                        mLocalDateTime = new LocalDateTime(result.getTime());
-                                        ride.setDateFrom( mLocalDateTime.toDate() );
+                                        mLocalDateTime = new Date(result.getTime());
+                                        ride.setDateFrom( mLocalDateTime );
                                         updateFromDate();
                                     }
                                 });
@@ -158,7 +157,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                                     .addToBackStack( null ).commit();
             }
         });
-
         setUpSpinners();
 
         return view;
