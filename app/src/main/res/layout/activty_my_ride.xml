@@ -56,17 +56,20 @@
         android:layout_weight="0.3"
         android:baselineAligned="false"
         android:orientation="horizontal" >
+
         <Button
             android:id="@+id/button_current_requests"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Requests" />
 
         <Button
             android:id="@+id/button_accepted_requests"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="Accepted" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -75,7 +78,7 @@
         android:layout_weight="2"
         android:layout_height="0dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-         />
+        />
 
 
 </LinearLayout>
