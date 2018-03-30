@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.app.FragmentManager;
@@ -95,7 +94,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getFragmentManager();
+                android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
                 // If there is already a Date displayed, use that.
                 Date dateToUse = (mLocalDateTime == null) ? new LocalDateTime().toDate() : mLocalDateTime.toDate();
                 DatePickerFragment datePickerFragment =
