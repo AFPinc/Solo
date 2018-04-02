@@ -13,7 +13,12 @@ import android.widget.Button;
 import artyfartyparty.solo.R;
 
 /**
- * Created by Ása Júlía on 29.3.2018.
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment for profile information
  */
 
 public class MyProfileFragment extends Fragment {
