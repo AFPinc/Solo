@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
@@ -25,6 +26,10 @@ import artyfartyparty.solo.R;
 
 public class MyProfileFragment extends Fragment {
 
+    private TextView Name;
+    private TextView Email;
+    private TextView Address;
+    private TextView PhoneNumber;
     private Button myRidesButton;
     private Button myRequestsButton;
     private Toolbar toolbar;
@@ -34,27 +39,34 @@ public class MyProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.activity_profile, container, false);
+
+        Name = view.findViewById(R.id.name);
+        Email = view.findViewById(R.id.email);
+        Address = view.findViewById(R.id.address);
+        PhoneNumber = view.findViewById(R.id.phoneNumber);
+
+        userId = getArguments().getLong("userId", -1);
+        Log.v("uuid", "" + userId);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+
+        Name.setText(user.getName());
+        Email.setText(user.getUniMail());
+        Address.setText(user.getAddress());
+        PhoneNumber.setText("" + user.getPhoneNumber());
+
+        myRidesButton = (Button) view.findViewById(R.id.myRidesButton);
+        myRequestsButton = (Button) view.findViewById(R.id.myRequestsButton);
+        myRidesButton.setOnClickListener(btnOnClickListener);
+        myRequestsButton.setOnClickListener(btnOnClickListener);
 
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        myRidesButton = (Button) view.findViewById(R.id.myRidesButton);
-        myRequestsButton = (Button) view.findViewById(R.id.myRequestsButton);
-
-        myRidesButton.setOnClickListener(btnOnClickListener);
-        myRequestsButton.setOnClickListener(btnOnClickListener);
-
-        userId = getArguments().getLong("userId", -1);
-        Log.v("uid", "" + userId);
-        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
-        final User user = userData.findOne(userId);
-        Log.v("UserID", "" + user.getId());
-
         return view;
     }
-
-
 
     Button.OnClickListener btnOnClickListener = new Button.OnClickListener(){
         @Override
