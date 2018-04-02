@@ -205,6 +205,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 startActivity(intent);
                 break;
             case R.id.profile:
+                intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
