@@ -39,9 +39,4 @@ public interface UserData {
     @Insert
     void addUser(User user);
 
-    /*@Update
-    void updateUsers(User... users);*/
-
-    /*@Update
-    void updateUser(User user);*/
 }

@@ -4,6 +4,15 @@ import android.os.Bundle;
 
 import java.util.Date;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment class that helps control the date picker
+ */
+
 public class FactoryFragment {
     public static final String FRAG_ARG_PREFIX = "fragment.argument.";
     public static final String FRAG_ARG_DATE = FRAG_ARG_PREFIX + Date.class.getName();
@@ -20,9 +29,5 @@ public class FactoryFragment {
         args.putSerializable(FRAG_ARG_DATETIME_PICKER_RESULT_HANDLER, resultHandler);
         ret.setArguments(args);
         return ret;
-    }
-
-    public static DatePickerFragment createDatePickerFragment(Date date, String dateType, String choice) {
-        return createDatePickerFragment(date, dateType, choice, null);
     }
 }

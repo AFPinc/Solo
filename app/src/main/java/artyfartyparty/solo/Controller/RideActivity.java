@@ -34,25 +34,25 @@ import okhttp3.Response;
  */
 
 public class RideActivity extends AppCompatActivity {
-    Toolbar toolbar;
-    TextView locationFrom;
-    TextView locationTo;
-    TextView timeFrom;
-    TextView timeTo;
-    TextView username;
-    TextView phoneNumber;
-    TextView email;
-    TextView address;
+    private Toolbar toolbar;
+    private TextView locationFrom;
+    private TextView locationTo;
+    private TextView timeFrom;
+    private TextView timeTo;
+    private TextView username;
+    private TextView phoneNumber;
+    private TextView email;
+    private TextView address;
 
-    User user;
-    Ride ride;
+    private User user;
+    private Ride ride;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         locationFrom = findViewById(R.id.location_from);
@@ -69,7 +69,7 @@ public class RideActivity extends AppCompatActivity {
         final long userId = getIntent().getLongExtra("userId", -1);
         final long rideId = getIntent().getLongExtra("rideId", -1);
 
-        setRideAndUserInfo(userId, rideId);
+        setRideAndUserInfo(rideId);
 
         UserData userData = UserDataDB.get(getApplication().getApplicationContext()).getUserData();
         user = userData.findOne(userId);
@@ -83,41 +83,23 @@ public class RideActivity extends AppCompatActivity {
     }
 
     private void registerRide () {
-        String url = "https://solo-web-service.herokuapp.com/request/add";
         if (isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-            String locationF = "{\"id\":\"" + ride.getLocationFrom().getId() + "\", \"name\":\"" + ride.getLocationFrom().getName() + "\"}";
-            String locationT = "{\"id\":\"" + ride.getLocationTo().getId() + "\", \"name\":\"" + ride.getLocationTo().getName() + "\"}";
-            String rideUser = "{\"id\":\"" + ride.getUser().getId() + "\", " +
-                    "\"name\":\"" + ride.getUser().getName() + "\", " +
-                    "\"uniMail\":\"" + ride.getUser().getUniMail() + "\", " +
-                    "\"address\":\"" + ride.getUser().getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + ride.getUser().getPhoneNumber() + "\", " +
-                    "\"password\":\"" + ride.getUser().getPassword() + "\"}";
-            String requestUser = "{\"id\":\"" + user.getId() + "\", " +
-                    "\"name\":\"" + user.getName() + "\", " +
-                    "\"uniMail\":\"" + user.getUniMail() + "\", " +
-                    "\"address\":\"" + user.getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
-                    "\"password\":\"" + user.getPassword() + "\"}";
-            String requestRide = "{\"id\":\"" + ride.getId() + "\", " +
-                    "\"locationFrom\":" + locationF + ", " +
-                    "\"locationTo\":" + locationT + ", " +
-                    "\"fromDate\":\"" + ride.getDateFrom().getTime() + "\", " +
-                    "\"toDate\":\"" + ride.getDateTo().getTime() + "\", " +
-                    "\"user\":" + rideUser + "}";
+            artyfartyparty.solo.Model.Request req = new artyfartyparty.solo.Model.Request();
+            req.setUser(user);
+            req.setRide(ride);
+            req.setRejected(false);
+            req.setAccepted(false);
+            req.setId(0);
 
-            String req = "{\"ride\":" + requestRide + ", " +
-                    "\"user\":" + requestUser + "}";
-
-            Log.v("json", req);
-            RequestBody body = RequestBody.create(JSON, req);
+            String json = Parser.parseRequestToJSON(req);
+            RequestBody body = RequestBody.create(JSON, json);
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(getResources().getString(R.string.add_request))
                     .post(body)
                     .build();
 
@@ -131,8 +113,6 @@ public class RideActivity extends AppCompatActivity {
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
                 }
 
                 @Override
@@ -140,22 +120,21 @@ public class RideActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "Your request has been sent", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, getResources().getString(R.string.send_request), Toast.LENGTH_LONG).show();
                             Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
                             startIntent.putExtra("userId", user.getId());
                             startActivity(startIntent);
                         }
                     });
-                    Log.v("Tókst", response.body().string());
                 }
             });
         } else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void setRideAndUserInfo(long userId, long rideId) {
-        String url = "https://solo-web-service.herokuapp.com/ride/" + rideId;
+    private void setRideAndUserInfo(long rideId) {
+        String url = getResources().getString(R.string.ride_by_ride_id) + rideId;
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -173,13 +152,10 @@ public class RideActivity extends AppCompatActivity {
                         public void run() {
                         }
                     });
-                    Log.v("Logintest", "Failure");
-                    //alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
-                    String msg = "";
                     String jsonData = response.body().string();
                     ride = null;
                     try {
@@ -189,11 +165,10 @@ public class RideActivity extends AppCompatActivity {
                     }
                     if (ride == null)
                     {
-                        // msg = "Login failed";
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, "Could not get ride", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, getResources().getString(R.string.get_ride_failed), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -216,7 +191,7 @@ public class RideActivity extends AppCompatActivity {
             });
         }
         else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 

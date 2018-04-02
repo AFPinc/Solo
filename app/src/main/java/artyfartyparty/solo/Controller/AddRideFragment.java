@@ -1,6 +1,6 @@
 package artyfartyparty.solo.Controller;
 
-import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,58 +47,65 @@ import okhttp3.Response;
  * Sigurlaug
  * Valgerður
  *
- * Fragment for adding a ride
+ * Fragment class for adding a new ride
  */
 
 public class AddRideFragment extends android.support.v4.app.Fragment {
 
-    // private static final String TAG = AddRideFragment.class.getSimpleName();
-
-    // State key
     private static final String STATE_LOCAL_DATE_TIME = "state.local.date.time";
 
     private Date mLocalDateTime = new Date();
 
-   // private static final int REQUEST_DATE = 0;
     private Spinner fromSpinner;
     private Spinner toSpinner;
     private Spinner stopoverSpinner;
-
-    private Ride ride;
     private Button fromAtButton;
     private Button toAtButton;
-   // private boolean fromClicked;
-   // private boolean toClicked;
-    private long userId;
-    Toolbar toolbar;
+    private Button addButton;
+    private Toolbar toolbar;
 
+    private Ride ride;
+    private long userId;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Bundle exists if we are being recreated
+        View view = inflater.inflate( R.layout.activity_addride, container, false);
+
         if (savedInstanceState != null) {
             mLocalDateTime = (Date) savedInstanceState.getSerializable(STATE_LOCAL_DATE_TIME);
         }
-        View view = inflater.inflate( R.layout.activity_addride, container, false);
 
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
-        toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
-        stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
-        Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
-        Button addButton = (Button)view.findViewById(R.id.addButton);
-        fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
+        fromSpinner = view.findViewById(R.id.fromSpinner);
+        toSpinner = view.findViewById(R.id.toSpinner);
+        addButton = view.findViewById(R.id.addButton);
+        fromAtButton = view.findViewById(R.id.fromAtButton);
+        toAtButton = view.findViewById(R.id.toAtButton);
+
+        ride = new Ride();
+        ride.setDateTo( new Date() );
+        ride.setDateFrom( new Date() );
+
+        userId = getArguments().getLong("userId", -1);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+
         fromAtButton.setText( "choose time and date" );
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
-                // If there is already a Date displayed, use that.
                 Date dateToUse = (mLocalDateTime == null) ? new Date() : mLocalDateTime;
                 DatePickerFragment datePickerFragment =
                         FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
@@ -115,13 +120,12 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
             }
         });
-        toAtButton = (Button)view.findViewById(R.id.toAtButton);
+
         toAtButton.setText( "choose time and date" );
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getActivity().getFragmentManager();
-                // If there is already a Date displayed, use that.
                 Date dateToUse = (mLocalDateTime == null) ? new Date() : mLocalDateTime;
                 DatePickerFragment datePickerFragment =
                         FactoryFragment.createDatePickerFragment(dateToUse, "The", DatePickerFragment.BOTH,
@@ -136,35 +140,24 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                 datePickerFragment.show( fragmentManager,  DatePickerFragment.DIALOG_TAG);
             }
         });
-        ride = new Ride();
-        ride.setDateTo( new Date() );
-        ride.setDateFrom( new Date() );
-        updateFromDate();
-      //  fromClicked = false;
-      //  toClicked = false;
-
-        userId = getArguments().getLong("userId", -1);
-        Log.v("uid", "" + userId);
-        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
-        final User user = userData.findOne(userId);
-        Log.v("UserID", "" + user.getId());
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addRide(user);
-                String url = "https://solo-web-service.herokuapp.com/ride/all";
                 Bundle bundle = new Bundle();
                 bundle.putLong("userId", userId);
-                bundle.putString("url", url);
+                bundle.putString("url", getResources().getString(R.string.all_rides_url));
                 ShowRidesFragment fragment = new ShowRidesFragment();
                 fragment.setArguments(bundle);
                 getFragmentManager().beginTransaction()
-                                    .replace( R.id.fragment_container, fragment )
-                                    .addToBackStack( null ).commit();
+                        .replace( R.id.fragment_container, fragment )
+                        .addToBackStack( null ).commit();
             }
         });
+
         setUpSpinners();
+        updateFromDate();
 
         return view;
     }
@@ -174,12 +167,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -187,38 +174,34 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
+        Intent intent = null;
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
                 break;
             case R.id.add_ride:
                 intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
                 break;
             case R.id.search:
                 intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
                 break;
             case R.id.profile:
                 intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
-                startActivity(intent);
                 break;
+        }
+        if ( intent != null){
+            intent.putExtra("userId", userId);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void setUpSpinners(){
-        String url = "https://solo-web-service.herokuapp.com/location/all";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(getResources().getString(R.string.all_locations_url))
                     .build();
 
             Call call = client.newCall(request);
@@ -230,8 +213,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -247,125 +229,64 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ArrayAdapter fromAdapter = new ArrayAdapter(getActivity(),
+                            ArrayAdapter<Location> fromAdapter = new ArrayAdapter<>(getActivity(),
                                     android.R.layout.simple_spinner_item, finalLocation);
                             fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             fromSpinner.setAdapter(fromAdapter);
 
-                            ArrayAdapter toAdapter = new ArrayAdapter(getActivity(),
+                            ArrayAdapter<Location> toAdapter = new ArrayAdapter<>(getActivity(),
                                     android.R.layout.simple_spinner_item, finalLocation);
                             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             toSpinner.setAdapter(toAdapter);
-
-                            ArrayAdapter stopoverAdapter = new ArrayAdapter(getActivity(),
-                                    android.R.layout.simple_spinner_item, finalLocation);
-                            stopoverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            stopoverSpinner.setAdapter(stopoverAdapter);
-
                         }
                     });
-                    Log.v("Tókst", "hæ");
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void updateFromDate() {
-
-        fromAtButton.setText(ride.getDateFrom().toInstant()  // Convert `java.util.Date` to `Instant`.
-                .atOffset( ZoneOffset.UTC )  // Transform `Instant` to `OffsetDateTime`.
-                .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));// Generate a String.
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void updateToDate() {
-
-        toAtButton.setText(ride.getDateTo().toInstant()  // Convert `java.util.Date` to `Instant`.
-                .atOffset( ZoneOffset.UTC )  // Transform `Instant` to `OffsetDateTime`.
-                .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
-    }
-
     private void addRide (User user) {
-        String url = "https://solo-web-service.herokuapp.com/ride/add";
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            Location locationFrom = (Location) fromSpinner.getSelectedItem();
-            Location locationTo = (Location) toSpinner.getSelectedItem();
-            Date fromDate = ride.getDateFrom();
-            Date toDate = ride.getDateTo();
+            ride.setLocationFrom((Location) fromSpinner.getSelectedItem());
+            ride.setLocationTo((Location) toSpinner.getSelectedItem());
+            ride.setUser(user);
 
-            if(TextUtils.isEmpty(locationFrom.toString())) {
-                //email is empty
-                Toast.makeText(getActivity(), "Please enter starting point", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+            if(TextUtils.isEmpty(ride.getLocationFrom().toString())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.loc_from_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(TextUtils.isEmpty(locationTo.toString())) {
-                //email is empty
-                Toast.makeText(getActivity(), "Please enter destination", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+            if(TextUtils.isEmpty(ride.getLocationTo().toString())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.loc_to_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(TextUtils.isEmpty(fromDate.toString())) {
-                //email is empty
-                Toast.makeText(getActivity(), "Please enter leaving time", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+            if(TextUtils.isEmpty(ride.getDateFrom().toString())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.date_from_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(TextUtils.isEmpty(toDate.toString())) {
-                //email is empty
-                Toast.makeText(getActivity(), "Please enter arrival time", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+            if(TextUtils.isEmpty(ride.getDateTo().toString())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.date_to_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(TextUtils.isEmpty(user.getName())) {
-                //email is empty
-                Toast.makeText(getActivity(), "Please sign in as a user", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+            if(TextUtils.isEmpty(ride.getUser().getName())) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.user_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-
-            String locationF = "{\"id\":\"" + locationFrom.getId() + "\", \"name\":\"" + locationFrom.getName() + "\"}";
-            String locationT = "{\"id\":\"" + locationTo.getId() + "\", \"name\":\"" + locationTo.getName() + "\"}";
-            String u = "{\"id\":\"" + user.getId() + "\", " +
-                    "\"name\":\"" + user.getName() + "\", " +
-                    "\"uniMail\":\"" + user.getUniMail() + "\", " +
-                    "\"address\":\"" + user.getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
-                    "\"password\":\"" + user.getPassword() + "\"}";
-            String json = "{\"locationFrom\":" + locationF + ", " +
-                    "\"locationTo\":" + locationT + ", " +
-                    "\"fromDate\":\"" + fromDate.getTime() + "\", " +
-                    "\"toDate\":\"" + toDate.getTime() + "\", " +
-                    "\"user\":" + u + "}";
-
-            String bla = "{\"locationFrom\":{\"id\":\"4\", " +
-                                             "\"name\": \"Árbær\"}, " +
-                           "\"locationTo\":{\"id\":\"3\", " +
-                                           "\"name\":\"Háskóli Íslands\"}, " +
-                           "\"timeFrom\":" + new Date().getTime() + ", " +
-                           "\"timeTo\":" + new Date().getTime() + ", " +
-                           "\"user\":{\"id\":\"8\", " +
-                                     "\"name\":\"Sigurlaug\"}, " +
-                                     "\"uniMail\":\"sth301\", " +
-                                     "\"address\":\"Þingás 20\", " +
-                                     "\"phoneNumber\":\"6983135\", " +
-                                     "\"password\":\"s\"}";
+            String json = Parser.parseRideToJSON(ride);
             RequestBody body = RequestBody.create(JSON,json);
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(getResources().getString(R.string.add_ride_url))
                     .post(body)
                     .build();
 
@@ -378,25 +299,42 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                        }
-                    });
-                    Log.v("Tókst", response.body().string());
+                    if (response.isSuccessful()){
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.new_ride), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else {
+                        alertUserAboutError();
+                    }
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateFromDate() {
+        fromAtButton.setText(ride.getDateFrom().toInstant()
+                .atOffset( ZoneOffset.UTC )
+                .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void updateToDate() {
+        toAtButton.setText(ride.getDateTo().toInstant()
+                .atOffset( ZoneOffset.UTC )
+                .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
     }
 
     private boolean isNetworkAvailable() {
@@ -407,4 +345,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         return isAvailable;
     }
 
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
+    }
 }
