@@ -65,7 +65,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     private Button addButton;
     private Toolbar toolbar;
 
-    private Ride ride;
     private long userId;
 
     @Override
@@ -102,7 +101,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
         final User user = userData.findOne(userId);
 
-        fromAtButton.setText( "choose time and date" );
+        fromAtButton.setText( "When will you depart?" );
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +121,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        toAtButton.setText( "choose time and date" );
+        toAtButton.setText( "When will you arrive?" );
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,15 +178,23 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 break;
             case R.id.add_ride:
                 intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 break;
             case R.id.search:
                 intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 break;
             case R.id.profile:
                 intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 break;
         }
         if ( intent != null){
