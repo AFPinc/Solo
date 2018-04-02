@@ -7,5 +7,38 @@
     <string name="time_picker_title">Time of ride:</string>
     <string name="button_choosedatetime">Choose Date/Time</string>
     <string name="choose_date_or_time">Choose Date or Time:</string>
+    <string name="error_title">Oops! Sorry!</string>
+    <string name="error_message">There was an error. Please try again.</string>
+    <string name="error_ok_button_text">OK</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="new_ride">New ride added!</string>
+    <string name="loc_from_missing">Please enter starting point</string>
+    <string name="loc_to_missing">Please enter destination</string>
+    <string name="date_from_missing">Please enter leaving time</string>
+    <string name="date_to_missing">Please enter arrival time</string>
+    <string name="user_missing">Please sign in as a user</string>
+    <string name="login_failed">Login failed!</string>
+    <string name="send_request">Your request has been sent</string>
+    <string name="get_ride_failed">Could not get ride</string>
+    <string name="passwords_not_match">Passwords don\'t match</string>
+    <string name="name_missing">Please enter name</string>
+    <string name="address_missing">Please enter address</string>
+    <string name="uni_mail_missing">Please enter university email</string>
+    <string name="phone_number_missing">Please enter phone number</string>
+    <string name="signup_success">Please enter phone number</string>
+
+    <string name="add_ride_url">https://solo-web-service.herokuapp.com/ride/add</string>
+    <string name="all_rides_url">https://solo-web-service.herokuapp.com/ride/all</string>
+    <string name="all_locations_url">https://solo-web-service.herokuapp.com/location/all</string>
+    <string name="user_by_username_url">https://solo-web-service.herokuapp.com/users/</string>
+    <string name="ride_by_ride_id">https://solo-web-service.herokuapp.com/ride/</string>
+    <string name="cancel_ride">https://solo-web-service.herokuapp.com/ride/cancel</string>
+    <string name="request_by_ride">https://solo-web-service.herokuapp.com/request/byRide/</string>
+    <string name="accepted_request_by_ride">https://solo-web-service.herokuapp.com/request/byRideAccepted/</string>
+    <string name="reject_request">https://solo-web-service.herokuapp.com/request/reject</string>
+    <string name="accept_request">https://solo-web-service.herokuapp.com/request/accept</string>
+    <string name="add_request">https://solo-web-service.herokuapp.com/request/add</string>
+    <string name="search_rides">https://solo-web-service.herokuapp.com/ride/search/</string>
+    <string name="add_user">https://solo-web-service.herokuapp.com/users/add/</string>
 
 </resources>

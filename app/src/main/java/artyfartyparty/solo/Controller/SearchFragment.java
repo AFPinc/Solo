@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -24,11 +22,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import artyfartyparty.solo.Model.Location;
-import artyfartyparty.solo.Model.Ride;
-import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -49,7 +44,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
     private Spinner searchFromSpinner;
     private Spinner searchToSpinner;
-    Toolbar toolbar;
+    private Toolbar toolbar;
     private long userId;
 
     @Override
@@ -60,9 +55,9 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        searchFromSpinner = (Spinner) view.findViewById(R.id.searchFromSpinner);
-        searchToSpinner = (Spinner) view.findViewById(R.id.searchToSpinner);
-        Button searchButton = (Button)view.findViewById(R.id.searchButton);
+        searchFromSpinner = view.findViewById(R.id.searchFromSpinner);
+        searchToSpinner = view.findViewById(R.id.searchToSpinner);
+        Button searchButton = view.findViewById(R.id.searchButton);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +110,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     }
 
     private void setUpSpinners(){
-        String url = "https://solo-web-service.herokuapp.com/location/all";
+        String url = getResources().getString(R.string.all_locations_url);
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
@@ -132,8 +127,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -149,30 +143,29 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ArrayAdapter fromAdapter = new ArrayAdapter(getActivity(),
+                            ArrayAdapter<Location> fromAdapter = new ArrayAdapter<>(getActivity(),
                                     android.R.layout.simple_spinner_item, finalLocation);
                             fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             searchFromSpinner.setAdapter(fromAdapter);
 
-                            ArrayAdapter toAdapter = new ArrayAdapter(getActivity(),
+                            ArrayAdapter<Location> toAdapter = new ArrayAdapter<>(getActivity(),
                                     android.R.layout.simple_spinner_item, finalLocation);
                             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             searchToSpinner.setAdapter(toAdapter);
                         }
                     });
-                    Log.v("Tókst", "hæ");
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
     private void search() {
         Location locationFrom = (Location) searchFromSpinner.getSelectedItem();
         Location locationTo = (Location) searchToSpinner.getSelectedItem();
-        String url = "https://solo-web-service.herokuapp.com/ride/search/"+ locationFrom.getId()+ "/" + locationTo.getId();
+        String url = getResources().getString(R.string.search_rides) + locationFrom.getId()+ "/" + locationTo.getId();
 
         Bundle bundle = new Bundle();
         bundle.putString( "url", url);
@@ -187,5 +180,10 @@ public class SearchFragment extends android.support.v4.app.Fragment {
         boolean isAvailable = false;
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 }

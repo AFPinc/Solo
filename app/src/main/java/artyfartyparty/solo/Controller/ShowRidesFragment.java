@@ -46,7 +46,6 @@ public class ShowRidesFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        boolean b = AppCompatActivity.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setHasOptionsMenu(true);
     }
 
@@ -99,11 +98,8 @@ public class ShowRidesFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.profile:
-
                 intent = new Intent(getApplicationContext(), MyProfileActivity.class);
                 startActivity(intent);
-                msg = "Profile";
-
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -125,6 +121,7 @@ public class ShowRidesFragment extends Fragment {
                         public void run() {
                         }
                     });
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -132,7 +129,6 @@ public class ShowRidesFragment extends Fragment {
                     String jsonData = response.body().string();
                     ArrayList<Ride> rides = new ArrayList<Ride>();
                     try {
-                        Log.v("Hæ", jsonData);
                         rides = Parser.parseRideData(jsonData);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -150,7 +146,7 @@ public class ShowRidesFragment extends Fragment {
             });
         }
         else {
-            Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -160,6 +156,11 @@ public class ShowRidesFragment extends Fragment {
         boolean isAvailable = false;
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 
     private TextView mRideFrom;

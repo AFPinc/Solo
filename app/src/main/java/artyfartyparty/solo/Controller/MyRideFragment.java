@@ -47,9 +47,9 @@ public class MyRideFragment extends Fragment{
     private Button CancelButton;
     private Button CurrReqButton;
     private Button AcceptedReqButton;
+    private Toolbar toolbar;
     private long rideId;
     private Ride ride;
-    private Toolbar toolbar;
     private long userId;
 
     @Override
@@ -57,6 +57,7 @@ public class MyRideFragment extends Fragment{
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate( R.layout.activty_my_ride, container, false);
+
         LocationFrom = view.findViewById(R.id.my_ride_location_from);
         LocationTo = view.findViewById(R.id.my_ride_location_to);
         CancelButton = view.findViewById(R.id.button_cancel);
@@ -66,7 +67,11 @@ public class MyRideFragment extends Fragment{
         mRequestRecyclerView = view.findViewById(R.id.request_recycler_view);
         mRequestRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         rideId = getArguments().getLong("rideId", -1);
+        userId = getArguments().getLong("userId", -1);
 
         CancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,12 +91,9 @@ public class MyRideFragment extends Fragment{
                 getAcceptedRequests();
             }
         });
+
         updateId();
         getRequests();
-
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        userId = getArguments().getLong("userId", -1);
 
         return view;
     }
@@ -134,8 +136,7 @@ public class MyRideFragment extends Fragment{
     }
 
     private void updateId() {
-        String url = "https://solo-web-service.herokuapp.com/ride/" + rideId;
-
+        String url = getResources().getString(R.string.ride_by_ride_id) + rideId;
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
@@ -152,8 +153,7 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -176,34 +176,19 @@ public class MyRideFragment extends Fragment{
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
     private void CancelRide() {
-        String url = "https://solo-web-service.herokuapp.com/ride/cancel";
+        String url = getResources().getString(R.string.cancel_ride);
 
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            String locationF = "{\"id\":\"" + ride.getLocationFrom().getId() + "\", \"name\":\"" + ride.getLocationFrom().getName() + "\"}";
-            String locationT = "{\"id\":\"" + ride.getLocationTo().getId() + "\", \"name\":\"" + ride.getLocationTo().getName() + "\"}";
-            String rideUser = "{\"id\":\"" + ride.getUser().getId() + "\", " +
-                    "\"name\":\"" + ride.getUser().getName() + "\", " +
-                    "\"uniMail\":\"" + ride.getUser().getUniMail() + "\", " +
-                    "\"address\":\"" + ride.getUser().getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + ride.getUser().getPhoneNumber() + "\", " +
-                    "\"password\":\"" + ride.getUser().getPassword() + "\"}";
-            String jsonRide = "{\"id\":\"" + ride.getId() + "\", " +
-                    "\"locationFrom\":" + locationF + ", " +
-                    "\"locationTo\":" + locationT + ", " +
-                    "\"fromDate\":\"" + ride.getDateFrom().getTime() + "\", " +
-                    "\"toDate\":\"" + ride.getDateTo().getTime() + "\", " +
-                    "\"deleted\":\"" + ride.isDeleted() + "\", " +
-                    "\"user\":" + rideUser + "}";
-
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, jsonRide);
+            String json = Parser.parseRideToJSON(ride);
+            RequestBody body = RequestBody.create(JSON, json);
 
             Request request = new Request.Builder()
                     .url(url)
@@ -219,23 +204,24 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    Log.v("Tókst", response.body().string());
+                    Intent intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                    intent.putExtra("userId", userId);
+                    startActivity(intent);
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
     private void getRequests() {
-        String url = "https://solo-web-service.herokuapp.com/request/byRide/" + rideId;
+        String url = getResources().getString(R.string.request_by_ride) + rideId;
 
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -253,8 +239,7 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -270,20 +255,20 @@ public class MyRideFragment extends Fragment{
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mAdapter = new RequestAdapter(finalRequests);
-                            mRequestRecyclerView.setAdapter(mAdapter);
+                        mAdapter = new RequestAdapter(finalRequests);
+                        mRequestRecyclerView.setAdapter(mAdapter);
                         }
                     });
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
     private void getAcceptedRequests() {
-        String url = "https://solo-web-service.herokuapp.com/request/byRideAccepted/" + rideId;
+        String url = getResources().getString(R.string.accepted_request_by_ride) + rideId;
 
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -301,8 +286,7 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
@@ -318,57 +302,28 @@ public class MyRideFragment extends Fragment{
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mAcceptedAdapter = new AcceptedRequestAdapter(finalRequests);
-                            mRequestRecyclerView.setAdapter(mAcceptedAdapter);
+                        mAcceptedAdapter = new AcceptedRequestAdapter(finalRequests);
+                        mRequestRecyclerView.setAdapter(mAcceptedAdapter);
                         }
                     });
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
     private void rejectRequest(artyfartyparty.solo.Model.Request req) {
-        String url = "https://solo-web-service.herokuapp.com/request/rejct";
-
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            String locationF = "{\"id\":\"" + req.getRide().getLocationFrom().getId() + "\", \"name\":\"" + req.getRide().getLocationFrom().getName() + "\"}";
-            String locationT = "{\"id\":\"" + req.getRide().getLocationTo().getId() + "\", \"name\":\"" + req.getRide().getLocationTo().getName() + "\"}";
-            String rideUser = "{\"id\":\"" + req.getRide().getUser().getId() + "\", " +
-                    "\"name\":\"" + req.getRide().getUser().getName() + "\", " +
-                    "\"uniMail\":\"" + req.getRide().getUser().getUniMail() + "\", " +
-                    "\"address\":\"" + req.getRide().getUser().getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + req.getRide().getUser().getPhoneNumber() + "\", " +
-                    "\"password\":\"" + req.getRide().getUser().getPassword() + "\"}";
-            String requestUser = "{\"id\":\"" + req.getUser().getId() + "\", " +
-                    "\"name\":\"" + req.getUser().getName() + "\", " +
-                    "\"uniMail\":\"" + req.getUser().getUniMail() + "\", " +
-                    "\"address\":\"" + req.getUser().getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + req.getUser().getPhoneNumber() + "\", " +
-                    "\"password\":\"" + req.getUser().getPassword() + "\"}";
-            String requestRide = "{\"id\":\"" + req.getRide().getId() + "\", " +
-                    "\"locationFrom\":" + locationF + ", " +
-                    "\"locationTo\":" + locationT + ", " +
-                    "\"fromDate\":\"" + req.getRide().getDateFrom().getTime() + "\", " +
-                    "\"toDate\":\"" + req.getRide().getDateTo().getTime() + "\", " +
-                    "\"deleted\":\"" + req.getRide().isDeleted() + "\", " +
-                    "\"user\":" + rideUser + "}";
-
-            String jsonReq = "{\"id\":" + req.getId() + ", " +
-                    "\"ride\":" + requestRide + ", " +
-                    "\"user\":" + requestUser + ", " +
-                    "\"rejected\":" + req.isRejected() + ", " +
-                    "\"accepted\":" + req.isAccepted() +"}";
-
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, jsonReq);
+            String json = Parser.parseRequestToJSON(req);
+            RequestBody body = RequestBody.create(JSON, json);
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(getResources().getString(R.string.reject_request))
                     .put(body)
                     .build();
 
@@ -381,60 +336,30 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    Log.v("Tókst", response.body().string());
+                    getRequests();
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
     private void acceptRequest(artyfartyparty.solo.Model.Request req) {
-        String url = "https://solo-web-service.herokuapp.com/request/accept";
-
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            String locationF = "{\"id\":\"" + req.getRide().getLocationFrom().getId() + "\", \"name\":\"" + req.getRide().getLocationFrom().getName() + "\"}";
-            String locationT = "{\"id\":\"" + req.getRide().getLocationTo().getId() + "\", \"name\":\"" + req.getRide().getLocationTo().getName() + "\"}";
-            String rideUser = "{\"id\":\"" + req.getRide().getUser().getId() + "\", " +
-                    "\"name\":\"" + req.getRide().getUser().getName() + "\", " +
-                    "\"uniMail\":\"" + req.getRide().getUser().getUniMail() + "\", " +
-                    "\"address\":\"" + req.getRide().getUser().getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + req.getRide().getUser().getPhoneNumber() + "\", " +
-                    "\"password\":\"" + req.getRide().getUser().getPassword() + "\"}";
-            String requestUser = "{\"id\":\"" + req.getUser().getId() + "\", " +
-                    "\"name\":\"" + req.getUser().getName() + "\", " +
-                    "\"uniMail\":\"" + req.getUser().getUniMail() + "\", " +
-                    "\"address\":\"" + req.getUser().getAddress() + "\", " +
-                    "\"phoneNumber\":\"" + req.getUser().getPhoneNumber() + "\", " +
-                    "\"password\":\"" + req.getUser().getPassword() + "\"}";
-            String requestRide = "{\"id\":\"" + req.getRide().getId() + "\", " +
-                    "\"locationFrom\":" + locationF + ", " +
-                    "\"locationTo\":" + locationT + ", " +
-                    "\"fromDate\":\"" + req.getRide().getDateFrom().getTime() + "\", " +
-                    "\"toDate\":\"" + req.getRide().getDateTo().getTime() + "\", " +
-                    "\"deleted\":\"" + req.getRide().isDeleted() + "\", " +
-                    "\"user\":" + rideUser + "}";
-
-            String jsonReq = "{\"id\":" + req.getId() + ", " +
-                    "\"ride\":" + requestRide + ", " +
-                    "\"user\":" + requestUser + ", " +
-                    "\"rejected\":" + req.isRejected() + ", " +
-                    "\"accepted\":" + req.isAccepted() +"}";
-
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, jsonReq);
+            String json = Parser.parseRequestToJSON(req);
+            RequestBody body = RequestBody.create(JSON, json);
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(getResources().getString(R.string.accept_request))
                     .put(body)
                     .build();
 
@@ -447,18 +372,17 @@ public class MyRideFragment extends Fragment{
                         public void run() {
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
+                    alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    Log.v("Tókst", response.body().string());
+                    getRequests();
                 }
             });
         }
         else {
-            Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -470,14 +394,17 @@ public class MyRideFragment extends Fragment{
         return isAvailable;
     }
 
-    private TextView mRequestUserName;
-    private TextView mRequestUserAddress;
-    private TextView mRequestUserPhone;
-    private Button mRequestAccept;
-    private Button mRequestReject;
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
+    }
 
     private class RequestHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
+        private TextView mRequestUserName;
+        private TextView mRequestUserAddress;
+        private TextView mRequestUserPhone;
+
         private artyfartyparty.solo.Model.Request mRequest;
 
         public RequestHolder (LayoutInflater inflater, ViewGroup parent) {
@@ -487,8 +414,8 @@ public class MyRideFragment extends Fragment{
             mRequestUserName = itemView.findViewById(R.id.request_username);
             mRequestUserAddress = itemView.findViewById(R.id.request_user_address);
             mRequestUserPhone = itemView.findViewById(R.id.request_user_phone);
-            mRequestAccept = itemView.findViewById(R.id.button_accept);
-            mRequestReject = itemView.findViewById(R.id.button_reject);
+            Button mRequestAccept = itemView.findViewById(R.id.button_accept);
+            Button mRequestReject = itemView.findViewById(R.id.button_reject);
 
             mRequestAccept.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -539,13 +466,12 @@ public class MyRideFragment extends Fragment{
         }
     }
 
-    private TextView mAcceptedRequestUserName;
-    private TextView mAcceptedRequestUserAddress;
-    private TextView mAcceptedRequestUserPhone;
-
     private class AcceptedRequestHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
         private artyfartyparty.solo.Model.Request mRequest;
+        private TextView mAcceptedRequestUserName;
+        private TextView mAcceptedRequestUserAddress;
+        private TextView mAcceptedRequestUserPhone;
 
         public AcceptedRequestHolder (LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_accepted_request, parent, false));

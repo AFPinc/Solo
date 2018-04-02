@@ -6,14 +6,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +33,7 @@ import static artyfartyparty.solo.R.layout.activity_login;
  * Sigurlaug
  * Valgerður
  *
- * Class that controls login activities
+ * Activity class that controls login activities
  */
 
 public class LoginActivity extends AppCompatActivity {
@@ -46,12 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(activity_login);
 
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
-        final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
-        final EditText passwordEditText = (EditText)findViewById(R.id.passwordEditText);
-        Button loginButton = (Button)findViewById(R.id.logInButton);
-        TextView registerLink = (TextView)findViewById(R.id.registerLink);
-
+        final EditText emailEditText = findViewById(R.id.emailEditText);
+        final EditText passwordEditText = findViewById(R.id.passwordEditText);
+        Button loginButton = findViewById(R.id.logInButton);
+        TextView registerLink = findViewById(R.id.registerLink);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +53,6 @@ public class LoginActivity extends AppCompatActivity {
                 String username = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 validateUserPassword(username, password);
-                Log.v("Logintest", "Byrja");
             }
         });
 
@@ -70,8 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
-
-
     }
 
     @Override
@@ -81,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validateUserPassword(String username, final String password) {
-        String url = "https://solo-web-service.herokuapp.com/users/" + username;
+        String url = getResources().getString(R.string.user_by_username_url) + username;
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -99,13 +90,10 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                         }
                     });
-                    Log.v("Logintest", "Failure");
-                    //alertUserAboutError();
                 }
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
-                    String msg = "";
                     String jsonData = response.body().string();
                     User user = null;
                     try {
@@ -113,20 +101,16 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    final String finalMsg = msg;
                     if (user == null || password.compareTo(user.getPassword()) != 0)
                     {
-                        // msg = "Login failed";
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(context, "Login failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, getResources().getString(R.string.login_failed), Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                     else {
-                        // msg ="Login successful";
-                        Log.v("helo", "hæyæhæh");
                         UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
                         User tmp = userData.findOne(user.getId());
                         if(tmp == null)
@@ -146,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
         else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 
