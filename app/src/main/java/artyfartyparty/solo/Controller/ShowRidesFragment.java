@@ -99,6 +99,7 @@ public class ShowRidesFragment extends Fragment {
                 break;
             case R.id.profile:
                 intent = new Intent(getApplicationContext(), MyProfileActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
         }
