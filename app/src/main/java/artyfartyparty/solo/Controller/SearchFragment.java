@@ -105,6 +105,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
                 break;
             case R.id.profile:
                 intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
         }

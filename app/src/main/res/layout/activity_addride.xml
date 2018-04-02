@@ -13,74 +13,132 @@
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="417dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="511dp"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:paddingTop="56dp"
+        android:paddingRight="24dp">
 
         <TextView
-            android:id="@+id/FromTextView"
+            android:id="@+id/titleAddPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="From:"
-            android:textSize="18dp"/>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:textSize="30dp"
+            android:text="@string/add_ride" />
 
-        <Spinner
-            android:id="@+id/fromSpinner"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="0" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/fromLayout"
+            android:layout_width="362dp"
+            android:layout_height="95dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp">
 
-        <Button
-            android:id="@+id/fromAtButton"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_column="1"
-            android:layout_row="1"
-            android:textSize="11sp" />
+            <FrameLayout
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#52be80">
+            </FrameLayout>
 
-        <TextView
-            android:id="@+id/toTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_row="2"
-            android:text="To:"
-            android:textSize="18dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:paddingTop="10dp">
 
-        <Spinner
-            android:id="@+id/toSpinner"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="2" />
+                <TextView
+                    android:id="@+id/FromTextView"
+                    android:layout_width="102dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_weight="1"
+                    android:text="From:"
+                    android:textSize="18dp" />
 
-        <Button
-            android:id="@+id/toAtButton"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:layout_column="1"
-            android:layout_row="3"
-            android:textSize="11sp" />
+                <LinearLayout
+                    android:layout_width="306dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/fromSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_above="@+id/fromAtButton"
+                        android:layout_alignParentRight="true" />
+
+                    <Button
+                        android:id="@+id/fromAtButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:layout_below="@+id/fromSpinner"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/toLayout"
+            android:layout_width="360dp"
+            android:layout_height="95dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp">
+
+            <FrameLayout
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:background="#52be80" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:paddingTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/toTextView"
+                    android:layout_width="65dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="To:"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    android:layout_width="287dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <Spinner
+                        android:id="@+id/toSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+
+                    <Button
+                        android:id="@+id/toAtButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="20"
-            android:text="Add" />
+            android:layout_marginTop="30dp"
+            android:text="Add"
+            android:layout_gravity="center_horizontal"/>
 
-    </GridLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>
