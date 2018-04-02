@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 
 /**
@@ -26,6 +28,7 @@ public class MyProfileFragment extends Fragment {
     private Button myRidesButton;
     private Button myRequestsButton;
     private Toolbar toolbar;
+    private long userId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,15 +39,22 @@ public class MyProfileFragment extends Fragment {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-
         myRidesButton = (Button) view.findViewById(R.id.myRidesButton);
         myRequestsButton = (Button) view.findViewById(R.id.myRequestsButton);
 
         myRidesButton.setOnClickListener(btnOnClickListener);
         myRequestsButton.setOnClickListener(btnOnClickListener);
 
+        userId = getArguments().getLong("userId", -1);
+        Log.v("uid", "" + userId);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+        Log.v("UserID", "" + user.getId());
+
         return view;
     }
+
+
 
     Button.OnClickListener btnOnClickListener = new Button.OnClickListener(){
         @Override
@@ -60,4 +70,6 @@ public class MyProfileFragment extends Fragment {
             bundle1.putInt("userId", userId);
         }
     };
+
+
 }
