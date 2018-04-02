@@ -48,6 +48,12 @@
             android:layout_height="wrap_content"
             android:text="phone" />
 
+        <Button
+            android:id="@+id/logOutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log Out" />
+
     </LinearLayout>
 
     <View
