@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 
 /**
@@ -58,6 +60,9 @@ public class MyProfileFragment extends Fragment {
         });
 
         userId = getArguments().getLong("userId", -1);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+        Log.v("UserID", "" + user.getId());
 
         return view;
     }
