@@ -1,5 +1,6 @@
 package artyfartyparty.solo.Controller;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -32,6 +36,7 @@ public class MyProfileFragment extends Fragment {
     private TextView PhoneNumber;
     private Button myRidesButton;
     private Button myRequestsButton;
+    private Button logOutButton;
     private Toolbar toolbar;
     private long userId;
 
@@ -59,11 +64,30 @@ public class MyProfileFragment extends Fragment {
 
         myRidesButton = (Button) view.findViewById(R.id.myRidesButton);
         myRequestsButton = (Button) view.findViewById(R.id.myRequestsButton);
+
         myRidesButton.setOnClickListener(btnOnClickListener);
         myRequestsButton.setOnClickListener(btnOnClickListener);
 
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        logOutButton = (Button) view.findViewById(R.id.logOutButton);
+
+        myRidesButton.setOnClickListener(btnOnClickListener);
+        myRequestsButton.setOnClickListener(btnOnClickListener);
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getActivity().getApplicationContext(), LoginActivity.class);
+                startActivity(startIntent);
+            }
+        });
+
+        userId = getArguments().getLong("userId", -1);
+        UserData userData = UserDataDB.get(getActivity().getApplication().getApplicationContext()).getUserData();
+        final User user = userData.findOne(userId);
+        Log.v("UserID", "" + user.getId());
 
         return view;
     }
@@ -83,5 +107,42 @@ public class MyProfileFragment extends Fragment {
         }
     };
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.add_ride:
+                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.search:
+                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.profile:
+                intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
