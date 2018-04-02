@@ -99,6 +99,7 @@ public class ShowRidesFragment extends Fragment {
                 break;
             case R.id.profile:
                 intent = new Intent(getApplicationContext(), MyProfileActivity.class);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
         }
@@ -193,7 +194,7 @@ public class ShowRidesFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent startIntent = new Intent(getApplicationContext(), MyRideActivity.class);
+            Intent startIntent = new Intent(getApplicationContext(), RideActivity.class);
             startIntent.putExtra("userId", userId);
             startIntent.putExtra("rideId", mRide.getId());
             startActivity(startIntent);

@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:background="#52be80"
         android:minHeight="?attr/actionBarSize"
-        android:id="@+id/toolbar" />
+        android:id="@+id/toolbar"
+        android:gravity="center_horizontal"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ride_recycler_view"
