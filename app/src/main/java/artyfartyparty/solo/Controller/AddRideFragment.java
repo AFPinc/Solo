@@ -64,7 +64,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
    // private static final int REQUEST_DATE = 0;
     private Spinner fromSpinner;
     private Spinner toSpinner;
-    private Spinner stopoverSpinner;
 
     private Ride ride;
     private Button fromAtButton;
@@ -91,8 +90,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
         fromSpinner = (Spinner) view.findViewById(R.id.fromSpinner);
         toSpinner = (Spinner) view.findViewById(R.id.toSpinner);
-        stopoverSpinner = (Spinner) view.findViewById(R.id.stopoverSpinner);
-        Button stopoverButton = (Button)view.findViewById(R.id.stopoverButton);
         Button addButton = (Button)view.findViewById(R.id.addButton);
         fromAtButton = (Button)view.findViewById(R.id.fromAtButton);
         fromAtButton.setText( "choose time and date" );
@@ -256,11 +253,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                                     android.R.layout.simple_spinner_item, finalLocation);
                             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             toSpinner.setAdapter(toAdapter);
-
-                            ArrayAdapter stopoverAdapter = new ArrayAdapter(getActivity(),
-                                    android.R.layout.simple_spinner_item, finalLocation);
-                            stopoverAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            stopoverSpinner.setAdapter(stopoverAdapter);
 
                         }
                     });

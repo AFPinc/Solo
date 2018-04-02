@@ -13,41 +13,117 @@
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
 
-    <GridLayout
-        android:layout_width="338dp"
-        android:layout_height="417dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="511dp"
         android:orientation="vertical"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
 
-        <Spinner
-            android:id="@+id/searchFromSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="0" />
+        <TextView
+            android:id="@+id/titleSearchPage"
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/search"
+            android:textSize="30dp" />
 
-        <Spinner
-            android:id="@+id/searchToSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_row="1" />
+        <LinearLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="336dp"
+            android:layout_height="135dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="198dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#52be80" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="176dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:text="From:"
+                    android:textSize="18dp" />
+
+                <Spinner
+                    android:id="@+id/searchFromSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_column="1"
+                    android:layout_row="0"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#52be80" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="176dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:text="To:"
+                    android:textSize="18dp" />
+
+                <Spinner
+                    android:id="@+id/searchToSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_column="1"
+                    android:layout_row="1"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/searchButton"
-            android:layout_width="wrap_content"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:layout_column="1"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:layout_row="2"
-            android:text="Search" />
-
-    </GridLayout>
+            android:text="Search"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gridLayout"
+            tools:layout_editor_absoluteX="127dp" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
