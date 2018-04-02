@@ -106,4 +106,46 @@ public final class Parser {
         return locations;
     }
 
+    public static String parseRideToJSON(Ride ride) {
+        String id = "";
+        if (ride.getId() != null)
+            id = "\"id\":\"" + ride.getId() + "\", ";
+
+        String json = "{" + id +
+                "\"locationFrom\":" + parseLocationToJSON(ride.getLocationFrom()) + ", " +
+                "\"locationTo\":" + parseLocationToJSON(ride.getLocationTo()) + ", " +
+                "\"fromDate\":\"" + ride.getDateFrom().getTime() + "\", " +
+                "\"toDate\":\"" + ride.getDateTo().getTime() + "\", " +
+                "\"user\":" + parseUserToJSON(ride.getUser()) + "}";
+
+        return json;
+    }
+
+    public static String parseRequestToJSON(Request req) {
+        String id = "";
+        if (req.getId() != 0)
+            id = "\"id\":" + req.getId() + ", ";
+
+        String jsonReq = "{" + id +
+                "\"ride\":" + parseRideToJSON(req.getRide()) + ", " +
+                "\"user\":" + parseUserToJSON(req.getUser()) + ", " +
+                "\"rejected\":" + req.isRejected() + ", " +
+                "\"accepted\":" + req.isAccepted() +"}";
+
+        return jsonReq;
+    }
+
+    public static String parseUserToJSON(User user){
+        return "{\"id\":\"" + user.getId() + "\", " +
+                "\"name\":\"" + user.getName() + "\", " +
+                "\"uniMail\":\"" + user.getUniMail() + "\", " +
+                "\"address\":\"" + user.getAddress() + "\", " +
+                "\"phoneNumber\":\"" + user.getPhoneNumber() + "\", " +
+                "\"password\":\"" + user.getPassword() + "\"}";
+    }
+
+    private static String parseLocationToJSON(Location location) {
+        return "{\"id\":\"" + location.getId() + "\", " +
+               "\"name\":\"" + location.getName() + "\"}";
+    }
 }

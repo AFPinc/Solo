@@ -4,6 +4,15 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 
+/**
+ * Ása Júlía
+ * Melkorka Mjöll
+ * Sigurlaug
+ * Valgerður
+ *
+ * Fragment class to open a dialog fragment
+ */
+
 public abstract class AbstractDialogFragment extends DialogFragment {
 
     protected abstract void processFragmentArguments();
@@ -12,8 +21,6 @@ public abstract class AbstractDialogFragment extends DialogFragment {
     public abstract Dialog onCreateDialog(Bundle savedInstanceState);
 
     protected abstract void saveInstanceState(Bundle outState);
-
-    protected abstract void restoreInstanceState(Bundle savedInstanceState);
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

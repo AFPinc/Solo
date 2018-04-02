@@ -46,13 +46,13 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        final EditText nameEditText = (EditText)findViewById(R.id.nameEditText);
-        final EditText emailEditText = (EditText)findViewById(R.id.emailEditText);
-        final EditText addressEditText = (EditText)findViewById(R.id.addressEditText);
-        final EditText phoneEditText = (EditText)findViewById(R.id.phoneEditText);
-        final EditText password1EditText = (EditText)findViewById(R.id.password1EditText);
-        final EditText password2EditText = (EditText)findViewById(R.id.password2EditText);
-        Button signUpButton = (Button)findViewById(R.id.signUpButton);
+        final EditText nameEditText = findViewById(R.id.nameEditText);
+        final EditText emailEditText = findViewById(R.id.emailEditText);
+        final EditText addressEditText = findViewById(R.id.addressEditText);
+        final EditText phoneEditText = findViewById(R.id.phoneEditText);
+        final EditText password1EditText = findViewById(R.id.password1EditText);
+        final EditText password2EditText = findViewById(R.id.password2EditText);
+        Button signUpButton = findViewById(R.id.signUpButton);
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,17 +61,15 @@ public class SignUpActivity extends AppCompatActivity {
                 String password = password1EditText.getText().toString();
                 String password2 = password2EditText.getText().toString();
 
-                User user = null;
-
                 if (password.compareTo(password2) == 0){
                     String name = nameEditText.getText().toString();
                     String uniMail = emailEditText.getText().toString();
                     String address = addressEditText.getText().toString();
                     String phone = phoneEditText.getText().toString();
-                    addUser(name, uniMail, address, phone, password);
+                    addUser(name, uniMail, address, Integer.parseInt(phone), password);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(), "Passwords don't match",
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwords_not_match),
                             Toast.LENGTH_LONG).show();
                 }
 
@@ -82,45 +80,41 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private void addUser(String name, String uniMail, String address, String phoneNumber, String password) {
-        String url = "https://solo-web-service.herokuapp.com/users/add";
+    private void addUser(String name, String uniMail, String address, int phoneNumber, String password) {
+        String url = getResources().getString(R.string.add_user);
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
+            User user = new User();
+            user.setName(name);
+            user.setUniMail(uniMail);
+            user.setAddress(address);
+            user.setPhoneNumber(phoneNumber);
+            user.setPassword(password);
+
             if(TextUtils.isEmpty(name)) {
-                //email is empty
-                Toast.makeText(this, "Please enter name", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+                Toast.makeText(this, getResources().getString(R.string.name_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if(TextUtils.isEmpty(uniMail)) {
-                //password is empty
-                Toast.makeText(this, "Please enter email", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+                Toast.makeText(this, getResources().getString(R.string.uni_mail_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if(TextUtils.isEmpty(address)) {
-                //email is empty
-                Toast.makeText(this, "Please enter address", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+                Toast.makeText(this, getResources().getString(R.string.address_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if(TextUtils.isEmpty(phoneNumber)) {
-                //password is empty
-                Toast.makeText(this, "Please enter phone number", Toast.LENGTH_SHORT).show();
-                //stopping the function execution further
+            if(TextUtils.isEmpty("" + phoneNumber)) {
+                Toast.makeText(this, getResources().getString(R.string.phone_number_missing), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            RequestBody body = RequestBody.create(JSON, "{\"name\":\"" + name + "\", " +
-                    "\"uniMail\":\"" + uniMail + "\", " +
-                    "\"address\":\"" + address + "\", " +
-                    "\"phoneNumber\":\"" + phoneNumber + "\"," +
-                    "\"password\": \"" + password + "\"}");
+            String json = Parser.parseUserToJSON(user);
+            RequestBody body = RequestBody.create(JSON, json);
 
             Request request = new Request.Builder()
                     .url(url)
@@ -134,12 +128,10 @@ public class SignUpActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "Sign up successful!",
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_success),
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-                    Log.v("Tókst", "Villa!");
-                    //alertUserAboutError();
                 }
 
                 @Override
@@ -152,21 +144,16 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                     UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
                     userData.addUser(user);
-                    List<User> users = userData.getAll();
-                    Log.v("users", "" + users.size());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-
-
                         }
                     });
                 }
             });
-            Toast.makeText(this, "Added user", Toast.LENGTH_LONG).show();
         }
         else {
-            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
     }
 

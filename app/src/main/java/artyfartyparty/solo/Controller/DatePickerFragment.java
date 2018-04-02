@@ -8,8 +8,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +18,10 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Objects;
 
 import artyfartyparty.solo.R;
 
@@ -36,12 +31,10 @@ import artyfartyparty.solo.R;
  * Sigurlaug
  * Valgerður
  *
- * Fragment that controls the date
+ * Fragment class that controls the date picker
  */
 
 public class DatePickerFragment extends AbstractDialogFragment {
-
-    //public static final String EXTRA_DATE = "artyfartyparty.solo.Controller.date";
 
     public static final String DIALOG_TAG = DatePickerFragment.class.getName();
 
@@ -49,8 +42,6 @@ public class DatePickerFragment extends AbstractDialogFragment {
     public static final String TIME = "Time";
     public static final String DATE = "Date";
     public static final String BOTH = "BOTH";
-
-    //private static final String ARG_DATE = "date";
 
     private static final String TAG = DatePickerFragment.class.getSimpleName();
 
@@ -60,24 +51,15 @@ public class DatePickerFragment extends AbstractDialogFragment {
 
     private DatePicker mDatePicker;
     private TimePicker mTimePicker;
+    private Spinner dateTimeSpinner;
+    private ResultHandler mResultHandler;
 
-    /**
-     * This interface is implemented by the caller, if it wants the result delivered
-     * this way. Otherwise, onActivityResult() will be used.
-     */
     public interface ResultHandler extends Serializable {
         void setDate(Date result);
     }
 
-    /**
-     * The ResultHandler (if used). Basically, this is so we can use this DialogFragment
-     * directly from an Activity (rather than a Fragment).
-     */
-    private ResultHandler mResultHandler;
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Pull the date out of the Fragment Arguments
         processFragmentArguments();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(mDate);
@@ -88,23 +70,18 @@ public class DatePickerFragment extends AbstractDialogFragment {
         @SuppressLint("InflateParams")
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_date, null);
 
-        // Spinner to choose either Date or Time to edit
-        final Spinner dateTimeSpinner = (Spinner) view.findViewById(R.id.spinner_date_time_choice);
-        mDatePicker = (DatePicker) view.findViewById(R.id.date_picker);
-        mTimePicker = (TimePicker) view.findViewById(R.id.time_picker);
-        // Note: the OnDateChangedListener does not work in Android 5 when using the
-        /// super cool material style of calendar, which is really slick.
+        dateTimeSpinner = view.findViewById(R.id.spinner_date_time_choice);
+        mDatePicker = view.findViewById(R.id.date_picker);
+        mTimePicker = view.findViewById(R.id.time_picker);
         mDatePicker.init(year, month, day, null);
 
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         int minuteOfHour = calendar.get(Calendar.MINUTE);
-        //noinspection deprecation
+
         mTimePicker.setCurrentHour(hourOfDay);
-        //noinspection deprecation
         mTimePicker.setCurrentMinute(minuteOfHour);
 
         configureDateTimeSpinner(dateTimeSpinner);
-        // Now show the Dialog in all its glory!
         return new android.app.AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle(R.string.choose_date_or_time)
@@ -112,9 +89,7 @@ public class DatePickerFragment extends AbstractDialogFragment {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        final String METHOD = "onClick(" + dialog + ", " + which + "): ";
                         if (getTargetFragment() == null && mResultHandler == null) {
-                            Log.e(TAG, "Both Target Fragment and ResultHandler are null!");
                         } else {
                             //noinspection deprecation
                             mDate = computeDateFromComponents(
@@ -140,20 +115,15 @@ public class DatePickerFragment extends AbstractDialogFragment {
     }
 
     @Override
-    protected void restoreInstanceState(Bundle savedInstanceState) {
-        // Nothing to do
-    }
-
-    @Override
     protected void saveInstanceState(Bundle outState) {
-        // Nothing to do
+
     }
 
     private void configureDateTimeSpinner(final Spinner dateTimeSpinner) {
         List<String> choices = new ArrayList<>();
-        if (Objects.equals(DATE, mDateOrTimeChoice)) {
+        if (DATE == mDateOrTimeChoice) {
             choices.add(computeChoice(DATE));
-        } else if (Objects.equals(TIME, mDateOrTimeChoice)) {
+        } else if (TIME == mDateOrTimeChoice) {
             choices.add(computeChoice(TIME));
         } else {
             choices.add(computeChoice(TIME));
@@ -169,11 +139,9 @@ public class DatePickerFragment extends AbstractDialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String choice = (String) dateTimeSpinner.getAdapter().getItem(position);
                 if (choice.equalsIgnoreCase(computeChoice(DATE))) {
-                    // Make the DatePicker visible
                     mDatePicker.setVisibility(View.VISIBLE);
                     mTimePicker.setVisibility(View.GONE);
                 } else {
-                    // Make the TimePicker visible
                     mTimePicker.setVisibility(View.VISIBLE);
                     mDatePicker.setVisibility(View.GONE);
                 }
@@ -184,7 +152,6 @@ public class DatePickerFragment extends AbstractDialogFragment {
 
             }
         });
-        // Select initial choice if neither preferred.
         if (mDateOrTimeChoice == null) {
             dateTimeSpinner.setSelection(choices.indexOf(computeChoice(TIME)));
         } else {
@@ -199,12 +166,10 @@ public class DatePickerFragment extends AbstractDialogFragment {
     @Override
     protected void processFragmentArguments() {
         mDate = (Date) getArguments().getSerializable(FactoryFragment.FRAG_ARG_DATE);
-        // Sanity check
         if (mDate == null) {
             throw new RuntimeException("Fragment argument (" + FactoryFragment.FRAG_ARG_DATE + ") cannot be null!");
         }
         mDateType = (String) getArguments().getSerializable(FactoryFragment.FRAG_ARG_DATE_TYPE);
-        // Sanity check
         if (mDateType == null || mDateType.isEmpty()) {
             throw new RuntimeException("Fragment argument (" + FactoryFragment.FRAG_ARG_DATE_TYPE + ") cannot be null!");
         }
