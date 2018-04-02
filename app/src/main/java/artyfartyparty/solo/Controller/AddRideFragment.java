@@ -58,7 +58,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
 
     private Spinner fromSpinner;
     private Spinner toSpinner;
-    private Spinner stopoverSpinner;
+    private Ride ride;
+
     private Button fromAtButton;
     private Button toAtButton;
     private Button addButton;
@@ -238,6 +239,7 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
                                     android.R.layout.simple_spinner_item, finalLocation);
                             toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                             toSpinner.setAdapter(toAdapter);
+
                         }
                     });
                 }
