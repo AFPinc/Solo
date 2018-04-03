@@ -130,6 +130,9 @@ public class MyRideFragment extends Fragment{
                 startActivity(intent);
                 break;
             case R.id.profile:
+                intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);

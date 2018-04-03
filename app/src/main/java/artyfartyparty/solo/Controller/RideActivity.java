@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -80,6 +83,40 @@ public class RideActivity extends AppCompatActivity {
                 registerRide();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                // intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.add_ride:
+                intent = new Intent(getApplicationContext(), AddRideActivity.class);
+                // intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.search:
+                intent = new Intent(getApplicationContext(), SearchActivity.class);
+                // intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.profile:
+                intent = new Intent(getApplicationContext(), MyProfileActivity.class);
+                // intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void registerRide () {
