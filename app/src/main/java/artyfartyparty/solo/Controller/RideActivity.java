@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -19,6 +21,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 import artyfartyparty.solo.Model.Ride;
 import artyfartyparty.solo.Model.User;
@@ -190,7 +194,6 @@ public class RideActivity extends AppCompatActivity {
                         }
                     });
                 }
-
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
                     String jsonData = response.body().string();
@@ -211,12 +214,17 @@ public class RideActivity extends AppCompatActivity {
                     }
                     else {
                         runOnUiThread(new Runnable() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void run() {
                                 locationFrom.setText(ride.getLocationFrom().getName());
                                 locationTo.setText(ride.getLocationTo().getName());
-                                timeFrom.setText(ride.getDateFrom().toString());
-                                timeTo.setText(ride.getDateTo().toString());
+                                timeFrom.setText(ride.getDateFrom().toInstant()
+                                        .atOffset( ZoneOffset.UTC )
+                                        .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
+                                timeTo.setText(ride.getDateTo().toInstant()
+                                        .atOffset( ZoneOffset.UTC )
+                                        .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
                                 username.setText(ride.getUser().getName());
                                 phoneNumber.setText("" + ride.getUser().getPhoneNumber());
                                 email.setText(ride.getUser().getUniMail());

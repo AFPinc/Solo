@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +27,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -258,11 +262,14 @@ public class MyProfileFragment extends Fragment {
             mRideDate = itemView.findViewById(R.id.ride_date);
 
         }
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind (Ride ride) {
             mRide = ride;
             mRideFrom.setText(mRide.getLocationFrom().getName());
             mRideTo.setText(mRide.getLocationTo().getName());
-            mRideDate.setText(mRide.getDateFrom().toString());
+            mRideDate.setText(mRide.getDateFrom().toInstant()
+                    .atOffset( ZoneOffset.UTC )
+                    .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
         }
 
         @Override
@@ -327,20 +334,19 @@ public class MyProfileFragment extends Fragment {
             });
 
         }
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind (artyfartyparty.solo.Model.Request request) {
             mRequest = request;
             mRequestFrom.setText(mRequest.getRide().getLocationFrom().getName());
             mRequestTo.setText(mRequest.getRide().getLocationTo().getName());
-            mRequestDate.setText(mRequest.getRide().getDateFrom().toString());
+            mRequestDate.setText(mRequest.getRide().getDateFrom().toInstant()
+                    .atOffset( ZoneOffset.UTC )
+                    .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
             mRequestDriver.setText(mRequest.getRide().getUser().getName());
         }
 
         @Override
         public void onClick(View view) {
-            Intent startIntent = new Intent(getApplicationContext(), MyRideActivity.class);
-            startIntent.putExtra("userId", userId);
-            startIntent.putExtra("rideId", mRequest.getId());
-            startActivity(startIntent);
         }
 
     }
