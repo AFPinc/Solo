@@ -1,10 +1,13 @@
 package artyfartyparty.solo.Controller;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +28,8 @@ import android.app.Activity;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,11 +190,15 @@ public class ShowRidesFragment extends Fragment {
             mRideDate = itemView.findViewById(R.id.ride_date);
 
         }
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind (Ride ride) {
             mRide = ride;
             mRideFrom.setText(mRide.getLocationFrom().getName());
             mRideTo.setText(mRide.getLocationTo().getName());
-            mRideDate.setText(mRide.getDateFrom().toString());
+            mRideDate.setText(mRide.getDateFrom().toInstant()
+                    .atOffset( ZoneOffset.UTC )
+                    .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
         }
 
         @Override
