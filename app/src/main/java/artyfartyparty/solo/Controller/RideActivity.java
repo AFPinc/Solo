@@ -49,6 +49,8 @@ public class RideActivity extends AppCompatActivity {
 
     private User user;
     private Ride ride;
+    private long userId;
+    private long rideId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +71,8 @@ public class RideActivity extends AppCompatActivity {
 
         Button requestRideButton = findViewById(R.id.request_ride_button);
 
-        final long userId = getIntent().getLongExtra("userId", -1);
-        final long rideId = getIntent().getLongExtra("rideId", -1);
+        userId = getIntent().getLongExtra("userId", -1);
+        rideId = getIntent().getLongExtra("rideId", -1);
 
         setRideAndUserInfo(rideId);
 
@@ -97,22 +99,22 @@ public class RideActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.logo_home:
                 intent = new Intent(getApplicationContext(), AllRidesActivity.class);
-                // intent.putExtra("userId", userId);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
             case R.id.add_ride:
                 intent = new Intent(getApplicationContext(), AddRideActivity.class);
-                // intent.putExtra("userId", userId);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
             case R.id.search:
                 intent = new Intent(getApplicationContext(), SearchActivity.class);
-                // intent.putExtra("userId", userId);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
             case R.id.profile:
                 intent = new Intent(getApplicationContext(), MyProfileActivity.class);
-                // intent.putExtra("userId", userId);
+                intent.putExtra("userId", userId);
                 startActivity(intent);
                 break;
         }

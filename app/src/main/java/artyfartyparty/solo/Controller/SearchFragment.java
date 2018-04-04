@@ -172,6 +172,7 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         Bundle bundle = new Bundle();
         bundle.putString( "url", url);
+        bundle.putLong( "userId", userId);
         ShowRidesFragment fragment = new ShowRidesFragment();
         fragment.setArguments( bundle );
         getFragmentManager().beginTransaction().replace( R.id.fragment_container, fragment ).addToBackStack( null ).commit();
