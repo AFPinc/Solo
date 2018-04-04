@@ -56,7 +56,7 @@ public class MyRideFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        View view = inflater.inflate( R.layout.activty_my_ride, container, false);
+        View view = inflater.inflate( R.layout.activity_my_ride, container, false);
 
         LocationFrom = view.findViewById(R.id.my_ride_location_from);
         LocationTo = view.findViewById(R.id.my_ride_location_to);
