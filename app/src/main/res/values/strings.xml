@@ -37,6 +37,7 @@
     <string name="request_by_ride">https://solo-web-service.herokuapp.com/request/byRide/</string>
     <string name="accepted_request_by_ride">https://solo-web-service.herokuapp.com/request/byRideAccepted/</string>
     <string name="reject_request">https://solo-web-service.herokuapp.com/request/reject</string>
+    <string name="cancel_request">https://solo-web-service.herokuapp.com/request/cancel</string>
     <string name="accept_request">https://solo-web-service.herokuapp.com/request/accept</string>
     <string name="add_request">https://solo-web-service.herokuapp.com/request/add</string>
     <string name="search_rides">https://solo-web-service.herokuapp.com/ride/search/</string>

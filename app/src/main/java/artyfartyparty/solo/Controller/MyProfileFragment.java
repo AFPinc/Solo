@@ -33,8 +33,10 @@ import artyfartyparty.solo.Model.User;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -316,6 +318,14 @@ public class MyProfileFragment extends Fragment {
             mRequestTo = itemView.findViewById(R.id.myRequest_to);
             mRequestDate = itemView.findViewById(R.id.myRequest_date);
             mRequestDriver = itemView.findViewById(R.id.myRequest_driver);
+            Button mRequestCancel = itemView.findViewById(R.id.button_cancel);
+            mRequestCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cancelRequest(mRequest);
+                }
+            });
+
         }
         public void bind (artyfartyparty.solo.Model.Request request) {
             mRequest = request;
@@ -333,6 +343,47 @@ public class MyProfileFragment extends Fragment {
             startActivity(startIntent);
         }
 
+    }
+
+    private void cancelRequest(artyfartyparty.solo.Model.Request req) {
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            String json = Parser.parseRequestToJSON(req);
+            RequestBody body = RequestBody.create(JSON, json);
+
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.cancel_request))
+                    .delete(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    GetMyRequests();
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 
     private class RequestAdapter extends RecyclerView.Adapter<MyProfileFragment.RequestHolder> {
