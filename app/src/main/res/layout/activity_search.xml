@@ -62,7 +62,8 @@
                     android:layout_weight="1"
                     android:paddingLeft="10dp"
                     android:text="From:"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:paddingTop="5dp"/>
 
                 <Spinner
                     android:id="@+id/searchFromSpinner"
@@ -96,7 +97,8 @@
                     android:layout_weight="1"
                     android:paddingLeft="10dp"
                     android:text="To:"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:paddingTop="5dp"/>
 
                 <Spinner
                     android:id="@+id/searchToSpinner"
