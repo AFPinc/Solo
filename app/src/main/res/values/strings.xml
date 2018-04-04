@@ -34,7 +34,7 @@
     <string name="all_locations_url">https://solo-web-service.herokuapp.com/location/all</string>
     <string name="user_by_username_url">https://solo-web-service.herokuapp.com/users/</string>
     <string name="ride_by_ride_id">https://solo-web-service.herokuapp.com/ride/</string>
-    <string name="cancel_ride">https://solo-web-service.herokuapp.com/ride/cancel</string>
+    <string name="cancel_ride">https://solo-web-service.herokuapp.com/ride/delete</string>
     <string name="request_by_ride">https://solo-web-service.herokuapp.com/request/byRide/</string>
     <string name="accepted_request_by_ride">https://solo-web-service.herokuapp.com/request/byRideAccepted/</string>
     <string name="reject_request">https://solo-web-service.herokuapp.com/request/reject</string>
