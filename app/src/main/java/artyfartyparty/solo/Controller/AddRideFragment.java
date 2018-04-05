@@ -102,6 +102,8 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         final User user = userData.findOne(userId);
 
         fromAtButton.setText( "When will you depart?" );
+        toAtButton.setText( "When will you arrive?" );
+
         fromAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +123,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
             }
         });
 
-        toAtButton.setText( "When will you arrive?" );
         toAtButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,7 +158,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         });
 
         setUpSpinners();
-        updateFromDate();
 
         return view;
     }
