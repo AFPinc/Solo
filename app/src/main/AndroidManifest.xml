@@ -13,7 +13,6 @@
         android:label=""
         android:logo="@drawable/ic_directions_car_black_24dp"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Controller.LoginActivity">
             <intent-filter>
