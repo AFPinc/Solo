@@ -20,7 +20,7 @@
             <FrameLayout
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
-                android:background="#52be80">
+                android:background="@color/soloGreen">
 
             </FrameLayout>
 
