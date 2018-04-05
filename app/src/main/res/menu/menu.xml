@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/soloGreen">
 
-<item android:id="@+id/logo_home"
-android:icon="@drawable/ic_directions_car_black_24dp"
-android:title="Logo"
-android:orderInCategory="100"
-app:showAsAction="always"
-    />
-<item android:id="@+id/add_ride"
-android:icon="@drawable/ic_add_black_24dp"
-android:title="Add"
-android:orderInCategory="100"
-app:showAsAction="always"
-    />
-<item android:id="@+id/search"
-android:icon="@drawable/ic_search_black_24dp"
-android:title="Search"
-android:orderInCategory="100"
-app:showAsAction="always"
-    />
-<item android:id="@+id/profile"
-android:icon="@drawable/ic_person_black_24dp"
-android:title="Profile"
-android:orderInCategory="100"
-app:showAsAction="always"
-    />
+    <item
+        android:id="@+id/logo_home"
+        android:icon="@drawable/logo_white"
+        android:title="Logo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/a"
+        android:gravity="center_horizontal|start"
+        android:icon="@drawable/logo_green"
+        android:title="Logo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/b"
+        android:icon="@drawable/logo_green"
+        android:title="Logo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/c"
+        android:icon="@drawable/logo_green"
+        android:title="Logo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/d"
+        android:icon="@drawable/logo_green"
+        android:title="Logo"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/add_ride"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="Add"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Search"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_person_black_24dp"
+        android:title="Profile"
+        app:showAsAction="always" />
     </menu>

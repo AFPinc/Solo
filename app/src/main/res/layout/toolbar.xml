@@ -1,35 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#52be80"
-    android:elevation="4dp"
-    android:id="@+id/toolbar">
-
-    <item android:id="@+id/logo_home"
-        android:icon="@drawable/ic_directions_car_black_24dp"
-        android:title="Logo"
-        android:orderInCategory="100"
-        android:gravity="top|start"
-        app:showAsAction="always"
-        />
-    <item android:id="@+id/add_ride"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="Add"
-        android:orderInCategory="100"
-        app:showAsAction="always"
-        />
-    <item android:id="@+id/search"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="Search"
-        android:orderInCategory="100"
-        app:showAsAction="always"
-        />
-    <item android:id="@+id/profile"
-        android:icon="@drawable/ic_person_black_24dp"
-        android:title="Profile"
-        android:orderInCategory="100"
-        app:showAsAction="ifRoom"
-        />
-
+    android:layout_height="?attr/actionBarSize"
+    android:id="@+id/toolbar"
+    android:background="@color/soloGreen">
 </android.support.v7.widget.Toolbar>
