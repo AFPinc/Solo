@@ -23,6 +23,8 @@
     <string name="send_request">Your request has been sent</string>
     <string name="get_ride_failed">Could not get ride</string>
     <string name="passwords_not_match">Passwords don\'t match</string>
+    <string name="password_empty">Please enter at least 5 characters/numbers for password!</string>
+    <string name="password_invalid">Invalid! Please enter password that does not contain special characters</string>
     <string name="name_missing">Please enter name</string>
     <string name="address_missing">Please enter address</string>
     <string name="uni_mail_missing">Please enter university email</string>

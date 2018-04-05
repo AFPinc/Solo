@@ -67,15 +67,14 @@ public class SignUpActivity extends AppCompatActivity {
                     String address = addressEditText.getText().toString();
                     String phone = phoneEditText.getText().toString();
                     addUser(name, uniMail, address, Integer.parseInt(phone), password);
+
+                    Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(startIntent);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwords_not_match),
                             Toast.LENGTH_LONG).show();
                 }
-
-
-                Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(startIntent);
             }
         });
     }
@@ -91,6 +90,15 @@ public class SignUpActivity extends AppCompatActivity {
             user.setAddress(address);
             user.setPhoneNumber(phoneNumber);
             user.setPassword(password);
+
+            if (password.length() < 4) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_empty),
+                        Toast.LENGTH_LONG).show();
+            }
+            else if (!password.matches("[a-zA-Z.? ][a-zA-Z0-9.? ]*")) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_invalid),
+                        Toast.LENGTH_LONG).show();
+            }
 
             if(TextUtils.isEmpty(name)) {
                 Toast.makeText(this, getResources().getString(R.string.name_missing), Toast.LENGTH_SHORT).show();
