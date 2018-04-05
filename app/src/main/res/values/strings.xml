@@ -1,5 +1,5 @@
 <resources>
-    <string name="add_ride">Add Ride</string>
+    <string name="add_ride">Add a new ride</string>
     <string name="search">Where do you want to go?</string>
     <string name="profile">Profile</string>
     <string name="my_profile">My Profile</string>
