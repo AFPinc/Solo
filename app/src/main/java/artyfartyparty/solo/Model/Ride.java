@@ -22,8 +22,6 @@ public class Ride {
     private Date dateTo;                // Arrival timing
     private boolean deleted;
 
-    private Set<Stopover> stopovers = new HashSet<Stopover>();
-
     public Ride(User user, Location locationFrom, Location locationTo, Date dateFrom, Date dateTo) {
         this.user = user;
         this.locationFrom = locationFrom;

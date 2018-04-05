@@ -31,9 +31,11 @@ import java.io.IOException;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import artyfartyparty.solo.Model.Ride;
+import artyfartyparty.solo.Model.RideComparator;
 import artyfartyparty.solo.R;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -130,6 +132,7 @@ public class ShowRidesFragment extends Fragment {
                     alertUserAboutError();
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
                     String jsonData = response.body().string();
@@ -139,6 +142,7 @@ public class ShowRidesFragment extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    Collections.sort(rides, new RideComparator());
                     final ArrayList<Ride> finalRides = rides;
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -221,10 +225,11 @@ public class ShowRidesFragment extends Fragment {
             return new RideHolder(layoutInflater, parent);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onBindViewHolder (RideHolder holder, int position) {
-            Ride crime = mRides.get(position);
-            holder.bind(crime);
+            Ride ride = mRides.get(position);
+            holder.bind(ride);
         }
         @Override
         public int getItemCount() {
