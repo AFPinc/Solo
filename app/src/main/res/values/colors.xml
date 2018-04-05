@@ -3,7 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
     <color name="soloGreen">#0BD98F</color>
+    <color name="soloLGreen">#E2EEE8</color>
     <color name="soloBlue">#00334F</color>
     <color name="soloWhite">#FFFFFF</color>
     <color name="soloGrey">#e8e8e8</color>
