@@ -35,7 +35,8 @@
                     android:layout_width="97dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="From:" />
+                    android:text="From:"
+                    android:textColor="@color/soloBlue"/>
 
                 <TextView
                     android:id="@+id/ride_from"
@@ -43,7 +44,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="From"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/soloBlue"/>
             </LinearLayout>
 
             <LinearLayout
@@ -57,7 +59,8 @@
                     android:layout_width="97dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="To:" />
+                    android:text="To:"
+                    android:textColor="@color/soloBlue"/>
 
                 <TextView
                     android:id="@+id/ride_to"
@@ -65,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="To"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/soloBlue"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +83,8 @@
                     android:layout_width="97dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="When:" />
+                    android:text="When:"
+                    android:textColor="@color/soloBlue"/>
 
                 <TextView
                     android:id="@+id/ride_date"
@@ -87,7 +92,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Date"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/soloBlue"/>
             </LinearLayout>
 
         </LinearLayout>

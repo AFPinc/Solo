@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -99,6 +100,19 @@ public class MyProfileFragment extends Fragment {
         myRidesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (v == myRidesButton){
+                    myRidesButton.setBackgroundColor(Color.rgb(0,51,79));
+                    myRidesButton.setTextColor(Color.WHITE);
+                    myRequestsButton.setBackgroundColor(Color.WHITE);
+                    myRequestsButton.setTextColor(Color.rgb(0,51,79));
+                }
+                else if (v == myRequestsButton){
+                    myRidesButton.setBackgroundColor(Color.WHITE);
+                    myRidesButton.setTextColor(Color.rgb(0,51,79));
+                    myRequestsButton.setBackgroundColor(Color.rgb(0,51,79));
+                    myRequestsButton.setTextColor(Color.WHITE);
+                }
                 url = "https://solo-web-service.herokuapp.com/ride/byUser/" + userId;
                 GetMyRides();
             }
@@ -107,6 +121,20 @@ public class MyProfileFragment extends Fragment {
         myRequestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (v == myRidesButton){
+                    myRidesButton.setBackgroundColor(Color.rgb(0,51,79));
+                    myRidesButton.setTextColor(Color.WHITE);
+                    myRequestsButton.setBackgroundColor(Color.WHITE);
+                    myRequestsButton.setTextColor(Color.rgb(0,51,79));
+                }
+                else if (v == myRequestsButton){
+                    myRidesButton.setBackgroundColor(Color.WHITE);
+                    myRidesButton.setTextColor(Color.rgb(0,51,79));
+                    myRequestsButton.setBackgroundColor(Color.rgb(0,51,79));
+                    myRequestsButton.setTextColor(Color.WHITE);
+                }
+
                 url = "https://solo-web-service.herokuapp.com/request/byUser/" + userId;
                 GetMyRequests();
             }
@@ -225,9 +253,13 @@ public class MyProfileFragment extends Fragment {
             int userId = bundle.getInt("userId");
 
             if (v == myRidesButton){
-                myRidesButton.setTextColor(Color.RED);
-                myRequestsButton.setTextColor(Color.BLACK);
+                myRidesButton.setBackgroundColor(Color.RED);
+                myRequestsButton.setBackgroundColor(Color.BLACK);
                 }
+                else {
+                myRidesButton.setBackgroundColor(Color.BLACK);
+                myRequestsButton.setBackgroundColor(Color.RED);
+            }
             Bundle bundle1 = new Bundle();
             bundle1.putInt("userId", userId);
         }
