@@ -130,6 +130,5 @@
                             android:text="@string/register_now" />
                     </LinearLayout>
                 </LinearLayout>
-            </View>
         </LinearLayout>
 </LinearLayout>
