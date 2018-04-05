@@ -126,8 +126,8 @@ public class DatePickerFragment extends AbstractDialogFragment {
         } else if (TIME == mDateOrTimeChoice) {
             choices.add(computeChoice(TIME));
         } else {
-            choices.add(computeChoice(TIME));
             choices.add(computeChoice(DATE));
+            choices.add(computeChoice(TIME));
         }
         dateTimeSpinner.setAdapter(
                 new ArrayAdapter<>(
@@ -152,8 +152,8 @@ public class DatePickerFragment extends AbstractDialogFragment {
 
             }
         });
-        if (mDateOrTimeChoice == null) {
-            dateTimeSpinner.setSelection(choices.indexOf(computeChoice(TIME)));
+        if (mDateOrTimeChoice == BOTH) {
+            dateTimeSpinner.setSelection(choices.indexOf(computeChoice(DATE)));
         } else {
             dateTimeSpinner.setSelection(choices.indexOf(computeChoice(mDateOrTimeChoice)));
         }
