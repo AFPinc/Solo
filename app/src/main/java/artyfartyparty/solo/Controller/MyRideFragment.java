@@ -1,11 +1,14 @@
 package artyfartyparty.solo.Controller;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +49,8 @@ public class MyRideFragment extends Fragment{
     private AcceptedRequestAdapter mAcceptedAdapter;
     private TextView LocationFrom;
     private TextView LocationTo;
+    private TextView TimeFrom;
+    private TextView TimeTo;
     private Button CancelButton;
     private Button CurrReqButton;
     private Button AcceptedReqButton;
@@ -60,6 +67,8 @@ public class MyRideFragment extends Fragment{
 
         LocationFrom = view.findViewById(R.id.my_ride_location_from);
         LocationTo = view.findViewById(R.id.my_ride_location_to);
+        TimeFrom = view.findViewById(R.id.my_ride_location_from_time);
+        TimeTo = view.findViewById(R.id.my_ride_location_to_time);
         CancelButton = view.findViewById(R.id.button_cancel);
         CurrReqButton = view.findViewById(R.id.button_current_requests);
         AcceptedReqButton = view.findViewById(R.id.button_accepted_requests);
@@ -169,10 +178,17 @@ public class MyRideFragment extends Fragment{
                     }
                     final Ride finalRide = ride;
                     getActivity().runOnUiThread(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void run() {
                             LocationFrom.setText(finalRide.getLocationFrom().getName());
+                            TimeFrom.setText(finalRide.getDateFrom().toInstant()
+                                    .atOffset( ZoneOffset.UTC )
+                                    .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
                             LocationTo.setText(finalRide.getLocationTo().getName());
+                            TimeTo.setText(finalRide.getDateTo().toInstant()
+                                    .atOffset( ZoneOffset.UTC )
+                                    .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
                         }
                     });
                 }
@@ -223,7 +239,13 @@ public class MyRideFragment extends Fragment{
         }
     }
 
+    @SuppressLint("ResourceType")
     private void getRequests() {
+        CurrReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloBlue)));
+        CurrReqButton.setTextColor(Color.parseColor(getString(R.color.soloWhite)));
+        AcceptedReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloLGreen)));
+        AcceptedReqButton.setTextColor(Color.parseColor(getString(R.color.soloBlue)));
+
         String url = getResources().getString(R.string.request_by_ride) + rideId;
 
         if(isNetworkAvailable()) {
@@ -270,7 +292,13 @@ public class MyRideFragment extends Fragment{
         }
     }
 
+    @SuppressLint("ResourceType")
     private void getAcceptedRequests() {
+        AcceptedReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloBlue)));
+        AcceptedReqButton.setTextColor(Color.parseColor(getString(R.color.soloWhite)));
+        CurrReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloLGreen)));
+        CurrReqButton.setTextColor(Color.parseColor(getString(R.color.soloBlue)));
+
         String url = getResources().getString(R.string.accepted_request_by_ride) + rideId;
 
         if(isNetworkAvailable()) {
