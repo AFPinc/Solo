@@ -29,7 +29,8 @@
             android:text="@string/sign_up"
             android:textSize="30dp"
             android:layout_marginBottom="40dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:textColor="@color/soloBlue"/>
 
         <TextView
             android:id="@+id/nameTextView"
@@ -37,7 +38,8 @@
             android:layout_height="wrap_content"
             android:text="Name"
             tools:layout_editor_absoluteX="71dp"
-            tools:layout_editor_absoluteY="56dp" />
+            tools:layout_editor_absoluteY="56dp"
+            android:textColor="@color/soloBlue"/>
 
         <EditText
             android:id="@+id/nameEditText"
@@ -47,13 +49,15 @@
             android:ems="10"
             android:inputType="textPersonName"
             tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="94dp" />
+            tools:layout_editor_absoluteY="94dp"
+            android:textColor="@color/soloBlue"/>
 
         <TextView
             android:id="@+id/emailTextView"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="HÍ email" />
+            android:text="HÍ username"
+            android:textColor="@color/soloBlue"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,22 +72,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/soloBlue"/>
 
-            <TextView
-                android:id="@+id/hi.is"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@hi.is"
-                android:textSize="18sp" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/addressTextView"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Address" />
+            android:text="Address"
+            android:textColor="@color/soloBlue"/>
 
         <EditText
             android:id="@+id/addressEditText"
@@ -92,7 +91,8 @@
             android:ems="10"
             android:inputType="textPostalAddress"
             tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="253dp" />
+            tools:layout_editor_absoluteY="253dp"
+            android:textColor="@color/soloBlue"/>
 
         <TextView
             android:id="@+id/numberTextView"
@@ -100,7 +100,8 @@
             android:layout_height="wrap_content"
             android:text="Phone number"
             tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="304dp" />
+            tools:layout_editor_absoluteY="304dp"
+            android:textColor="@color/soloBlue"/>
 
         <EditText
             android:id="@+id/phoneEditText"
@@ -109,7 +110,8 @@
             android:ems="10"
             android:inputType="phone"
             tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="323dp" />
+            tools:layout_editor_absoluteY="323dp"
+            android:textColor="@color/soloBlue"/>
 
         <TextView
             android:id="@+id/password1TextView"
@@ -117,20 +119,23 @@
             android:layout_height="wrap_content"
             android:text="Password"
             tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="377dp" />
+            tools:layout_editor_absoluteY="377dp"
+            android:textColor="@color/soloBlue"/>
 
         <EditText
             android:id="@+id/password1EditText"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textColor="@color/soloBlue"/>
 
         <TextView
             android:id="@+id/password2TextView"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="Repeat password" />
+            android:text="Repeat password"
+            android:textColor="@color/soloBlue"/>
 
         <EditText
             android:id="@+id/password2EditText"
@@ -139,7 +144,8 @@
             android:ems="10"
             android:inputType="textPassword"
             tools:layout_editor_absoluteX="85dp"
-            tools:layout_editor_absoluteY="396dp" />
+            tools:layout_editor_absoluteY="396dp"
+            android:textColor="@color/soloBlue"/>
 
         <Button
             android:id="@+id/signUpButton"
@@ -149,7 +155,9 @@
             android:layout_marginTop="10dp"
             android:text="sign up"
             tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="447dp" />
+            tools:layout_editor_absoluteY="447dp"
+            android:textColor="@color/soloBlue"
+            android:background="@color/soloWhite"/>
 
     </LinearLayout>
 
