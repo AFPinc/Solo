@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/soloGrey"
+    android:background="@color/soloWhite"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -17,7 +17,7 @@
         android:id="@+id/ride_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/soloGrey"
+        android:background="@color/soloWhite"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </LinearLayout>
