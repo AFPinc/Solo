@@ -97,21 +97,28 @@ public class MyProfileFragment extends Fragment {
         mRideRecyclerView = view.findViewById(R.id.myRides_recycler_view);
         mRideRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        myRidesButton.setBackgroundColor(Color.WHITE);
+        myRidesButton.setTextColor(Color.rgb(0,51,79));
+        myRequestsButton.setBackgroundColor(Color.rgb(0,51,79));
+        myRequestsButton.setTextColor(Color.WHITE);
+        url = "https://solo-web-service.herokuapp.com/ride/byUser/" + userId;
+        GetMyRides();
+
         myRidesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (v == myRidesButton){
-                    myRidesButton.setBackgroundColor(Color.rgb(0,51,79));
-                    myRidesButton.setTextColor(Color.WHITE);
-                    myRequestsButton.setBackgroundColor(Color.WHITE);
-                    myRequestsButton.setTextColor(Color.rgb(0,51,79));
-                }
-                else if (v == myRequestsButton){
                     myRidesButton.setBackgroundColor(Color.WHITE);
                     myRidesButton.setTextColor(Color.rgb(0,51,79));
                     myRequestsButton.setBackgroundColor(Color.rgb(0,51,79));
                     myRequestsButton.setTextColor(Color.WHITE);
+                }
+                else if (v == myRequestsButton){
+                    myRidesButton.setBackgroundColor(Color.rgb(0,51,79));
+                    myRidesButton.setTextColor(Color.WHITE);
+                    myRequestsButton.setBackgroundColor(Color.WHITE);
+                    myRequestsButton.setTextColor(Color.rgb(0,51,79));
                 }
                 url = "https://solo-web-service.herokuapp.com/ride/byUser/" + userId;
                 GetMyRides();
@@ -123,16 +130,16 @@ public class MyProfileFragment extends Fragment {
             public void onClick(View v) {
 
                 if (v == myRidesButton){
-                    myRidesButton.setBackgroundColor(Color.rgb(0,51,79));
-                    myRidesButton.setTextColor(Color.WHITE);
-                    myRequestsButton.setBackgroundColor(Color.WHITE);
-                    myRequestsButton.setTextColor(Color.rgb(0,51,79));
-                }
-                else if (v == myRequestsButton){
                     myRidesButton.setBackgroundColor(Color.WHITE);
                     myRidesButton.setTextColor(Color.rgb(0,51,79));
                     myRequestsButton.setBackgroundColor(Color.rgb(0,51,79));
                     myRequestsButton.setTextColor(Color.WHITE);
+                }
+                else if (v == myRequestsButton){
+                    myRidesButton.setBackgroundColor(Color.rgb(0,51,79));
+                    myRidesButton.setTextColor(Color.WHITE);
+                    myRequestsButton.setBackgroundColor(Color.WHITE);
+                    myRequestsButton.setTextColor(Color.rgb(0,51,79));
                 }
 
                 url = "https://solo-web-service.herokuapp.com/request/byUser/" + userId;
