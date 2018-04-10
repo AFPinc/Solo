@@ -1,8 +1,8 @@
 <resources>
-    <string name="add_ride">Add Ride</string>
-    <string name="search">Search</string>
+    <string name="add_ride">Add a new ride</string>
+    <string name="search">Where do you want to go?</string>
     <string name="profile">Profile</string>
-    <string name="my_profile">My Profile</string>
+    <string name="my_profile">Profile</string>
     <string name="sign_up">Sign Up</string>
     <string name="date_picker_title">Date of ride:</string>
     <string name="app_name">Solo</string>

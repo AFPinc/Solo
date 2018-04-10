@@ -1,94 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/soloGrey">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#52be80"
+        android:background="@color/soloGreen"
         android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
 
+    <TextView
+        android:id="@+id/titleAddPage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:text="@string/add_ride" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="511dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:paddingTop="56dp"
-        android:paddingRight="24dp">
-
-        <TextView
-            android:id="@+id/titleAddPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="40dp"
-            android:textSize="30dp"
-            android:text="@string/add_ride" />
+        android:layout_marginHorizontal="20dp">
 
         <android.support.v7.widget.CardView
             android:id="@+id/fromLayout"
-            android:layout_width="362dp"
-            android:layout_height="95dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/soloWhite">
 
             <FrameLayout
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
-                android:background="#52be80">
+                android:background="@color/soloGreen">
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp"
-                android:paddingTop="10dp">
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/FromTextView"
-                    android:layout_width="65dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_weight="1"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="From:"
                     android:textSize="18dp" />
 
                 <LinearLayout
-                    android:layout_width="306dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_weight="3"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
 
                     <Spinner
                         android:id="@+id/fromSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
-                        android:layout_above="@+id/fromAtButton"
-                        android:layout_alignParentRight="true" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_above="@+id/fromAtButton"/>
 
                     <Button
                         android:id="@+id/fromAtButton"
                         android:layout_width="match_parent"
-                        android:layout_height="38dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/soloGrey"
                         android:layout_below="@+id/fromSpinner"
-                        android:textSize="11sp" />
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/>
+
         <android.support.v7.widget.CardView
             android:id="@+id/toLayout"
-            android:layout_width="360dp"
-            android:layout_height="95dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:background="@color/soloWhite">
 
             <FrameLayout
                 android:layout_width="4dp"
@@ -98,47 +105,63 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:paddingTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/toTextView"
-                    android:layout_width="65dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:padding="10dp"
+                    android:layout_marginTop="10dp"
                     android:text="To:"
                     android:textSize="18dp" />
 
                 <LinearLayout
-                    android:layout_width="306dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_weight="3"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
 
                     <Spinner
                         android:id="@+id/toSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
 
                     <Button
                         android:id="@+id/toAtButton"
                         android:layout_width="match_parent"
-                        android:layout_height="38dp"
-                        android:textSize="11sp" />
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/soloGrey"
+                        android:textSize="15sp" />
                 </LinearLayout>
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/soloWhite"
             android:text="Add"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
