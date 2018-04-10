@@ -28,6 +28,7 @@
     <string name="name_missing">Please enter name</string>
     <string name="address_missing">Please enter address</string>
     <string name="uni_mail_missing">Please enter university email</string>
+    <string name="uni_mail_exists">Email already exists. Please use another one!</string>
     <string name="phone_number_missing">Please enter phone number</string>
     <string name="signup_success">Please enter phone number</string>
     <string name="register_now"><u>Register now!</u></string>
@@ -46,6 +47,6 @@
     <string name="accept_request">https://solo-web-service.herokuapp.com/request/accept</string>
     <string name="add_request">https://solo-web-service.herokuapp.com/request/add</string>
     <string name="search_rides">https://solo-web-service.herokuapp.com/ride/search/</string>
-    <string name="add_user">https://solo-web-service.herokuapp.com/users/add/</string>
+    <string name="add_user">https://solo-web-service.herokuapp.com/users/add</string>
 
 </resources>
