@@ -41,6 +41,8 @@ import okhttp3.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    public String password2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,73 +54,124 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText phoneEditText = findViewById(R.id.phoneEditText);
         final EditText password1EditText = findViewById(R.id.password1EditText);
         final EditText password2EditText = findViewById(R.id.password2EditText);
-        Button signUpButton = findViewById(R.id.signUpButton);
+        final Button signUpButton = findViewById(R.id.signUpButton);
+
+        final String password = password1EditText.getText().toString();
+        password2 = password2EditText.getText().toString();
+        final String name = nameEditText.getText().toString();
+        final String uniMail = emailEditText.getText().toString();
+        final String address = addressEditText.getText().toString();
+        final String phoneNumber = phoneEditText.getText().toString();
 
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String password = password1EditText.getText().toString();
-                String password2 = password2EditText.getText().toString();
-
-                if (password.compareTo(password2) == 0){
-                    String name = nameEditText.getText().toString();
-                    String uniMail = emailEditText.getText().toString();
-                    String address = addressEditText.getText().toString();
-                    String phone = phoneEditText.getText().toString();
-                    addUser(name, uniMail, address, Integer.parseInt(phone), password);
-
-                    Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(startIntent);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwords_not_match),
-                            Toast.LENGTH_LONG).show();
-                }
+                validateUserInfo(name, uniMail, address, Integer.parseInt(phoneNumber), password);
             }
         });
     }
 
-    private void addUser(String name, String uniMail, String address, int phoneNumber, String password) {
+    private void validateUserInfo(String name, String uniMail, String address, int phoneNumber, String password) {
+
+        User user = new User();
+        user.setName(name);
+        user.setUniMail(uniMail);
+        user.setAddress(address);
+        user.setPhoneNumber(phoneNumber);
+        user.setPassword(password);
+
+        if (password.compareTo(password2) != 0) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwords_not_match),
+                    Toast.LENGTH_LONG).show();
+        }
+        if (password.length() < 4) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_empty),
+                    Toast.LENGTH_LONG).show();
+        }
+        else if (!password.matches("[a-zA-Z.? ][a-zA-Z0-9.? ]*")) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_invalid),
+                    Toast.LENGTH_LONG).show();
+        }
+
+        if(TextUtils.isEmpty(name)) {
+            Toast.makeText(this, getResources().getString(R.string.name_missing), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(uniMail)) {
+            Toast.makeText(this, getResources().getString(R.string.uni_mail_missing), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(address)) {
+            Toast.makeText(this, getResources().getString(R.string.address_missing), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty("" + phoneNumber)) {
+            Toast.makeText(this, getResources().getString(R.string.phone_number_missing), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String url = getResources().getString(R.string.add_user);
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            User user = new User();
-            user.setName(name);
-            user.setUniMail(uniMail);
-            user.setAddress(address);
-            user.setPhoneNumber(phoneNumber);
-            user.setPassword(password);
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            String json = Parser.parseUserToJSON(user);
+            RequestBody body = RequestBody.create(JSON, json);
 
-            if (password.length() < 4) {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_empty),
-                        Toast.LENGTH_LONG).show();
-            }
-            else if (!password.matches("[a-zA-Z.? ][a-zA-Z0-9.? ]*")) {
-                Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_invalid),
-                        Toast.LENGTH_LONG).show();
-            }
+            Request request = new Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .build();
 
-            if(TextUtils.isEmpty(name)) {
-                Toast.makeText(this, getResources().getString(R.string.name_missing), Toast.LENGTH_SHORT).show();
-                return;
-            }
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_success),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
 
-            if(TextUtils.isEmpty(uniMail)) {
-                Toast.makeText(this, getResources().getString(R.string.uni_mail_missing), Toast.LENGTH_SHORT).show();
-                return;
-            }
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    User user2 = new User();
+                    try {
+                        user2 = Parser.parseUserData(response.body().string());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.uni_mail_exists),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        addUser(user2);
+                    }
+                }
+            });
 
-            if(TextUtils.isEmpty(address)) {
-                Toast.makeText(this, getResources().getString(R.string.address_missing), Toast.LENGTH_SHORT).show();
-                return;
-            }
+        }
+        else {
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+        }
 
-            if(TextUtils.isEmpty("" + phoneNumber)) {
-                Toast.makeText(this, getResources().getString(R.string.phone_number_missing), Toast.LENGTH_SHORT).show();
-                return;
-            }
+        addUser(user);
+        Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(startIntent);
+    }
+
+    private void addUser(User user) {
+        String url = getResources().getString(R.string.add_user);
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
 
             MediaType JSON = MediaType.parse("application/json; charset=utf-8");
             String json = Parser.parseUserToJSON(user);
@@ -159,6 +212,7 @@ public class SignUpActivity extends AppCompatActivity {
                     });
                 }
             });
+
         }
         else {
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
