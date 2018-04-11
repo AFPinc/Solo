@@ -84,7 +84,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_horizontal"
                         android:layout_weight="1"
-                        android:padding="8dp"
+                        android:paddingHorizontal="8dp"
                         android:textColor="@color/soloBlue"
                         android:drawableLeft="@drawable/ic_today_blue_24dp"/>
 
@@ -107,10 +107,10 @@
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:padding="8dp"
+                        android:paddingHorizontal="8dp"
                         android:textColor="@color/soloBlue"
                         android:drawableLeft="@drawable/ic_person_bue_24dp"/>
 
@@ -137,7 +137,7 @@
                         android:gravity="center_vertical"
                         android:layout_weight="1"
                         android:textColor="@color/soloBlue"
-                        android:padding="8dp"
+                        android:paddingHorizontal="8dp"
                         android:drawableLeft="@drawable/ic_hourglass_full_black_24dp"/>
 
                     <TextView
