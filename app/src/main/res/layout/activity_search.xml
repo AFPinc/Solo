@@ -54,17 +54,16 @@
                     android:layout_height="match_parent"
                     android:background="@color/soloGreen" />
 
-                    <TextView
-                        android:id="@+id/textView3"
+                    <ImageView
+                        android:id="@+id/imgViewFrom1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:padding="10dp"
-                        android:text="From:"
                         android:textSize="18dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/soloBlue"/>
+                        android:src="@drawable/from"/>
 
                     <Spinner
                         android:id="@+id/searchFromSpinner"
@@ -102,16 +101,15 @@
                     android:layout_height="match_parent"
                     android:background="@color/soloGreen" />
 
-                <TextView
+                <ImageView
                     android:id="@+id/textView4"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:padding="10dp"
-                    android:text="To:"
                     android:textSize="18dp"
-                    android:textColor="@color/soloBlue"/>
+                    android:src="@drawable/from"/>
 
                 <Spinner
                     android:id="@+id/searchToSpinner"

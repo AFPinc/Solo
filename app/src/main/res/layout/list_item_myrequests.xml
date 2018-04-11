@@ -86,7 +86,7 @@
                         android:layout_weight="1"
                         android:padding="8dp"
                         android:textColor="@color/soloBlue"
-                        android:drawableLeft="@drawable/ic_today_blue_24dp"                            />
+                        android:drawableLeft="@drawable/ic_today_blue_24dp"/>
 
                     <TextView
                         android:id="@+id/myRequest_date"
