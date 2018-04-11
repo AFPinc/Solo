@@ -56,17 +56,19 @@ public class SignUpActivity extends AppCompatActivity {
         final EditText password2EditText = findViewById(R.id.password2EditText);
         final Button signUpButton = findViewById(R.id.signUpButton);
 
-        final String password = password1EditText.getText().toString();
-        password2 = password2EditText.getText().toString();
-        final String name = nameEditText.getText().toString();
-        final String uniMail = emailEditText.getText().toString();
-        final String address = addressEditText.getText().toString();
-        final String phoneNumber = phoneEditText.getText().toString();
-
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validateUserInfo(name, uniMail, address, Integer.parseInt(phoneNumber), password);
+
+                final String password = password1EditText.getText().toString();
+                password2 = password2EditText.getText().toString();
+                final String name = nameEditText.getText().toString();
+                final String uniMail = emailEditText.getText().toString();
+                final String address = addressEditText.getText().toString();
+                // final String phoneNumber = phoneEditText.getText().toString();
+
+                int phoneNumber = Integer.valueOf(phoneEditText.getText().toString());
+                validateUserInfo(name, uniMail, address, phoneNumber, password);
             }
         });
     }
@@ -83,14 +85,17 @@ public class SignUpActivity extends AppCompatActivity {
         if (password.compareTo(password2) != 0) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.passwords_not_match),
                     Toast.LENGTH_LONG).show();
+            return;
         }
         if (password.length() < 4) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_empty),
                     Toast.LENGTH_LONG).show();
+            return;
         }
-        else if (!password.matches("[a-zA-Z.? ][a-zA-Z0-9.? ]*")) {
+        if (!password.matches("[a-zA-Z.? ][a-zA-Z0-9.? ]*")) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.password_invalid),
                     Toast.LENGTH_LONG).show();
+            return;
         }
 
         if(TextUtils.isEmpty(name)) {
@@ -133,8 +138,6 @@ public class SignUpActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_success),
-                                    Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -162,10 +165,6 @@ public class SignUpActivity extends AppCompatActivity {
         else {
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
         }
-
-        addUser(user);
-        Intent startIntent = new Intent(getApplicationContext(), LoginActivity.class);
-        startActivity(startIntent);
     }
 
     private void addUser(User user) {
@@ -189,8 +188,6 @@ public class SignUpActivity extends AppCompatActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signup_success),
-                                    Toast.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -212,7 +209,8 @@ public class SignUpActivity extends AppCompatActivity {
                     });
                 }
             });
-
+            Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+            startActivity(startIntent);
         }
         else {
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();

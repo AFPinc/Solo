@@ -10,9 +10,9 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label=""
+        android:label="Solo"
         android:logo="@drawable/ic_directions_car_black_24dp"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/android_mdpi"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".Controller.LoginActivity">
             <intent-filter>

@@ -30,7 +30,7 @@
     <string name="uni_mail_missing">Please enter university email</string>
     <string name="uni_mail_exists">Email already exists. Please use another one!</string>
     <string name="phone_number_missing">Please enter phone number</string>
-    <string name="signup_success">Please enter phone number</string>
+    <string name="signup_success">Sign Up successful!</string>
     <string name="register_now"><u>Register now!</u></string>
     <string name="only_username"><u>Please enter only first part of HÍ email address</u></string>
 
