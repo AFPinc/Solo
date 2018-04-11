@@ -241,10 +241,10 @@ public class MyRideFragment extends Fragment{
 
     @SuppressLint("ResourceType")
     private void getRequests() {
-        CurrReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloBlue)));
-        CurrReqButton.setTextColor(Color.parseColor(getString(R.color.soloWhite)));
-        AcceptedReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloWhite)));
-        AcceptedReqButton.setTextColor(Color.parseColor(getString(R.color.soloBlue)));
+        AcceptedReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloBlue)));
+        AcceptedReqButton.setTextColor(Color.parseColor(getString(R.color.soloWhite)));
+        CurrReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloWhite)));
+        CurrReqButton.setTextColor(Color.parseColor(getString(R.color.soloBlue)));
 
         String url = getResources().getString(R.string.request_by_ride) + rideId;
 
@@ -294,10 +294,10 @@ public class MyRideFragment extends Fragment{
 
     @SuppressLint("ResourceType")
     private void getAcceptedRequests() {
-        AcceptedReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloBlue)));
-        AcceptedReqButton.setTextColor(Color.parseColor(getString(R.color.soloWhite)));
-        CurrReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloWhite)));
-        CurrReqButton.setTextColor(Color.parseColor(getString(R.color.soloBlue)));
+        CurrReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloBlue)));
+        CurrReqButton.setTextColor(Color.parseColor(getString(R.color.soloWhite)));
+        AcceptedReqButton.setBackgroundColor(Color.parseColor(getString(R.color.soloWhite)));
+        AcceptedReqButton.setTextColor(Color.parseColor(getString(R.color.soloBlue)));
 
         String url = getResources().getString(R.string.accepted_request_by_ride) + rideId;
 
