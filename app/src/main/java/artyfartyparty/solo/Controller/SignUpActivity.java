@@ -75,7 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void validateUserInfo(String name, String uniMail, String address, int phoneNumber, String password) {
 
-        User user = new User();
+        final User user = new User();
         user.setName(name);
         user.setUniMail(uniMail);
         user.setAddress(address);
@@ -118,17 +118,12 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
 
-        String url = getResources().getString(R.string.add_user);
+        String url = getResources().getString(R.string.user_by_username_url) + user.getUniMail();
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
 
-            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            String json = Parser.parseUserToJSON(user);
-            RequestBody body = RequestBody.create(JSON, json);
-
             Request request = new Request.Builder()
                     .url(url)
-                    .post(body)
                     .build();
 
             Call call = client.newCall(request);
@@ -156,7 +151,7 @@ public class SignUpActivity extends AppCompatActivity {
                         });
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        addUser(user2);
+                        addUser(user);
                     }
                 }
             });
@@ -194,23 +189,19 @@ public class SignUpActivity extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    User user = null;
+                    User user;
                     try {
                         user = Parser.parseUserData(response.body().string());
+                        UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
+                        userData.addUser(user);
+                        Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
+                        startIntent.putExtra("userId", user.getId());
+                        startActivity(startIntent);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    UserData userData = UserDataDB.get(getApplicationContext()).getUserData();
-                    userData.addUser(user);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
                 }
             });
-            Intent startIntent = new Intent(getApplicationContext(), AllRidesActivity.class);
-            startActivity(startIntent);
         }
         else {
             Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
