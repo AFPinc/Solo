@@ -350,6 +350,7 @@ public class MyProfileFragment extends Fragment {
     private TextView mRequestTo;
     private TextView mRequestDate;
     private TextView mRequestDriver;
+    private TextView mRequestStatus;
 
 
     private class RequestHolder extends RecyclerView.ViewHolder
@@ -364,6 +365,7 @@ public class MyProfileFragment extends Fragment {
             mRequestTo = itemView.findViewById(R.id.myRequest_to);
             mRequestDate = itemView.findViewById(R.id.myRequest_date);
             mRequestDriver = itemView.findViewById(R.id.myRequest_driver);
+            mRequestStatus = itemView.findViewById(R.id.myRequest_status);
             Button mRequestCancel = itemView.findViewById(R.id.button_cancel);
             mRequestCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -382,6 +384,7 @@ public class MyProfileFragment extends Fragment {
                     .atOffset( ZoneOffset.UTC )
                     .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
             mRequestDriver.setText(mRequest.getRide().getUser().getName());
+
         }
 
         @Override
