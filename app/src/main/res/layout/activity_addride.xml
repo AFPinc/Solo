@@ -4,29 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/soloGrey">
+    android:background="@color/soloWhite"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/soloGreen"
-        android:minHeight="?attr/actionBarSize"
         android:id="@+id/toolbar" />
 
     <TextView
         android:id="@+id/titleAddPage"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1.0"
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="30dp"
-        android:text="@string/add_ride" />
+        android:text="@string/add_ride"
+        android:textColor="@color/soloBlue"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical"
         android:layout_marginHorizontal="20dp">
 
@@ -35,7 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:background="@color/soloWhite">
+            android:background="@color/soloWhite"
+            card_view:cardElevation="2dp"
+            card_view:cardCornerRadius="5dp">
 
             <FrameLayout
                 android:layout_width="4dp"
@@ -56,7 +60,8 @@
                     android:padding="10dp"
                     android:layout_marginTop="10dp"
                     android:text="From:"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:textColor="@color/soloBlue"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -70,16 +75,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:layout_above="@+id/fromAtButton"/>
+                        android:layout_above="@+id/fromAtButton"
+                        android:textColor="@color/soloBlue"/>
 
                     <Button
                         android:id="@+id/fromAtButton"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/soloGrey"
                         android:layout_below="@+id/fromSpinner"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:textColor="@color/soloWhite"
+                        android:background="@color/soloBlue"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -95,12 +102,15 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
-            android:background="@color/soloWhite">
+            android:background="@color/soloWhite"
+            card_view:cardElevation="2dp"
+            card_view:cardCornerRadius="5dp">
 
             <FrameLayout
                 android:layout_width="4dp"
                 android:layout_height="match_parent"
-                android:background="#52be80" />
+                android:background="#52be80"
+                android:layout_weight="3"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +125,8 @@
                     android:padding="10dp"
                     android:layout_marginTop="10dp"
                     android:text="To:"
-                    android:textSize="18dp" />
+                    android:textSize="18dp"
+                    android:textColor="@color/soloBlue"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -128,39 +139,39 @@
                         android:id="@+id/toSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="1"/>
+                        android:layout_weight="1"
+                        android:textColor="@color/soloBlue"/>
 
                     <Button
                         android:id="@+id/toAtButton"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="1"
-                        android:backgroundTint="@color/soloGrey"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:textColor="@color/soloWhite"
+                        android:background="@color/soloBlue"/>
                 </LinearLayout>
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.1"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1.0"
         android:orientation="vertical">
 
         <Button
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/soloWhite"
-            android:text="Add"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:layout_gravity="center"/>
+            android:background="@color/soloBlue"
+            android:text="Add"
+            android:textColor="@color/soloWhite" />
 
     </LinearLayout>
 

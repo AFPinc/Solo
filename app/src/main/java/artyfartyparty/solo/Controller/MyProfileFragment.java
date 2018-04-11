@@ -352,7 +352,6 @@ public class MyProfileFragment extends Fragment {
     private TextView mRequestDriver;
     private TextView mRequestStatus;
 
-
     private class RequestHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener{
         private artyfartyparty.solo.Model.Request mRequest;
@@ -373,7 +372,6 @@ public class MyProfileFragment extends Fragment {
                     cancelRequest(mRequest);
                 }
             });
-
         }
         @RequiresApi(api = Build.VERSION_CODES.O)
         public void bind (artyfartyparty.solo.Model.Request request) {
@@ -384,6 +382,18 @@ public class MyProfileFragment extends Fragment {
                     .atOffset( ZoneOffset.UTC )
                     .format( DateTimeFormatter.ofPattern( "dd/MM/yyyy HH:mm" ) ));
             mRequestDriver.setText(mRequest.getRide().getUser().getName());
+
+
+            if (mRequest.isAccepted() == true) {
+                mRequestStatus.setText(String.valueOf("Accepted"));
+            }
+            else if (mRequest.isRejected() == true){
+                mRequestStatus.setText(String.valueOf("Rejected"));
+            }
+            else if ((mRequest.isRejected() == false) && (mRequest.isAccepted() == false)){
+                mRequestStatus.setText(String.valueOf("Pending"));
+            }
+
 
         }
 
