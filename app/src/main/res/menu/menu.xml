@@ -9,12 +9,6 @@
         android:title="Logo"
         app:showAsAction="always" />
     <item
-        android:id="@+id/a"
-        android:gravity="center_horizontal|start"
-        android:icon="@drawable/logo_green"
-        android:title="Logo"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/b"
         android:icon="@drawable/logo_green"
         android:title="Logo"
