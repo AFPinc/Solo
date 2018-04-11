@@ -37,114 +37,117 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="319dp"
+                android:layout_height="match_parent"
                 android:background="@color/soloWhite"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:layout_marginBottom="0dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/location_from"
-                        android:layout_width="2dp"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="Location From"
-                        android:textColor="@color/soloBlue"
-                        android:textSize="18sp" />
+                        android:layout_marginBottom="0dp"
+                        android:padding="5dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textViewBlank1"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.3"
-                        android:gravity="center_horizontal"
-                        android:text=" "
-                        android:textColor="@color/soloBlue" />
+                        <TextView
+                            android:id="@+id/location_from"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="bottom"
+                            android:text="Location From"
+                            android:textColor="@color/soloBlue"
+                            android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/location_to"
-                        android:layout_width="5dp"
-                        android:layout_height="match_parent"
+                        <TextView
+                            android:id="@+id/time_to"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Time From"
+                            android:textColor="@color/soloBlue"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:gravity="left"
-                        android:text="Location To"
-                        android:textColor="@color/soloBlue"
-                        android:textSize="18sp" />
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/arrow_white"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/arrow_white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="0dp"
+                        android:padding="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/location_to"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="bottom"
+                            android:text="Location To"
+                            android:textColor="@color/soloBlue"
+                            android:textSize="18sp" />
+
+
+                        <TextView
+                            android:id="@+id/time_from"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:text="Time to"
+                            android:textColor="@color/soloBlue"
+                            android:textSize="18sp" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp">
-
-                    <ImageView
-                        android:id="@+id/arrow_white"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_weight="0.1"
-                        android:src="@drawable/arrow_white" />
-
-                </LinearLayout>
-
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:gravity="center">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="90dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/time_to"
-                        android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="Time To"
-                        android:textColor="@color/soloBlue"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/textViewBlank2"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.3"
-                        android:gravity="center_horizontal"
-                        android:text=" "
-                        android:textColor="@color/soloBlue" />
-
-                    <TextView
-                        android:id="@+id/time_from"
-                        android:layout_width="5dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="left"
-                        android:text="Time From"
-                        android:textColor="@color/soloBlue"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView24"
-                        android:layout_width="190dp"
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="Driver:"
-                        android:textColor="@color/soloBlue" />
+                        android:textColor="@color/soloBlue"
+                        android:drawableLeft="@drawable/ic_person_bue_24dp"/>
 
                     <TextView
                         android:id="@+id/user_name"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="6"
                         android:text="Name"
                         android:textColor="@color/soloBlue"
                         android:textSize="18sp" />
@@ -152,23 +155,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView22"
-                        android:layout_width="190dp"
+                        android:id="@+id/textView2"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="HÍ username:"
-                        android:textColor="@color/soloBlue" />
+                        android:textColor="@color/soloBlue"
+                        android:drawableLeft="@drawable/ic_school_blue_24dp"/>
 
                     <TextView
                         android:id="@+id/email"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
                         android:text="Username"
                         android:textColor="@color/soloBlue"
                         android:textSize="18sp" />
@@ -177,23 +181,24 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView21"
-                        android:layout_width="190dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Address:"
-                        android:textColor="@color/soloBlue" />
+                        android:textColor="@color/soloBlue"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_home_blue_24dp" />
 
                     <TextView
                         android:id="@+id/userAddress"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="6"
                         android:text="Address"
                         android:textColor="@color/soloBlue"
                         android:textSize="18sp" />
@@ -202,28 +207,30 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView23"
-                        android:layout_width="190dp"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Phone:"
+                        android:gravity="center_vertical"
+                        android:drawableLeft="@drawable/ic_local_phone_blue_24dp"
                         android:textColor="@color/soloBlue" />
 
                     <TextView
                         android:id="@+id/phone_number"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="6"
                         android:text="Phone"
                         android:textColor="@color/soloBlue"
                         android:textSize="18sp" />
                 </LinearLayout>
 
+            </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
