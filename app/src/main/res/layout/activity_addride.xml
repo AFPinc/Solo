@@ -49,16 +49,13 @@
                     android:background="@color/soloGreen">
                 </FrameLayout>
 
-                <TextView
-                    android:id="@+id/FromTextView"
+                <ImageView
+                    android:id="@+id/imgViewFrom3"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="From:"
-                    android:textSize="18dp"
-                    android:textColor="@color/soloBlue"/>
+                    android:padding="20dp"
+                    android:src="@drawable/from"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -115,16 +112,13 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/toTextView"
+                <ImageView
+                    android:id="@+id/imgViewTo3"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="To:"
-                    android:textSize="18dp"
-                    android:textColor="@color/soloBlue"/>
+                    android:padding="20dp"
+                    android:src="@drawable/to"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
