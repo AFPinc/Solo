@@ -42,18 +42,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView10"
-                android:layout_width="190dp"
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:layout_weight="1"
-                android:text="Name:"
-                android:textColor="@color/soloBlue"/>
+                android:textColor="@color/soloBlue"
+                android:drawableLeft="@drawable/ic_person_bue_24dp"/>
 
             <TextView
                 android:id="@+id/name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:text="Name"
                 android:textSize="20sp"
                 android:textColor="@color/soloBlue"/>
@@ -65,18 +66,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView11"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/textView15"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:text="HÍ username:"
-                android:textColor="@color/soloBlue"/>
+                android:textColor="@color/soloBlue"
+                android:drawableLeft="@drawable/ic_school_blue_24dp"/>
 
             <TextView
                 android:id="@+id/email"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:text="Username"
                 android:textSize="20sp"
                 android:textColor="@color/soloBlue"/>
@@ -88,18 +91,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView12"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/textView21"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Address:"
-                android:textColor="@color/soloBlue"/>
+                android:textColor="@color/soloBlue"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/ic_home_blue_24dp" />
 
             <TextView
                 android:id="@+id/address"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:text="Address"
                 android:textSize="20sp"
                 android:textColor="@color/soloBlue"/>
@@ -111,18 +115,19 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView13"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
+                android:id="@+id/textView256"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Phone:"
-                android:textColor="@color/soloBlue"/>
+                android:textColor="@color/soloBlue"
+                android:gravity="center_vertical"
+                android:drawableLeft="@drawable/ic_local_phone_blue_24dp" />
 
             <TextView
                 android:id="@+id/phoneNumber"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="6"
                 android:text="Phone"
                 android:textSize="20sp"
                 android:textColor="@color/soloBlue"/>
