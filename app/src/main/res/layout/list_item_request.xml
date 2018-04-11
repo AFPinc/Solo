@@ -48,7 +48,8 @@
                             android:gravity="center_vertical"
                             android:layout_weight="1"
                             android:textColor="@color/soloBlue"
-                            android:drawableLeft="@drawable/ic_person_bue_24dp"                            />
+                            android:drawableLeft="@drawable/ic_person_bue_24dp"
+                            />
 
                         <TextView
                             android:id="@+id/request_username"
