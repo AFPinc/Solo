@@ -32,14 +32,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textView14"
+                    <ImageView
+                        android:id="@+id/imgViewFrom2"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="From:"
-                        android:textColor="@color/soloBlue"/>
+                        android:src="@drawable/from"/>
 
                     <TextView
                         android:id="@+id/myRequest_from"
@@ -57,14 +55,12 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textView15"
+                    <ImageView
+                        android:id="@+id/imgViewTo2"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="To:"
-                        android:textColor="@color/soloBlue"/>
+                        android:src="@drawable/to"/>
 
                     <TextView
                         android:id="@+id/myRequest_to"
