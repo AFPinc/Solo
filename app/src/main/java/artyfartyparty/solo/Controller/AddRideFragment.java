@@ -163,10 +163,6 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -203,6 +199,10 @@ public class AddRideFragment extends android.support.v4.app.Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(STATE_LOCAL_DATE_TIME, mLocalDateTime); }
 
     private void setUpSpinners(){
         if(isNetworkAvailable()) {

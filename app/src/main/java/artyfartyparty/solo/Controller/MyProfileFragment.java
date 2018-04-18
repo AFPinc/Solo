@@ -70,6 +70,12 @@ public class MyProfileFragment extends Fragment {
     private String url;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -163,6 +169,40 @@ public class MyProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.logo_home:
+                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.add_ride:
+                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.search:
+                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+            case R.id.profile:
+                intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
+                intent.putExtra("userId", userId);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void GetMyRides() {
         if(isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -253,31 +293,53 @@ public class MyProfileFragment extends Fragment {
         }
     }
 
-    Button.OnClickListener btnOnClickListener = new Button.OnClickListener(){
-        @Override
-        public void onClick(View v){
-            Bundle bundle = getArguments();
-            int userId = bundle.getInt("userId");
-
-            if (v == myRidesButton){
-                myRidesButton.setBackgroundColor(Color.RED);
-                myRequestsButton.setBackgroundColor(Color.BLACK);
-                }
-                else {
-                myRidesButton.setBackgroundColor(Color.BLACK);
-                myRequestsButton.setBackgroundColor(Color.RED);
-            }
-            Bundle bundle1 = new Bundle();
-            bundle1.putInt("userId", userId);
-        }
-    };
-
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getActivity().getSystemService( Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
         if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
+    }
+
+    private void cancelRequest(artyfartyparty.solo.Model.Request req) {
+        if(isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+
+            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            String json = Parser.parseRequestToJSON(req);
+            RequestBody body = RequestBody.create(JSON, json);
+
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.cancel_request))
+                    .delete(body)
+                    .build();
+
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+                    alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    GetMyRequests();
+                }
+            });
+        }
+        else {
+            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void alertUserAboutError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 
     private TextView mRideFrom;
@@ -403,47 +465,6 @@ public class MyProfileFragment extends Fragment {
 
     }
 
-    private void cancelRequest(artyfartyparty.solo.Model.Request req) {
-        if(isNetworkAvailable()) {
-            OkHttpClient client = new OkHttpClient();
-
-            MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-            String json = Parser.parseRequestToJSON(req);
-            RequestBody body = RequestBody.create(JSON, json);
-
-            Request request = new Request.Builder()
-                    .url(getResources().getString(R.string.cancel_request))
-                    .delete(body)
-                    .build();
-
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
-                    alertUserAboutError();
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    GetMyRequests();
-                }
-            });
-        }
-        else {
-            Toast.makeText(getActivity(), getResources().getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void alertUserAboutError() {
-        AlertDialogFragment dialog = new AlertDialogFragment();
-        dialog.show(getFragmentManager(), "error_dialog");
-    }
-
     private class RequestAdapter extends RecyclerView.Adapter<MyProfileFragment.RequestHolder> {
         private List<artyfartyparty.solo.Model.Request> mRequests;
 
@@ -467,45 +488,5 @@ public class MyProfileFragment extends Fragment {
         public int getItemCount() {
             return mRequests.size();
         }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent;
-        switch (item.getItemId()) {
-            case R.id.logo_home:
-                intent = new Intent(getActivity().getApplicationContext(), AllRidesActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-                break;
-            case R.id.add_ride:
-                intent = new Intent(getActivity().getApplicationContext(), AddRideActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-                break;
-            case R.id.search:
-                intent = new Intent(getActivity().getApplicationContext(), SearchActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-                break;
-            case R.id.profile:
-                intent = new Intent(getActivity().getApplicationContext(), MyProfileActivity.class);
-                intent.putExtra("userId", userId);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
