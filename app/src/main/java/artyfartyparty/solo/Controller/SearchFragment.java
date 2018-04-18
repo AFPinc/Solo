@@ -48,6 +48,12 @@ public class SearchFragment extends android.support.v4.app.Fragment {
     private long userId;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +76,6 @@ public class SearchFragment extends android.support.v4.app.Fragment {
 
         setUpSpinners();
         return view;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
     }
 
     @Override
